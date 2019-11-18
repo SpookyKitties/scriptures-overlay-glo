@@ -9,7 +9,6 @@ import { Note, NoteRef, VerseNote } from '../verse-notes/verse-note';
 
 function parseVerseNoteElementID($: CheerioStatic, element: CheerioElement) {
   if (element.attribs['id'] === '') {
-    console.log('throw 1');
     throw element.data;
   }
   return of($(element).attr('id'));
@@ -20,9 +19,6 @@ function parseNoteType(
   noteElement: CheerioElement,
   noteTypes: NoteTypes,
 ) {
-  // console.log(
-  // noteTypes.noteTypes.find(o => o.className === $(noteElement).attr('class')),
-  // );
   return of(noteTypes.noteTypes).pipe(
     flatMap$,
     find(o => o.className === $(noteElement).attr('class')),
@@ -45,7 +41,6 @@ function parseNoteCategory(
   }
   // console.log(not);
 
-  console.log(`Not valid ${$(noteRefLabel).attr('class')} `);
   return of(-1);
   // throw noteRefLabel.innerHTML;
 }
@@ -64,7 +59,6 @@ function parseNoteRef(
       ),
     );
   }
-  console.log('throw 3');
   throw noteRefElement.data;
 }
 
@@ -75,7 +69,6 @@ function parseNotePhrase($: CheerioStatic, noteE: CheerioElement) {
     return of($(notePhraseElement).html() as string);
   }
 
-  console.log('throw 4');
   throw noteE.attribs['id'];
 }
 

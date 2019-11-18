@@ -9,7 +9,7 @@ import {
   NoteCategories,
   NoteTypes,
 } from './verse-notes/settings/note-gorup-settings';
-import cuid = require('cuid');
+import cuid from 'cuid';
 import { sort } from './processors/sort';
 export const filterUndefined$ = filter(
   <T>(o: T) => o !== undefined && o !== null,

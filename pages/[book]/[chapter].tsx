@@ -13,14 +13,14 @@ import {
   FormatText,
   Chapter,
   VersePlaceholder
-} from "../../../oith-lib/src/models/Chapter";
+} from "../../oith-lib/src/models/Chapter";
 
-import { store } from "./Store";
+import { store } from "../../app/Store";
 import { HeaderComponent } from "../../components/header.component";
 import {
   addVersesToBody,
   buildNewShell
-} from "../../app/src/services/build-shell";
+} from "../../oith-lib/src/shells/build-shells";
 
 // import { fetch } from "http";
 function Testat() {
@@ -227,29 +227,33 @@ const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
   // console.log(router.query);
   // console.log(chapter);
   return (
-    <div>
+    <Layout title={chapter.title} shortTitle={chapter.shortTitle}>
       <Head>
-        <title>{chapter.title}</title>
+        <title>{chapter.title}asdf</title>
       </Head>
-      <HeaderComponent></HeaderComponent>
-      <Layout title={chapter.title} shortTitle={chapter.shortTitle}>
+      {/* <Layout title={chapter.title} shortTitle={chapter.shortTitle}>
         <ChapterComponent chapter={chapter} />
         {formatGroups(chapter.body.grps)}
         <VerseNotesShellComponent
           verseNotes={chapter.verseNotes}
         ></VerseNotesShellComponent>
-      </Layout>
-    </div>
+      </Layout> */}
+      <nav></nav>
+      <div className="chapter-loader"></div>
+      <div className="verse-notes"></div>
+    </Layout>
   );
 };
 
 ChapterParent.getInitialProps = async ({ query }) => {
   const a = "oiasjdf55555oiajsdf";
+  console.log(a);
+
   const data = await axios.get(
     `/scripture_files/eng-${query["book"]}-${query["chapter"]}-chapter.json`,
     { proxy: { port: 3000, host: "127.0.0.1" } }
   );
-  const chapter = (await data.data) as Chapter;
+  const chapter = data.data as Chapter;
   const b = await addVersesToBody(chapter)
     .pipe(
       map(() => buildNewShell(chapter)),

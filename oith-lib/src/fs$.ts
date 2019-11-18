@@ -11,7 +11,7 @@ import {
   writeFile,
 } from 'fs-extra';
 import { flatMap$ } from './main';
-import normalizePath = require('normalize-path');
+import normalizePath from 'normalize-path';
 import { map } from 'rxjs/operators';
 export function readFile$(fileName: string): Observable<Buffer> {
   return of(readFile(fileName)).pipe(flatMap$);

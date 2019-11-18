@@ -2,13 +2,13 @@ import { Observable, of, forkJoin } from 'rxjs';
 import { flatMap, map, filter, toArray, retry } from 'rxjs/operators';
 import cheerio from 'cheerio';
 import { emptyDir } from 'fs-extra';
-import normalizePath = require('normalize-path');
+import normalizePath from 'normalize-path';
 import { emptyDir$, readFileMap, writeFile$, readFile$ } from './fs$';
 import { argv$ } from './rx/argv$';
 import { argv } from 'yargs';
 import FastGlob from 'fast-glob';
 import AdmZip, { IZipEntry } from 'adm-zip';
-import cuid = require('cuid');
+import cuid from 'cuid';
 import { process, filterUndefined$ } from './process';
 import {
   NoteType,
@@ -96,8 +96,6 @@ export function loadnoteSettings(): Observable<
     .pipe(
       map(o => new AdmZip(o).getEntries()),
       map(o => {
-        console.log(o.map(i => i.name));
-
         return forkJoin(
           of(o.find(i => i.name === 'note_types.html') as IZipEntry).pipe(
             filterUndefined$,

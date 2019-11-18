@@ -81,8 +81,6 @@ export function parseLang($: CheerioStatic) {
 }
 
 export function noteGroupProcessor($: CheerioStatic) {
-  console.log('Parsing Note Settings.');
-
   return forkJoin(
     parseTruthSettings($),
     parseAdditionalettings($),

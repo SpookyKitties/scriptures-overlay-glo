@@ -2,7 +2,7 @@ import Header from "./header";
 // import { NextPage } from "react";
 import { ChapterComponent } from "../components/chapter.component";
 import axios from "axios";
-import { Chapter } from "../../oith-lib/src/models/Chapter";
+import { Chapter } from "../oith-lib/src/models/Chapter";
 import { NextPage } from "next";
 import Layout from "../components/layout";
 // import { fetch } from "http";
@@ -22,12 +22,12 @@ function Testat() {
 // }
 
 const Index: NextPage<{ a: string; chapter: Chapter }> = ({ a, chapter }) => (
-  <div>
-    <Layout title={chapter.title} shortTitle={chapter.shortTitle}></Layout>
-    <Header t="1" />
-    <h1>Batman TV Shows</h1>
-    <ul>{a}</ul>
-    <ChapterComponent chapter={chapter} />
+  <div className="oith-content">
+    {/* <Layout title={chapter.title} shortTitle={chapter.shortTitle}></Layout> */}
+    {/* <Header t="1" /> */}
+    {/* <h1>Batman TV Shows</h1> */}
+    {/* <ul>{a}</ul> */}
+    {/* <ChapterComponent chapter={chapter} /> */}
   </div>
 );
 
@@ -37,7 +37,6 @@ Index.getInitialProps = async () => {
     proxy: { port: 3000, host: "127.0.0.1" }
   });
   const chapter = (await data.data) as Chapter;
-  console.log(chapter);
 
   return { a, chapter };
 };

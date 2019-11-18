@@ -1,6 +1,18 @@
 @import './images.scss';
 
-router-outlet ~ div {
+#oith-main {
+  width: 100vw;
+  height: 100vh;
+}
+.oith-content {
+  div {
+    width: calc(100vw - 250px);
+    left: 250px;
+    position: absolute;
+    .chapter-loader {
+      width: calc(100% - 300px);
+    }
+  }
 }
 
 body {

@@ -210,13 +210,10 @@ function parseVerseFormat(
   $(verseE)
     .children()
     .toArray().length === 0;
-  // console.log(verseE);
 
-  // console.log(b);
   // verseE.n
 
   if (isTextNode) {
-    // console.log(verseE);log
     const txt = decode($(verseE).text());
 
     const offsets = [count.count, count.count + txt.length];
@@ -241,11 +238,8 @@ function parseVerseFormat(
       count.count = count.count + txt.length;
     }
 
-    // console.log(ft);
-
     return of([ft]);
   } else {
-    // console.log(
     // $(verseE)
     // .children()
     // .toArray()
@@ -258,7 +252,6 @@ function parseVerseFormat(
     ).pipe(
       flatMap$,
       map(i => {
-        // console.log(
         //   $(i)
         //     .contents()
         //     .toArray()
@@ -271,8 +264,6 @@ function parseVerseFormat(
       flatMap(o => o),
       map(
         ([e, ft]): FormatGroup => {
-          // console.log(e.name);
-
           return {
             attrs: $(e).attr(),
             name: e.name,
@@ -328,12 +319,10 @@ function parseVerses($: CheerioStatic) {
 
 function fixLinks($: CheerioStatic) {
   const links = $('[href]').toArray();
-  // console.log(links.length);
 
   // if (links.length > 0) {
   //   return of(links.map(o => fixLinkOther($(o))));
   // }
-  // console.log(links.length);
   // return of('links');
   // // if (links.length <= 0) {
   // //   return EMPTY;
@@ -376,16 +365,11 @@ function newParseChildre(
     toArray(),
     map(
       (o): Observable<FormatGroup> => {
-        // console.log('nodeName');
         try {
           $(element).prop('nodeName');
         } catch (error) {
           return EMPTY;
-          // console.log(element.text());
-
-          // console.log('error');
         }
-        // console.log($(element);
 
         const nodeName = $(element).prop('nodeName') as string;
         const cls = $(element).prop('class');

@@ -3,6 +3,11 @@ oith-header,
   height: 48px;
   display: grid;
   grid-template-columns: 48px 48px 48px;
+  position: absolute;
+  height: 48px;
+  width: 100vw;
+  background-color: rgb(233, 233, 234);
+  top: 0px;
   > * {
     display: grid !important;
     justify-items: center;
@@ -10,13 +15,13 @@ oith-header,
     height: 48px;
     width: 48px;
   }
-  & > div {
-    > * {
-      display: grid;
-      justify-items: center;
-      align-items: center;
-      height: 48px;
-      width: 48px;
-    }
-  }
+  // & > div {
+  //   > * {
+  //     display: grid;
+  //     justify-items: center;
+  //     align-items: center;
+  //     height: 48px;
+  //     width: 48px;
+  //   }
+  // }
 }

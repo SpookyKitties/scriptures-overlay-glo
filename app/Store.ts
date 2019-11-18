@@ -1,5 +1,5 @@
 import { map, filter } from "rxjs/operators";
-import { Chapter } from "../../oith-lib/src/models/Chapter";
+import { Chapter } from "../oith-lib/src/models/Chapter";
 import { Subject } from "rxjs/internal/Subject";
 // fromEvent('window:click').subscribe()
 export class Store {
@@ -15,7 +15,6 @@ export class Store {
         filter(o => o !== undefined),
         map(() => {
           this.isManual = window.location.href.includes("manual");
-          console.log(this.isManual);
         })
       )
       .subscribe();

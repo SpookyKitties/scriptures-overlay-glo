@@ -22,16 +22,16 @@ export function main() {
             return forkJoin(
               of(fileName),
               of(doc.querySelector('header') !== null),
-              of(doc.querySelector('.body-block') !== null)
+              of(doc.querySelector('.body-block') !== null),
             ).pipe(
-              filter(o => o[1] === false && o[2] === false) // || o[1] !== o[2])
+              filter(o => o[1] === false && o[2] === false), // || o[1] !== o[2])
             );
           }),
           flatMap(o => o),
-          map(o => console.log(o))
-        )
+          map(o => o),
+        ),
       ),
-      flatMap(o => o)
+      flatMap(o => o),
     )
     .subscribe();
 }

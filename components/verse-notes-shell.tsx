@@ -12,7 +12,6 @@ function createMarkup(txt: string) {
 }
 
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
-  //   console.log(noteGroup.notePhrase);
   return (
     <div>
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>

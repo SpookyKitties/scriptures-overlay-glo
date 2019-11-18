@@ -6,12 +6,12 @@
 @import './verse-notes/verse-notes.scss';
 @import './format-tags/format-tags.scss';
 @import './header/oith_header.scss';
+@import './normalize.scss';
+@import './bulma-0.8.0/bulma.sass';
 body {
   font-size: 18px !important;
-}
-
-oith-header,
-.oith-header {
+  // margin: 0;
+  // padding: 0;
 }
 
 html {
