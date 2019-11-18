@@ -5,7 +5,7 @@ import {
   FormatText,
   Verse,
   Chapter
-} from "../../../../oith-lib/src/models/Chapter";
+} from "../../../oith-lib/src/models/Chapter";
 import { Observable, of, EMPTY, forkJoin } from "rxjs";
 import {
   filter,
@@ -16,11 +16,11 @@ import {
   flatMap,
   take
 } from "rxjs/operators";
-import { flatMap$ } from "../../../../oith-lib/src/rx/flatMap$";
+import { flatMap$ } from "../../../oith-lib/src/rx/flatMap$";
 import {
   VerseNote,
   VerseNoteGroup
-} from "../../../../oith-lib/src/verse-notes/verse-note";
+} from "../../../oith-lib/src/verse-notes/verse-note";
 
 export declare type Params = {
   [key: string]: any;

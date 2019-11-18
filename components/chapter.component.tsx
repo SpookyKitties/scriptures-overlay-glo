@@ -1,5 +1,5 @@
 import { Component, CSSProperties } from "react";
-import { Chapter } from "../../oith-lib/src/models/Chapter";
+import { Chapter } from "../oith-lib/src/models/Chapter";
 
 type ChapterProps = {
   chapter: Chapter;
