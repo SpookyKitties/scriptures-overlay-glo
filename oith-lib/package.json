@@ -1,0 +1,57 @@
+{
+  "name": "oith-lib7",
+  "version": "7.0.0",
+  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
+  "engines": {
+    "node": ">= 12.9"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.12",
+    "@types/node": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-prettier": "latest",
+    "jest": "~23.6.0",
+    "prettier": "latest",
+    "rimraf": "^2.6.3",
+    "ts-jest": "~23.10.5",
+    "tsutils": "latest",
+    "typescript": "latest"
+  },
+  "scripts": {
+    "clean": "rimraf coverage build tmp",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "tslint -t stylish --project \"tsconfig.json\"",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "author": "Jared Parkinson <jared@parkinson.im>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/adm-zip": "^0.4.32",
+    "@types/cheerio": "^0.22.13",
+    "@types/cuid": "^1.3.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/he": "^1.1.0",
+    "@types/jsdom": "^12.2.4",
+    "@types/lodash": "^4.14.144",
+    "@types/normalize-path": "^3.0.0",
+    "@types/yargs": "^13.0.2",
+    "adm-zip": "^0.4.13",
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "cuid": "^2.1.6",
+    "fast-glob": "^3.1.0",
+    "fs-extra": "^8.1.0",
+    "he": "^1.2.0",
+    "jsdom": "^15.1.1",
+    "lodash": "^4.17.15",
+    "normalize-path": "^3.0.0",
+    "rxjs": "^6.4.0",
+    "tslib": "~1.9.3",
+    "yargs": "^14.0.0"
+  }
+}

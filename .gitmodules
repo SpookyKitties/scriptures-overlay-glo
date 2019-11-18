@@ -1,0 +1,6 @@
+[submodule "oith-styles"]
+	path = oith-styles
+	url = git@github.com:jaredparkinson/oith-styles.git
+[submodule "oith-lib"]
+	path = oith-lib
+	url = git@github.com:jaredparkinson/oith-lib.git

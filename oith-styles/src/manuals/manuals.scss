@@ -1,0 +1,231 @@
+format-group {
+  font-family: serif;
+  line-height: 1.5;
+}
+.manual {
+  figure,
+  [name='FIGURE'],
+  [name='figure'] {
+    display: block;
+    &.for-teacher {
+      &::before {
+        content: '';
+        display: block;
+        width: 56px;
+        height: 4px;
+        background-color: #ffb81c;
+        margin-bottom: 8px;
+      }
+      color: #53575b;
+      padding: 1.778em;
+      border: solid 1px #e0e2e2;
+      border-radius: 2px;
+      margin-top: 1.778em;
+      margin-bottom: 1.778em;
+      header,
+      [name='header'],
+      [name='HEADER'] {
+        .title {
+          color: #53575b;
+          font-family: 'Ensign:Sans', ZoramldsLat-Bold, 'Zoram ldsLat', Zoram,
+            Arial, sans-serif;
+          font-weight: 700;
+          font-style: normal;
+          font-stretch: normal;
+          font-size: 1.111em;
+          line-height: 1.2;
+        }
+      }
+      p,
+      [name='P'],
+      [name='p'] {
+        &:not(.title):not(.subtitle) {
+          strong,
+          [name='STRONG'],
+          [name='strong'] {
+            font-family: 'Ensign:Sans', ZoramldsLat-Bold, 'Zoram ldsLat', Zoram,
+              Arial, sans-serif;
+            font-weight: 700;
+            font-style: normal;
+            font-stretch: normal;
+          }
+          cite,
+          [name='cite'],
+          [name='CITE'] {
+            font-family: 'Ensign:Sans', ZoramldsLat-Italic, 'Zoram ldsLat',
+              Zoram, Arial, sans-serif;
+            font-weight: 400;
+            font-style: italic;
+            font-stretch: normal;
+          }
+        }
+      }
+    }
+    &.handout {
+      &:before {
+        content: '';
+        display: block;
+        width: 56px;
+        height: 4px;
+        background-color: #00bad3;
+        margin-bottom: 8px;
+      }
+      padding: 1.778em;
+      box-shadow: 0 1px 10px 0 rgba(74, 74, 74, 0.2);
+      border-radius: 2px;
+      margin-top: 1.778em;
+      margin-bottom: 1.778em;
+    }
+  }
+  .uppercase {
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+  .body {
+    text-align: left;
+    font-weight: 400;
+    padding-left: 0;
+    color: #212225;
+    font-size: 18px;
+    // padding: 70px 13.5%;
+    padding-top: 48px;
+    padding-right: 0;
+  }
+  header,
+  [name='header'],
+  [name='HEADER'] {
+    // [id*="title1"] {
+    // text-align: center;
+    // font-weight: 700;
+    // text-align: center;
+    // display: block !important;
+    // margin-bottom: 9pt;
+    // font-weight: 700 !important;
+    // font-size: 24px;
+    // margin-bottom: 9pt;
+    // }
+    [id*='title_number'] {
+      font-size: 1.1em;
+      padding-bottom: 0.5em;
+      padding-top: 0;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+    .subtitle {
+      font-family: 'Ensign:Sans', ZoramldsLat-Regular, 'Zoram ldsLat', Zoram,
+        Arial, sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      font-stretch: normal;
+      font-size: 0.722em;
+      line-height: 1.2;
+      margin-bottom: 0;
+    }
+  }
+  text-align: left;
+  .body-block {
+    header,
+    [name='header'],
+    [name='HEADER'] {
+      text-align: inherit !important;
+      & > div:first-child ~ * {
+        text-align: center;
+      }
+    }
+  }
+  [id*='title_number'] {
+    text-align: inherit !important;
+  }
+  #title1 {
+    text-align: left;
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    padding: 0;
+    margin: 0;
+  }
+  h1 {
+    line-height: 1.2;
+    font-size: 2.333em !important;
+    & + .title-number {
+      margin-top: 0.125em;
+    }
+  }
+  h2 {
+    font-size: 1.778em;
+    font-family: 'Ensign:Sans', ZoramldsLat-Light, 'Zoram ldsLat', Zoram, Arial,
+      sans-serif-light, sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.2;
+  }
+  h3 {
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.111em;
+    line-height: 1.2;
+    display: block;
+    font-stretch: normal;
+  }
+  h4 {
+    font-size: 1em;
+    line-height: 1.2;
+    display: block;
+    font-family: 'Ensign:Sans', ZoramldsLat-Semibold, 'Zoram ldsLat', Zoram,
+      Arial, sans-serif-medium, sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+  }
+  [id*='summary'],
+  [id*='intro'],
+  [id*='study-summary'],
+  [id*='study-intro'],
+  .kicker + .kicker,
+  .epigraph + .epigraph,
+  .kicker + .epigraph,
+  .epigraph + .kicker {
+    font-family: McKayldsLat-Italic, 'McKay ldsLat', McKay, Palatino-Italic,
+      'Palatino Italic', Palatino, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-stretch: normal;
+  }
+
+  #title_number1,
+  [id*='scripture_title'] {
+    font-size: 0.778em;
+    line-height: 1.2;
+    color: #d45311;
+    margin-bottom: 0;
+  }
+  .title-number {
+    font-family: 'Ensign:Sans', ZoramldsLat-Bold, 'Zoram ldsLat', Zoram, Arial,
+      sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+  }
+  p,
+  [name='p'],
+  [name='P'] {
+    line-height: 1.6;
+    vertical-align: baseline;
+
+    margin-bottom: 0.889em;
+  }
+
+  section,
+  [name='section'],
+  [name='SECTION'] {
+    header {
+      margin-top: 32px;
+    }
+  }
+  [id*='scripture_title'] {
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+  }
+}
