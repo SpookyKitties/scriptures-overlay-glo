@@ -124,7 +124,9 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
       break;
     }
     default: {
-      return <div>{renderVerse((grp as VersePlaceholder).verse)}</div>;
+      return (
+        <Fragment>{renderVerse((grp as VersePlaceholder).verse)}</Fragment>
+      );
       break;
     }
   }
@@ -138,12 +140,16 @@ export class ChapterComponent extends Component<ChapterProps> {
   public render() {
     const verses = this.props.chapter.verses;
     return (
-      <div id={this.props.chapter.id} style={chapterStyles}>
-        {/* <header>
+      <div className="chapter-content classic-scriptures">
+        <span></span>
+        <div id={this.props.chapter.id} style={chapterStyles}>
+          {/* <header>
           <span className="title">{this.props.chapter.title}</span>
           <span className="shortTitle">{this.props.chapter.shortTitle}</span>
         </header> */}
-        {renderFormatGroup(this.props.chapter.body)}
+          {renderFormatGroups(this.props.chapter.body.grps)}
+        </div>
+        <span></span>
       </div>
     );
   }

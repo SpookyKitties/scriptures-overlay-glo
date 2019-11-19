@@ -231,7 +231,7 @@ const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
       <Head>
         <title>{chapter ? chapter.title : ""}</title>
       </Head>
-      <ChapterComponent chapter={chapter}></ChapterComponent>
+
       {/* <Layout title={chapter.title} shortTitle={chapter.shortTitle}>
         <ChapterComponent chapter={chapter} />
         {formatGroups(chapter.body.grps)}
@@ -240,7 +240,10 @@ const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
         ></VerseNotesShellComponent>
       </Layout> */}
       <nav></nav>
-      <div className="chapter-loader"></div>
+      <div className="chapter-loader">
+        {" "}
+        <ChapterComponent chapter={chapter}></ChapterComponent>
+      </div>
       <div className="verse-notes"></div>
     </Layout>
   );
