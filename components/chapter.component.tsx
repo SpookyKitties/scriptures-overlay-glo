@@ -67,16 +67,17 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 
   switch (docType) {
     case 4: {
-      const attrs = (grp as FormatGroup).attrs;
-      const elementName = (grp as FormatGroup).name
-        ? (grp as FormatGroup).name.toLowerCase()
+      const formatGroup = grp as FormatGroup;
+      const attrs = formatGroup.attrs;
+      const elementName = formatGroup.name
+        ? formatGroup.name.toLowerCase()
         : "";
       switch (elementName) {
         case "body":
         case "div": {
           return (
             <div {...(attrs ? attrs : {})}>
-              {renderFormatGroups((grp as FormatGroup).grps)}
+              {renderFormatGroups(formatGroup.grps)}
             </div>
           );
           break;
@@ -84,7 +85,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case "header": {
           return (
             <header {...(attrs ? attrs : {})}>
-              {renderFormatGroups((grp as FormatGroup).grps)}
+              {renderFormatGroups(formatGroup.grps)}
             </header>
           );
           break;
@@ -92,7 +93,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case "span": {
           return (
             <span {...(attrs ? attrs : {})}>
-              {renderFormatGroups((grp as FormatGroup).grps)}
+              {renderFormatGroups(formatGroup.grps)}
             </span>
           );
           break;
@@ -100,16 +101,29 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case "br": {
           return <br />;
         }
-        case "": {
+        case "a": {
+          const href: string | undefined = formatGroup.attrs["href"];
+          if (href && href.includes("note")) {
+            return (
+              <span {...(attrs ? attrs : {})}>
+                {renderFormatGroups(formatGroup.grps)}
+              </span>
+            );
+          }
           return (
-            <Fragment>{renderFormatGroups((grp as FormatGroup).grps)}</Fragment>
+            <a {...(attrs ? attrs : {})}>
+              {renderFormatGroups(formatGroup.grps)}
+            </a>
           );
+        }
+        case "": {
+          return <Fragment>{renderFormatGroups(formatGroup.grps)}</Fragment>;
         }
         default: {
           return (
             <Fragment>
               g|{elementName.toUpperCase()}|g
-              {renderFormatGroups((grp as FormatGroup).grps)}
+              {renderFormatGroups(formatGroup.grps)}
             </Fragment>
           );
           break;
