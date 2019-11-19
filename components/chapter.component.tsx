@@ -36,13 +36,30 @@ export function renderVerse(verse?: Verse): JSX.Element {
 
     switch (elementName) {
       case "p": {
-        return <p id={verse.id}>{verse.text}</p>;
+        return <p id={verse.id}>{renderFormatGroups(verse.grps)}</p>;
+      }
+      case "h1": {
+        return <h1 {...verse}>{renderFormatGroups(verse.grps)}</h1>;
       }
       default:
+        return <div>Missing verse element {verse.n}</div>;
         break;
     }
   }
   return;
+}
+
+export function renderFormat(ft: FormatText) {
+  if (ft.formatMerged) {
+    return (
+      <Fragment>
+        {ft.formatMerged.map(fm => {
+          return <span>{fm.text}</span>;
+        })}
+      </Fragment>
+    );
+  }
+  return <div>bbbhh</div>;
 }
 
 function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
@@ -50,17 +67,60 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 
   switch (docType) {
     case 4: {
-      return (
-        <div>
-          {(grp as FormatGroup).name}
-          {renderFormatGroups((grp as FormatGroup).grps)}
-        </div>
-      );
+      const attrs = (grp as FormatGroup).attrs;
+      const elementName = (grp as FormatGroup).name
+        ? (grp as FormatGroup).name.toLowerCase()
+        : "";
+      switch (elementName) {
+        case "body":
+        case "div": {
+          return (
+            <div {...(attrs ? attrs : {})}>
+              {renderFormatGroups((grp as FormatGroup).grps)}
+            </div>
+          );
+          break;
+        }
+        case "header": {
+          return (
+            <header {...(attrs ? attrs : {})}>
+              {renderFormatGroups((grp as FormatGroup).grps)}
+            </header>
+          );
+          break;
+        }
+        case "span": {
+          return (
+            <span {...(attrs ? attrs : {})}>
+              {renderFormatGroups((grp as FormatGroup).grps)}
+            </span>
+          );
+          break;
+        }
+        case "br": {
+          return <br />;
+        }
+        case "": {
+          return (
+            <Fragment>{renderFormatGroups((grp as FormatGroup).grps)}</Fragment>
+          );
+        }
+        default: {
+          return (
+            <Fragment>
+              g|{elementName.toUpperCase()}|g
+              {renderFormatGroups((grp as FormatGroup).grps)}
+            </Fragment>
+          );
+          break;
+        }
+      }
 
       break;
     }
     case 5: {
-      return <div>5{(grp as FormatText).docType}</div>;
+      return renderFormat(grp as FormatText);
+      return <div>{(grp as FormatText).docType}</div>;
       break;
     }
     default: {
@@ -76,8 +136,6 @@ export class ChapterComponent extends Component<ChapterProps> {
    */
 
   public render() {
-    console.log(this.props.chapter);
-
     const verses = this.props.chapter.verses;
     return (
       <div id={this.props.chapter.id} style={chapterStyles}>
