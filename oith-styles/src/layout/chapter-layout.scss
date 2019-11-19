@@ -4,8 +4,8 @@
   width: 100vw;
   height: 100vh;
 }
-.oith-content {
-  div {
+#oith-content {
+  .parent {
     width: calc(100vw - 250px);
     left: 250px;
     position: absolute;

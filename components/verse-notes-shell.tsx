@@ -3,9 +3,11 @@ import {
   VerseNote,
   VerseNoteGroup
 } from "../oith-lib/src/verse-notes/verse-note";
+import { Chapter } from "../oith-lib/src/models/Chapter";
 
 type VNProps = {
-  verseNotes?: VerseNote[];
+  chapter?: Chapter;
+  // verseNotes?: VerseNote[];
 };
 function createMarkup(txt: string) {
   return { __html: txt };
@@ -13,7 +15,7 @@ function createMarkup(txt: string) {
 
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
-    <div>
+    <div className="verse-note-group">
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>
       {noteGroup.notes.map(note => {
         return note.ref.map(ref => {
@@ -30,7 +32,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
 function renderVerseNote(verseNote: VerseNote) {
   if (verseNote.noteGroups) {
     return (
-      <div>
+      <div className="verse-note">
         {verseNote.noteGroups.map(noteGroup => renderNoteGroup(noteGroup))}
       </div>
     );
@@ -40,10 +42,10 @@ function renderVerseNote(verseNote: VerseNote) {
 
 export class VerseNotesShellComponent extends Component<VNProps> {
   render() {
-    if (this.props.verseNotes) {
+    if (this.props.chapter) {
       return (
         <div className="verse-notes">
-          {this.props.verseNotes.map(vn => renderVerseNote(vn))}
+          {this.props.chapter.verseNotes.map(vn => renderVerseNote(vn))}
         </div>
       );
     }

@@ -240,11 +240,13 @@ const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
         ></VerseNotesShellComponent>
       </Layout> */}
       <nav></nav>
-      <div className="chapter-loader">
-        {" "}
-        <ChapterComponent chapter={chapter}></ChapterComponent>
+      <div className="parent">
+        <div className="chapter-loader">
+          <ChapterComponent chapter={chapter}></ChapterComponent>
+        </div>
+        <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>
+        {/* <div className="verse-notes"></div> */}
       </div>
-      <div className="verse-notes"></div>
     </Layout>
   );
 };
