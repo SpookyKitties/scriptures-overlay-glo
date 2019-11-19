@@ -21,6 +21,7 @@ import {
   addVersesToBody,
   buildNewShell
 } from "../../oith-lib/src/shells/build-shells";
+import { Subject } from "rxjs";
 
 // import { fetch } from "http";
 function Testat() {
@@ -218,19 +219,19 @@ function formatGroups(
 
   return;
 }
-
 const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
   a,
   chapter
 }) => {
-  // const router = useRouter();
-  // console.log(router.query);
-  // console.log(chapter);
   return (
-    <Layout title={chapter.title} shortTitle={chapter.shortTitle}>
+    <Layout
+      title={chapter ? chapter.title : ""}
+      shortTitle={chapter ? chapter.shortTitle : ""}
+    >
       <Head>
-        <title>{chapter.title}asdf</title>
+        <title>{chapter ? chapter.title : ""}</title>
       </Head>
+      <ChapterComponent chapter={chapter}></ChapterComponent>
       {/* <Layout title={chapter.title} shortTitle={chapter.shortTitle}>
         <ChapterComponent chapter={chapter} />
         {formatGroups(chapter.body.grps)}
@@ -245,15 +246,22 @@ const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
   );
 };
 
+// const h: Chapter[] = [];
+
 ChapterParent.getInitialProps = async ({ query }) => {
   const a = "oiasjdf55555oiajsdf";
-  console.log(a);
-
+  // console.log(a);
   const data = await axios.get(
     `/scripture_files/eng-${query["book"]}-${query["chapter"]}-chapter.json`,
     { proxy: { port: 3000, host: "127.0.0.1" } }
   );
   const chapter = data.data as Chapter;
+  // h.push(chapter);
+
+  // console.log(chapter);
+
+  // console.log("ijasdfoiasdfjiojeoirjoij");
+
   const b = await addVersesToBody(chapter)
     .pipe(
       map(() => buildNewShell(chapter)),
@@ -290,5 +298,3 @@ function renderBody(chapter: Chapter) {
     </div>
   );
 }
-
-store.chapter$.pipe(filter(o => o !== undefined)).toPromise();

@@ -5,7 +5,11 @@ import Head from "next/head";
 import "../styles/styles.scss";
 import { HeaderComponent } from "./header.component";
 const oithContentStyles: CSSProperties = {
-  position: "absolute"
+  height: "calc(100vh - 48px)",
+  display: "block",
+  width: "100vw",
+  position: "fixed",
+  top: "48px"
 };
 
 const Layout: React.FunctionComponent<NavbarProps> = ({
@@ -13,11 +17,13 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
   title,
   shortTitle
 }) => {
+  console.log(title);
+
   return (
     <div id="oith-main">
-      <Head>
+      {/* <Head>
         <title>{title}</title>
-      </Head>
+      </Head> */}
       <HeaderComponent></HeaderComponent>
       <div id="oith-content" style={oithContentStyles}>
         {children}
