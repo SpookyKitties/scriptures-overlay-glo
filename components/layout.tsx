@@ -17,12 +17,28 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
   title,
   shortTitle
 }) => {
-
   return (
     <div id="oith-main">
       {/* <Head>
         <title>{title}</title>
       </Head> */}
+      <Head>
+        <title>aoisdjfoiasjdfio</title>
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${"UA-153000658-1"}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${"UA-153000658-1"}');
+          `
+          }}
+        />
+      </Head>
       <HeaderComponent></HeaderComponent>
       <div id="oith-content" style={oithContentStyles}>
         {children}

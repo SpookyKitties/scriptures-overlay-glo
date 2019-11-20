@@ -8,6 +8,7 @@ import {
 } from "../oith-lib/src/models/Chapter";
 import { FormatTag } from "./format_tag";
 import { VideoComponent } from "./VideoComponent";
+import Head from "next/head";
 
 type ChapterProps = {
   chapter: Chapter;
