@@ -1,6 +1,75 @@
 import { Component } from "react";
+import { Params } from "../oith-lib/src/shells/build-shells";
+import {
+  NoteGroupSettings,
+  NoteTypes,
+  NoteCategories
+} from "../oith-lib/src/verse-notes/settings/note-gorup-settings";
+import { tap } from "rxjs/operators";
+import { Chapter } from "../oith-lib/src/models/Chapter";
+export class Settings {
+  public textSize = 18;
+  public notePaneWidth = 300;
+  public notePaneWidthDisplay = 300;
+  public notePaneHeight = 300;
+  public notePaneHeightDisplay = 300;
+  public noteCatList: Params = {};
+  public oithHeaderTop = 0;
+  public contentTop = 48;
+  public lang = "eng";
+  public vis = {};
+  public displayNotes: boolean;
+  public displayNav: boolean;
+}
+
+export class AppSettings {
+  public settings: Settings;
+  public noteSettings?: NoteGroupSettings;
+  public noteTypes?: NoteTypes;
+  public noteCategories?: NoteCategories;
+  constructor() {
+    const settingsS = localStorage.getItem("scriptures-overlay-settings");
+    const noteSettingsS = localStorage.getItem(
+      "scriptures-overlay-noteSettings"
+    );
+    const noteTypesS = localStorage.getItem("scriptures-overlay-noteTypes");
+    const noteCategoriesS = localStorage.getItem(
+      "scriptures-overlay-noteCategories"
+    );
+
+    this.settings = settingsS ? JSON.parse(settingsS) : new Settings();
+
+    this.noteSettings = noteSettingsS ? JSON.parse(noteSettingsS) : undefined;
+    this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
+    this.noteCategories = noteCategoriesS
+      ? JSON.parse(noteCategoriesS)
+      : undefined;
+  }
+  public save<T extends keyof this>(key: T) {
+    localStorage.setItem(
+      `scriptures-overlay-${key}`,
+      JSON.stringify(this[key])
+    );
+  }
+}
+
+export let appSettings: AppSettings; // = new AppSettings();
+
+type HProps={
+  
+}
 
 export class HeaderComponent extends Component {
+  public componentDidMount() {
+    appSettings = new AppSettings();
+    console.log(this.props);
+  }
+  public showNotes(props) {
+    // appSettings.settings.displayNotes = !appSettings.settings.displayNotes;
+    // appSettings.save("settings");
+    console.log(props);
+  }
+
   public render() {
     return (
       <div className="oith-header">
@@ -30,7 +99,10 @@ export class HeaderComponent extends Component {
             ></path>
           </svg>
         </div>
-        <div className="oith-header-item">
+        <div
+          className="oith-header-item"
+          onClick={() => this.showNotes(this.props)}
+        >
           <svg
             width="24"
             height="24"

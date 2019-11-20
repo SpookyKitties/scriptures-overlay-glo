@@ -39,7 +39,32 @@ export function renderVerse(verse?: Verse): JSX.Element {
         return <p id={verse.id}>{renderFormatGroups(verse.grps)}</p>;
       }
       case "h1": {
-        return <h1 {...verse}>{renderFormatGroups(verse.grps)}</h1>;
+        return (
+          <h1 {...verse.attrs} id={verse.id}>
+            {renderFormatGroups(verse.grps)}
+          </h1>
+        );
+      }
+      case "h2": {
+        return (
+          <h2 {...verse.attrs} id={verse.id}>
+            {renderFormatGroups(verse.grps)}
+          </h2>
+        );
+      }
+      case "h3": {
+        return (
+          <h3 {...verse.attrs} id={verse.id}>
+            {renderFormatGroups(verse.grps)}
+          </h3>
+        );
+      }
+      case "h4": {
+        return (
+          <h4 {...verse.attrs} id={verse.id}>
+            {renderFormatGroups(verse.grps)}
+          </h4>
+        );
       }
       default:
         return <div>Missing verse element {verse.n}</div>;
@@ -101,6 +126,9 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case "br": {
           return <br />;
         }
+        case "img": {
+          return <img {...attrs} />;
+        }
         case "a": {
           const href: string | undefined = formatGroup.attrs["href"];
           if (href && href.includes("note")) {
@@ -118,6 +146,35 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "": {
           return <Fragment>{renderFormatGroups(formatGroup.grps)}</Fragment>;
+        }
+        case "cite": {
+          return <cite>{renderFormatGroups(formatGroup.grps)}</cite>;
+        }
+        case "ruby": {
+          return <ruby>{renderFormatGroups(formatGroup.grps)}</ruby>;
+        }
+        case "rb": {
+          return <Fragment>{renderFormatGroups(formatGroup.grps)}</Fragment>;
+        }
+        case "rt": {
+          return <rt>{renderFormatGroups(formatGroup.grps)}</rt>;
+        }
+        case "figure": {
+          return <figure>{renderFormatGroups(formatGroup.grps)}</figure>;
+        }
+        case "ul": {
+          return <ul>{renderFormatGroups(formatGroup.grps)}</ul>;
+        }
+        case "li": {
+          return <li>{renderFormatGroups(formatGroup.grps)}</li>;
+        }
+        case "section": {
+          return <section>{renderFormatGroups(formatGroup.grps)}</section>;
+        }
+        case "figcaption": {
+          return (
+            <figcaption>{renderFormatGroups(formatGroup.grps)}</figcaption>
+          );
         }
         default: {
           return (
@@ -150,11 +207,16 @@ export class ChapterComponent extends Component<ChapterProps> {
   /**
    * render
    */
-
   public render() {
     const verses = this.props.chapter.verses;
     return (
-      <div className="chapter-content classic-scriptures">
+      <div
+        className={
+          this.props.chapter && !this.props.chapter.id.includes("-come-foll")
+            ? "chapter-content classic-scriptures"
+            : "chapter-content manual"
+        }
+      >
         <span></span>
         <div id={this.props.chapter.id} style={chapterStyles}>
           {/* <header>

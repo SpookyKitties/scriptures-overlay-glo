@@ -17,7 +17,6 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
   title,
   shortTitle
 }) => {
-  console.log(title);
 
   return (
     <div id="oith-main">

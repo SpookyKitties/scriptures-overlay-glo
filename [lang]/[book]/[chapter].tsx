@@ -23,14 +23,28 @@ import {
 } from "../../oith-lib/src/shells/build-shells";
 import { Subject } from "rxjs";
 
+// import { fetch } from "http";
 function Testat() {
   return <h1>Test</h1>;
 }
+
+// export default function Index(props: string) {
+//   return (
+//     <div>
+//       <Header />
+//       {props}
+//       <p>Hello Next.js</p>
+//       <Testat />
+//     </div>
+//   );
+// }
 
 export type ImgAttr = {
   src: string;
   alt: string;
 };
+
+// export function ftLink(attrs )
 
 function formatVerses(verses?: Verse[]) {
   if (verses) {
@@ -241,21 +255,12 @@ const ChapterParent: NextPage<{ a: string; chapter: Chapter }> = ({
 
 ChapterParent.getInitialProps = async ({ query }) => {
   const a = "oiasjdf55555oiajsdf";
-  // console.log(a);
-  // console.log(query);
-
   const data = await axios.get(
-    `/scripture_files/${query["lang"] ? query["lang"] : "eng"}-${
-      query["book"]
-    }-${query["chapter"]}-chapter.json`,
+    `/scripture_files/eng-${query["book"]}-${query["chapter"]}-chapter.json`,
     { proxy: { port: 3000, host: "127.0.0.1" } }
   );
   const chapter = data.data as Chapter;
   // h.push(chapter);
-
-  // console.log(chapter);
-
-  // console.log("ijasdfoiasdfjiojeoirjoij");
 
   const b = await addVersesToBody(chapter)
     .pipe(
@@ -263,7 +268,6 @@ ChapterParent.getInitialProps = async ({ query }) => {
       flatMap(o => o)
     )
     .toPromise();
-  // console.log(chapter);
 
   return { a, chapter };
 };
@@ -281,5 +285,15 @@ function renderLinks(grp: FormatGroup): JSX.Element {
     <Link {...attrs}>
       <a>{formatGroup(grp)}</a>
     </Link>
+  );
+}
+
+function renderBody(chapter: Chapter) {
+  return (
+    <div className="">
+      <div className="chapter-content">
+        <div className="chapter-loader"></div>
+      </div>
+    </div>
   );
 }

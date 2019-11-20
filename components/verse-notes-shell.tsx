@@ -43,7 +43,7 @@ function renderVerseNote(verseNote: VerseNote) {
 
 export class VerseNotesShellComponent extends Component<VNProps> {
   render() {
-    console.log(this.props.chapter);
+    // console.log(this.props.chapter);
 
     if (this.props.chapter) {
       return (
