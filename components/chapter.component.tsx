@@ -80,7 +80,7 @@ export function renderFormat(ft: FormatText) {
     return (
       <Fragment>
         {ft.formatMerged.map(fm => {
-          return <FormatTag ft={fm}></FormatTag>;
+          return <FormatTag formatMerged={fm}></FormatTag>;
           return (
             <span
               onClick={() => {
