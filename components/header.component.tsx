@@ -55,19 +55,26 @@ export class AppSettings {
 
 export let appSettings: AppSettings; // = new AppSettings();
 
-type HProps={
-  
-}
+type HProps = {
+  chapter: Chapter | undefined;
+};
 
 export class HeaderComponent extends Component {
   public componentDidMount() {
-    appSettings = new AppSettings();
-    console.log(this.props);
+    // console.log(this.props);
+
+    // console.log(appSettings);
+  }
+  public componentWillMount() {
+    // appSettings = new AppSettings();
+    // console.log(appSettings);
+    // console.log(localStorage);
   }
   public showNotes(props) {
     // appSettings.settings.displayNotes = !appSettings.settings.displayNotes;
     // appSettings.save("settings");
-    console.log(props);
+    // console.log(props);
+    // console.log(appSettings);
   }
 
   public render() {

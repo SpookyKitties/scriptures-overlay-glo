@@ -6,6 +6,7 @@ import {
   FormatText,
   Verse
 } from "../oith-lib/src/models/Chapter";
+import { FormatTag } from "./format_tag";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -79,7 +80,16 @@ export function renderFormat(ft: FormatText) {
     return (
       <Fragment>
         {ft.formatMerged.map(fm => {
-          return <span>{fm.text}</span>;
+          return <FormatTag ft={fm}></FormatTag>;
+          return (
+            <span
+              onClick={() => {
+                fm.text = "aaa";
+              }}
+            >
+              {fm.text}
+            </span>
+          );
         })}
       </Fragment>
     );
