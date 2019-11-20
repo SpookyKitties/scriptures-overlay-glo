@@ -7,6 +7,7 @@ import {
   Verse
 } from "../oith-lib/src/models/Chapter";
 import { FormatTag } from "./format_tag";
+import { VideoComponent } from "./VideoComponent";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -138,6 +139,15 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "img": {
           return <img {...attrs} />;
+        }
+        case "video": {
+          return (
+            <VideoComponent
+              grp={grp as FormatGroup}
+              attrs={attrs}
+            ></VideoComponent>
+          );
+          // return <video {...attrs} />;
         }
         case "a": {
           const href: string | undefined = formatGroup.attrs["href"];
