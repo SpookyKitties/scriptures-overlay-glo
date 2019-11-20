@@ -4,6 +4,7 @@ import { CSSProperties } from "react";
 import Head from "next/head";
 import "../styles/styles.scss";
 import { HeaderComponent } from "./header.component";
+import Helmet from "react-helmet";
 const oithContentStyles: CSSProperties = {
   height: "calc(100vh - 48px)",
   display: "block",
@@ -22,8 +23,8 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
       {/* <Head>
         <title>{title}</title>
       </Head> */}
-      <Head>
-        <title>aoisdjfoiasjdfio</title>
+      <Helmet>
+        <title>{title}</title>
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${"UA-153000658-1"}`}
@@ -38,7 +39,7 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
           `
           }}
         />
-      </Head>
+      </Helmet>
       <HeaderComponent></HeaderComponent>
       <div id="oith-content" style={oithContentStyles}>
         {children}
