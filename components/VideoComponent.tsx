@@ -7,33 +7,32 @@ export class VideoComponent extends Component<{
   grp: FormatGroup;
   attrs: {};
 }> {
-  public state: { src: string } = { src: "" };
+  //   public state: { src: string } = { src: "" };
   public componentWillMount() {
-    // console.log(this.props.attrs["src"]);
-
-    of(axios.get(this.props.attrs["src"] as string, { responseType: "json" }))
-      .pipe(
-        flatMap(o => o),
-        map(o => {
-          //   console.log(o.data);
-          return (o.data as VideoData.RootObject).renditions;
-        }),
-        flatMap(o => o),
-        find(o => typeof o.src === "string" && o.container === "MP4"),
-        map(o => {
-          if (o) {
-            this.setState({ src: o.src });
-          }
-        })
-      )
-      .subscribe();
+    this.props.attrs["src"];
+    // of(axios.get(this.props.attrs["src"] as string, { responseType: "json" }))
+    //   .pipe(
+    //     flatMap(o => o),
+    //     map(o => {
+    //       //
+    //       return (o.data as VideoData.RootObject).renditions;
+    //     }),
+    //     flatMap(o => o),
+    //     find(o => typeof o.src === "string" && o.container === "MP4"),
+    //     map(o => {
+    //       if (o) {
+    //         this.setState({ src: o.src });
+    //       }
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   public render() {
-    return <video controls={true} src={this.state.src}></video>;
+    return <video controls={true} {...this.props.attrs}></video>;
   }
 }
-declare module VideoData {
+export declare module VideoData {
   export interface Source {
     src: string;
   }

@@ -43,8 +43,6 @@ function renderVerseNote(verseNote: VerseNote) {
 
 export class VerseNotesShellComponent extends Component<VNProps> {
   render() {
-    // console.log(this.props.chapter);
-
     if (this.props.chapter) {
       return (
         <div className="verse-notes">
@@ -82,7 +80,6 @@ function generateShortTitle(verseNote: VerseNote) {
     }
   }
   return "";
-  // console.log(idSplit);
 }
 
 export function capitalizeFirstLetter(str: string) {

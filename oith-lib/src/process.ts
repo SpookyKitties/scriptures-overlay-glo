@@ -20,8 +20,6 @@ export function getFileType(document: CheerioStatic): Observable<string> {
 }
 
 export function process(noteTypes: NoteTypes, noteCategories: NoteCategories) {
-  console.log('Processing Files');
-
   return loadFiles()
     .pipe(
       map(d => forkJoin(of(d), getFileType(d))),

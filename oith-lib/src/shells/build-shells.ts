@@ -224,15 +224,61 @@ function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
   return EMPTY;
 }
 
-export function buildNewShell(chapter: Chapter) {
+function findAllGrpsWithName(
+  name: string,
+  grp: FormatGroup,
+): Observable<FormatGroup> {
+  if (grp.name && grp.name.toLowerCase() === name) {
+    return of(grp);
+  } else if (Array.isArray(grp.grps)) {
+    return of(grp.grps).pipe(
+      flatMap$,
+      map(o => findAllGrpsWithName(name, o as FormatGroup)),
+      flatMap$,
+    );
+  }
+
+  return EMPTY;
+}
+import axios from 'axios';
+import { VideoData } from '../../../components/VideoComponent';
+function prepVideos(chapter: Chapter) {
+  return findAllGrpsWithName('video', chapter.body).pipe(
+    // toArray(),
+    map(grp => {
+      return of(
+        axios.get(grp.attrs['src'] as string, { responseType: 'json' }),
+      ).pipe(
+        flatMap(o => o),
+        map(o => {
+          //
+          return (o.data as VideoData.RootObject).renditions;
+        }),
+        flatMap(o => o),
+        find(o => typeof o.src === 'string' && o.container === 'MP4'),
+        map(source => {
+          if (source) {
+            grp.attrs['src'] = source.src;
+          }
+        }),
+      );
+    }),
+    flatMap$,
+    toArray(),
+  );
+}
+
+export function buildShell(chapter: Chapter) {
   return forkJoin(
     // resetVerses(chapter.verses),
     generateVerseNoteGroups(chapter.verseNotes).pipe(
       map(() => buildFMerged(chapter)),
       flatMap(o => o),
     ),
+    prepVideos(chapter),
   );
 }
+
 export declare type Params = {
   [key: string]: any;
 };
@@ -245,7 +291,7 @@ export interface ChapterParams {
   lang: string;
 }
 
-export function parseParams(params: Params): ChapterParams {
+export function parseChapterParams(params: Params): ChapterParams {
   const book = params['book'] as string;
   const chapterSplit = (params['chapter'] as string).split('.');
 

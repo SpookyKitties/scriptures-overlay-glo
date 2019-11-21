@@ -39,7 +39,6 @@ function parseNoteCategory(
     // noteRefLabel.parent.;
     return of(nc.category);
   }
-  // console.log(not);
 
   return of(-1);
   // throw noteRefLabel.innerHTML;

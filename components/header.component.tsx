@@ -60,21 +60,13 @@ type HProps = {
 };
 
 export class HeaderComponent extends Component {
-  public componentDidMount() {
-    // console.log(this.props);
-
-    // console.log(appSettings);
-  }
+  public componentDidMount() {}
   public componentWillMount() {
     // appSettings = new AppSettings();
-    // console.log(appSettings);
-    // console.log(localStorage);
   }
   public showNotes(props) {
     // appSettings.settings.displayNotes = !appSettings.settings.displayNotes;
     // appSettings.save("settings");
-    // console.log(props);
-    // console.log(appSettings);
   }
 
   public render() {

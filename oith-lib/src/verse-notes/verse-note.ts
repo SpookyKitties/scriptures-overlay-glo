@@ -24,7 +24,7 @@ export class NoteRef {
   public category?: number;
   public text?: string;
   public vis?: boolean;
- public label: string;
+  public label: string;
   public constructor(noteC: number, text: string) {
     this.category = noteC;
     this.text = text;
@@ -79,7 +79,7 @@ export class VerseNoteGroup {
     // ? note.formatTag.offsets
     // : '100000';
     this.id = id;
-    // console.log(notes.filter(n => n.formatTag.url));
+    notes.filter(n => n.formatTag.url);
 
     // this.notePhrase = note.phrase ? note.phrase : '';
     this.notes = notes;

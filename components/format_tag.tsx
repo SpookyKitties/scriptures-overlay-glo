@@ -20,13 +20,12 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
   }
 
   public click(fm: FormatMerged) {
-    this.style = { backgroundColor: "black" };
+    // this.style = { backgroundColor: "black" };
     this.setState({ style: this.style });
-    console.log(this.state);
 
     // this.state.formatMerged.text = "lkasdf";
     // this.setState((state, props) => {
-    //   console.log(state);
+    //
     // });
   }
   public render() {
