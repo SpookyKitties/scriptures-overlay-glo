@@ -9,6 +9,7 @@ import {
 import { FormatTag } from "./format_tag";
 import { VideoComponent } from "./VideoComponent";
 import Head from "next/head";
+import { VerseComponent } from "./verse.component";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -33,49 +34,49 @@ export function renderFormatGroups(
   return;
 }
 
-export function renderVerse(verse?: Verse): JSX.Element {
-  if (verse) {
-    const elementName = verse.n.toLowerCase();
+// export function renderVerse(verse?: Verse): JSX.Element {
+//   if (verse) {
+//     const elementName = verse.n.toLowerCase();
 
-    switch (elementName) {
-      case "p": {
-        return <p id={verse.id}>{renderFormatGroups(verse.grps)}</p>;
-      }
-      case "h1": {
-        return (
-          <h1 {...verse.attrs} id={verse.id}>
-            {renderFormatGroups(verse.grps)}
-          </h1>
-        );
-      }
-      case "h2": {
-        return (
-          <h2 {...verse.attrs} id={verse.id}>
-            {renderFormatGroups(verse.grps)}
-          </h2>
-        );
-      }
-      case "h3": {
-        return (
-          <h3 {...verse.attrs} id={verse.id}>
-            {renderFormatGroups(verse.grps)}
-          </h3>
-        );
-      }
-      case "h4": {
-        return (
-          <h4 {...verse.attrs} id={verse.id}>
-            {renderFormatGroups(verse.grps)}
-          </h4>
-        );
-      }
-      default:
-        return <div>Missing verse element {verse.n}</div>;
-        break;
-    }
-  }
-  return;
-}
+//     switch (elementName) {
+//       case "p": {
+//         return <p id={verse.id}>{renderFormatGroups(verse.grps)}</p>;
+//       }
+//       case "h1": {
+//         return (
+//           <h1 {...verse.attrs} id={verse.id}>
+//             {renderFormatGroups(verse.grps)}
+//           </h1>
+//         );
+//       }
+//       case "h2": {
+//         return (
+//           <h2 {...verse.attrs} id={verse.id}>
+//             {renderFormatGroups(verse.grps)}
+//           </h2>
+//         );
+//       }
+//       case "h3": {
+//         return (
+//           <h3 {...verse.attrs} id={verse.id}>
+//             {renderFormatGroups(verse.grps)}
+//           </h3>
+//         );
+//       }
+//       case "h4": {
+//         return (
+//           <h4 {...verse.attrs} id={verse.id}>
+//             {renderFormatGroups(verse.grps)}
+//           </h4>
+//         );
+//       }
+//       default:
+//         return <div>Missing verse element {verse.n}</div>;
+//         break;
+//     }
+//   }
+//   return;
+// }
 
 export function renderFormat(ft: FormatText) {
   if (ft.formatMerged) {
@@ -225,9 +226,10 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
     }
     default: {
       return (
-        <Fragment>{renderVerse((grp as VersePlaceholder).verse)}</Fragment>
+        <VerseComponent
+          verse={(grp as VersePlaceholder).verse}
+        ></VerseComponent>
       );
-      break;
     }
   }
 }

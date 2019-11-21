@@ -242,6 +242,7 @@ function findAllGrpsWithName(
 }
 import axios from 'axios';
 import { VideoData } from '../../../components/VideoComponent';
+import { NoteCategories } from '../verse-notes/settings/note-gorup-settings';
 function prepVideos(chapter: Chapter) {
   return findAllGrpsWithName('video', chapter.body).pipe(
     // toArray(),
@@ -268,6 +269,36 @@ function prepVideos(chapter: Chapter) {
   );
 }
 
+function addRefLabel(chapter: Chapter) {
+  return of(
+    axios.get('/scripture_files/eng-note-categories.json', {
+      responseType: 'json',
+      proxy: { port: 3000, host: '127.0.0.1' },
+    }),
+  ).pipe(
+    flatMap$,
+    map(res => res.data as NoteCategories),
+    map(noteCategories => {
+      return of(chapter.verseNotes).pipe(
+        filter(o => o !== undefined),
+        flatMap(o => o),
+        filter(o => Array.isArray(o.notes)),
+        flatMap(o => o.notes),
+        map(note => {
+          note.ref.map(ref => {
+            const cat = noteCategories.noteCategories.find(
+              c => c.category === ref.category,
+            );
+            ref.label = `${cat ? cat.label : 'ERR'}\u00a0`;
+          });
+        }),
+      );
+    }),
+    flatMap$,
+    toArray(),
+  );
+}
+
 export function buildShell(chapter: Chapter) {
   return forkJoin(
     // resetVerses(chapter.verses),
@@ -275,6 +306,7 @@ export function buildShell(chapter: Chapter) {
       map(() => buildFMerged(chapter)),
       flatMap(o => o),
     ),
+    addRefLabel(chapter),
     prepVideos(chapter),
   );
 }

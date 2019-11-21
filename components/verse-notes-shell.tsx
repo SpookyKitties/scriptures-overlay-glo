@@ -18,13 +18,24 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
     <div className="verse-note-group">
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>
       {noteGroup.notes.map(note => {
-        return note.ref.map(ref => {
-          return (
-            <div
-              dangerouslySetInnerHTML={{ __html: ref.text.replace(/\#/g, "") }}
-            ></div>
-          );
-        });
+        return (
+          <div className="note">
+            {note.ref.map(ref => {
+              console.log(ref.label);
+
+              return (
+                <p className="note-reference">
+                  <span className="ref-label">{ref.label}</span>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: ref.text.replace(/\#/g, "")
+                    }}
+                  ></span>
+                </p>
+              );
+            })}
+          </div>
+        );
       })}
     </div>
   );
