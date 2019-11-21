@@ -140,7 +140,9 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "img": {
           attrs["alt"] = attrs["alt"];
-          attrs["src"] = `/images/${attrs["src"]}.jpg`;
+          attrs["src"] = `/images/${`${attrs["src"]}`
+            .replace(/\.jpg.*/g, "")
+            .replace(/\/images.*images\//g, "")}.jpg`;
           return (
             <div className="img-container">
               <img {...attrs} />
@@ -245,7 +247,11 @@ export class ChapterComponent extends Component<ChapterProps> {
         }
       >
         <span></span>
-        <div id={this.props.chapter.id} style={chapterStyles}>
+        <div
+          id={this.props.chapter.id}
+          className="chapter"
+          style={chapterStyles}
+        >
           {/* <header>
           <span className="title">{this.props.chapter.title}</span>
           <span className="shortTitle">{this.props.chapter.shortTitle}</span>
