@@ -139,7 +139,13 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           return <br />;
         }
         case "img": {
-          return <img {...attrs} />;
+          attrs["alt"] = attrs["alt"];
+          attrs["src"] = `/images/${attrs["src"]}.jpg`;
+          return (
+            <div className="img-container">
+              <img {...attrs} />
+            </div>
+          );
         }
         case "video": {
           return (

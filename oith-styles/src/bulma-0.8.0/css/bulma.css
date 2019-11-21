@@ -3209,11 +3209,11 @@ fieldset[disabled] .button {
 }
 
 .icon {
-  align-items: center;
+  /* align-items: center;
   display: inline-flex;
   justify-content: center;
   height: 1.5rem;
-  width: 1.5rem;
+  width: 1.5rem; */
 }
 
 .icon.is-small {
