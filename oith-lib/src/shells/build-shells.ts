@@ -284,11 +284,14 @@ function addRefLabel(chapter: Chapter) {
         flatMap(o => o),
         filter(o => Array.isArray(o.notes)),
         flatMap(o => o.notes),
+        filter(o => o !== undefined &&  Array.isArray(o.ref)),
         map(note => {
+          console.log(Array.isArray(note.ref));
+
           note.ref.map(ref => {
-            const cat = noteCategories.noteCategories.find(
+            const cat = noteCategories && noteCategories.noteCategories ? noteCategories.noteCategories.find(
               c => c.category === ref.category,
-            );
+            ) : {label: 'err'};
             ref.label = `${cat ? cat.label : 'ERR'}\u00a0`;
           });
         }),

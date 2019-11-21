@@ -22,7 +22,7 @@ export class VerseComponent extends Component<VerseProps> {
 
       switch (elementName) {
         case "p": {
-          return <p id={verse.id}>{renderFormatGroups(verse.grps)}</p>;
+          return <p id={verse.id} {...verse.attrs}>{renderFormatGroups(verse.grps)}</p>;
         }
         case "h1": {
           return (

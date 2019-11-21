@@ -34,6 +34,30 @@ export type ImgAttr = {
   alt: string;
 };
 
+
+function scroll() {
+  const verses = Array.from(document.querySelectorAll('.verse'));
+  const chapterElement = document.querySelector('.chapter-loader');
+  if (chapterElement) {
+    const y = chapterElement.getBoundingClientRect().top;
+    const verse = verses.find(
+      e => e.getBoundingClientRect().top + 10 >= y + 10 === true,
+    );
+    if (verse) {
+      const tempID = /^(p)(.+)$/g.exec(verse.id)
+      const id = tempID ? tempID[2] : verse.id
+      const verseNote = document.querySelector(
+        `[id*='-${id}-verse-note']`,
+      );
+      console.log(verse);
+
+      if (verseNote) {
+        verseNote.scrollIntoView();
+      }
+    }
+  }
+}
+
 const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
   return (
     <Layout
@@ -42,7 +66,7 @@ const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
     >
       <nav></nav>
       <div className="parent">
-        <div className="chapter-loader">
+        <div className="chapter-loader" onScroll={scroll}>
           <ChapterComponent chapter={chapter}></ChapterComponent>
         </div>
         <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>

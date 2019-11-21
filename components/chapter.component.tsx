@@ -238,10 +238,16 @@ export class ChapterComponent extends Component<ChapterProps> {
   /**
    * render
    */
+
+   public scroll(){
+     console.log('test');
+
+   }
   public render() {
     const verses = this.props.chapter.verses;
     return (
       <div
+      onScroll={this.scroll}
         className={
           this.props.chapter && !this.props.chapter.id.includes("-come-foll")
             ? "chapter-content classic-scriptures"
