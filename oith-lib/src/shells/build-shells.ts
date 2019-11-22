@@ -179,13 +179,15 @@ function highlightContext(
 }
 
 export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
+  console.log(chapterParams);
   if (chapterParams.highlight) {
     highlightContext(verses, chapterParams, 'highlight');
   }
   if (chapterParams.context) {
     highlightContext(verses, chapterParams, 'context');
   }
-  return EMPTY;
+  // return;
+  // return of(() => {}).pipe(toArray());
 }
 
 function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
@@ -284,14 +286,15 @@ function addRefLabel(chapter: Chapter) {
         flatMap(o => o),
         filter(o => Array.isArray(o.notes)),
         flatMap(o => o.notes),
-        filter(o => o !== undefined &&  Array.isArray(o.ref)),
+        filter(o => o !== undefined && Array.isArray(o.ref)),
         map(note => {
-          console.log(Array.isArray(note.ref));
-
           note.ref.map(ref => {
-            const cat = noteCategories && noteCategories.noteCategories ? noteCategories.noteCategories.find(
-              c => c.category === ref.category,
-            ) : {label: 'err'};
+            const cat =
+              noteCategories && noteCategories.noteCategories
+                ? noteCategories.noteCategories.find(
+                    c => c.category === ref.category,
+                  )
+                : { label: 'err' };
             ref.label = `${cat ? cat.label : 'ERR'}\u00a0`;
           });
         }),
@@ -302,7 +305,7 @@ function addRefLabel(chapter: Chapter) {
   );
 }
 
-export function buildShell(chapter: Chapter) {
+export function buildShell(chapter: Chapter, params: ChapterParams) {
   return forkJoin(
     // resetVerses(chapter.verses),
     generateVerseNoteGroups(chapter.verseNotes).pipe(
@@ -311,6 +314,7 @@ export function buildShell(chapter: Chapter) {
     ),
     addRefLabel(chapter),
     prepVideos(chapter),
+    of(highlightVerses(chapter.verses, params)),
   );
 }
 

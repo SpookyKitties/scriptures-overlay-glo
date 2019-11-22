@@ -22,32 +22,66 @@ export class VerseComponent extends Component<VerseProps> {
 
       switch (elementName) {
         case "p": {
-          return <p id={verse.id} {...verse.attrs}>{renderFormatGroups(verse.grps)}</p>;
+          return (
+            <p
+              id={verse.id}
+              className={`verse ${verse.highlight ? "highlight" : ""} ${
+                verse.context ? "context" : ""
+              }`}
+              {...verse.attrs}
+            >
+              {renderFormatGroups(verse.grps)}
+            </p>
+          );
         }
         case "h1": {
           return (
-            <h1 {...verse.attrs} id={verse.id}>
+            <h1
+              {...verse.attrs}
+              id={verse.id}
+              className={`verse ${verse.highlight ? "highlight" : ""} ${
+                verse.context ? "context" : ""
+              }`}
+            >
               {renderFormatGroups(verse.grps)}
             </h1>
           );
         }
         case "h2": {
           return (
-            <h2 {...verse.attrs} id={verse.id}>
+            <h2
+              {...verse.attrs}
+              id={verse.id}
+              className={`verse ${verse.highlight ? "highlight" : ""} ${
+                verse.context ? "context" : ""
+              }`}
+            >
               {renderFormatGroups(verse.grps)}
             </h2>
           );
         }
         case "h3": {
           return (
-            <h3 {...verse.attrs} id={verse.id}>
+            <h3
+              {...verse.attrs}
+              id={verse.id}
+              className={`verse ${verse.highlight ? "highlight" : ""} ${
+                verse.context ? "context" : ""
+              }`}
+            >
               {renderFormatGroups(verse.grps)}
             </h3>
           );
         }
         case "h4": {
           return (
-            <h4 {...verse.attrs} id={verse.id}>
+            <h4
+              {...verse.attrs}
+              id={verse.id}
+              className={`verse ${verse.highlight ? "highlight" : ""} ${
+                verse.context ? "context" : ""
+              }`}
+            >
               {renderFormatGroups(verse.grps)}
             </h4>
           );
@@ -60,47 +94,3 @@ export class VerseComponent extends Component<VerseProps> {
     return "";
   }
 }
-
-// export function renderVerse(verse?: Verse): JSX.Element {
-//   if (verse) {
-//     const elementName = verse.n.toLowerCase();
-
-//     switch (elementName) {
-//       case "p": {
-//         return <p id={verse.id}>{renderFormatGroups(verse.grps)}</p>;
-//       }
-//       case "h1": {
-//         return (
-//           <h1 {...verse.attrs} id={verse.id}>
-//             {renderFormatGroups(verse.grps)}
-//           </h1>
-//         );
-//       }
-//       case "h2": {
-//         return (
-//           <h2 {...verse.attrs} id={verse.id}>
-//             {renderFormatGroups(verse.grps)}
-//           </h2>
-//         );
-//       }
-//       case "h3": {
-//         return (
-//           <h3 {...verse.attrs} id={verse.id}>
-//             {renderFormatGroups(verse.grps)}
-//           </h3>
-//         );
-//       }
-//       case "h4": {
-//         return (
-//           <h4 {...verse.attrs} id={verse.id}>
-//             {renderFormatGroups(verse.grps)}
-//           </h4>
-//         );
-//       }
-//       default:
-//         return <div>Missing verse element {verse.n}</div>;
-//         break;
-//     }
-//   }
-//   return;
-// }

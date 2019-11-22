@@ -10,6 +10,8 @@ import { FormatTag } from "./format_tag";
 import { VideoComponent } from "./VideoComponent";
 import Head from "next/head";
 import { VerseComponent } from "./verse.component";
+import { forkJoin, of } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -256,6 +258,14 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 }
 
 export class ChapterComponent extends Component<ChapterProps> {
+  componentDidMount() {
+    forkJoin(
+      of(document.querySelector(".highlight,.context")).pipe(
+        filter(o => o !== null),
+        map(o => o.scrollIntoView())
+      )
+    ).subscribe();
+  }
   /**
    * render
    */

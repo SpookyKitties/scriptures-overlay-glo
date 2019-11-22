@@ -1,33 +1,15 @@
 import axios from "axios";
 import { NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { Fragment, Component } from "react";
-import { flatMap, map, filter } from "rxjs/operators";
+import { flatMap, map } from "rxjs/operators";
 import { ChapterComponent } from "../../components/chapter.component";
 import Layout from "../../components/layout";
 import { VerseNotesShellComponent } from "../../components/verse-notes-shell";
-import {
-  Verse,
-  FormatGroup,
-  FormatText,
-  Chapter,
-  VersePlaceholder
-} from "../../oith-lib/src/models/Chapter";
-
-import { store } from "../../app/Store";
-import { HeaderComponent } from "../../components/header.component";
+import { Chapter } from "../../oith-lib/src/models/Chapter";
 import {
   addVersesToBody,
   buildShell,
   parseChapterParams
 } from "../../oith-lib/src/shells/build-shells";
-import { Subject } from "rxjs";
-import { ParsedUrlQuery } from "querystring";
-
-function Testat() {
-  return <h1>Test</h1>;
-}
 
 export type ImgAttr = {
   src: string;
@@ -40,7 +22,7 @@ function scroll() {
   if (chapterElement) {
     const y = chapterElement.getBoundingClientRect().top;
     const verse = verses.find(
-      e => e.getBoundingClientRect().top + 10 >= y + 10 === true
+      e => e.getBoundingClientRect().top + 10 >= y === true
     );
     if (verse) {
       const tempID = /^(p)(.+)$/g.exec(verse.id);
@@ -84,7 +66,7 @@ ChapterParent.getInitialProps = async ({ query }) => {
 
   const b = await addVersesToBody(chapter)
     .pipe(
-      map(() => buildShell(chapter)),
+      map(() => buildShell(chapter, params)),
       flatMap(o => o)
     )
     .toPromise();

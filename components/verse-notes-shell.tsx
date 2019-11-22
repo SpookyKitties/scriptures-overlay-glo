@@ -21,8 +21,6 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
         return (
           <div className="note">
             {note.ref.map(ref => {
-              console.log(ref.label);
-
               return (
                 <p className="note-reference">
                   <span className="ref-label">{ref.label}</span>
