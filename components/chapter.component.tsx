@@ -136,6 +136,14 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
           break;
         }
+        case "small": {
+          return (
+            <small {...(attrs ? attrs : {})}>
+              {renderFormatGroups(formatGroup.grps)}
+            </small>
+          );
+          break;
+        }
         case "br": {
           return <br />;
         }
@@ -162,6 +170,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case "a": {
           const href: string | undefined = formatGroup.attrs["href"];
           if (href && href.includes("note")) {
+            attrs["href"] = undefined;
             return (
               <span {...(attrs ? attrs : {})}>
                 {renderFormatGroups(formatGroup.grps)}
@@ -238,16 +247,10 @@ export class ChapterComponent extends Component<ChapterProps> {
   /**
    * render
    */
-
-   public scroll(){
-     console.log('test');
-
-   }
   public render() {
     const verses = this.props.chapter.verses;
     return (
       <div
-      onScroll={this.scroll}
         className={
           this.props.chapter && !this.props.chapter.id.includes("-come-foll")
             ? "chapter-content classic-scriptures"

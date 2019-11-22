@@ -2,12 +2,14 @@ app-verse-notes,
 verse-notes,
 .verse-notes {
   display: block;
+  background-color: #f7f8f8;
+
   position: absolute;
   width: 300px;
   right: 0;
   top: 0px;
   overflow-y: scroll;
-  height: 100vh; 
+  height: 100vh;
   font-family: serif;
   verse-note,
   .verse-note {
@@ -39,10 +41,10 @@ verse-notes,
       margin-top: 0;
       margin-bottom: 0;
       a {
-        color: #007fa4 !important;
+        color: #0000e0 !important;
         text-decoration: none;
         &:hover {
-          color: #01b6d1 !important;
+          color: #274472 !important;
         }
       }
     }
