@@ -178,7 +178,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
             );
           }
           return (
-            <a {...(attrs ? attrs : {})}>
+            <a className="valid-href" {...(attrs ? attrs : {})}>
               {renderFormatGroups(formatGroup.grps)}
             </a>
           );
@@ -188,6 +188,18 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "cite": {
           return <cite>{renderFormatGroups(formatGroup.grps)}</cite>;
+        }
+        case "strong": {
+          return <strong>{renderFormatGroups(formatGroup.grps)}</strong>;
+        }
+        case "em": {
+          return <em>{renderFormatGroups(formatGroup.grps)}</em>;
+        }
+        case "nav": {
+          return <nav>{renderFormatGroups(formatGroup.grps)}</nav>;
+        }
+        case "i": {
+          return <i>{renderFormatGroups(formatGroup.grps)}</i>;
         }
         case "ruby": {
           return <ruby>{renderFormatGroups(formatGroup.grps)}</ruby>;

@@ -65,11 +65,7 @@ export class VerseNotesShellComponent extends Component<VNProps> {
               return renderVerseNote(verseNote);
             }
           })}
-        </div>
-      );
-      return (
-        <div className="verse-notes">
-          {this.props.chapter.verseNotes.map(vn => renderVerseNote(vn))}
+          <div className="white-space"></div>
         </div>
       );
     }

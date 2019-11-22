@@ -32,7 +32,9 @@ body {
 .chapter {
   max-width: 70%;
 }
-
+.white-space {
+  height: calc(100vh - 48px);
+}
 .chapter-loader {
   overflow-y: scroll;
   // height: calc(100vh - 48px);
@@ -55,8 +57,11 @@ body {
     [name='a'] {
       color: inherit;
       &.valid-href {
-        text-decoration: none;
-        color: #177c9c;
+        color: #0000e0 !important;
+        text-decoration: wavy;
+        &:hover {
+          color: #274472 !important;
+        }
         margin: 0;
         padding: 0;
         border: 0;

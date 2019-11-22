@@ -24,6 +24,7 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
         <title>{title}</title>
       </Head> */}
       <Helmet>
+        <html lang="en" />
         <title>{title}</title>
         <script
           async
