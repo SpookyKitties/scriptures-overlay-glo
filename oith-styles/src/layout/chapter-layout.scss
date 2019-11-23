@@ -240,6 +240,9 @@ body {
   display: grid;
 
   grid-template-columns: 0 calc(100vw) 0;
+  &.nav {
+    grid-template-columns: 250px calc(100vw - 250px) 0;
+  }
   // calc(#{$notesWidth} - 100px);
   // grid-template-columns: 0px;
   &.large-notes {
@@ -266,8 +269,8 @@ body {
     }
     &.nav {
       grid-template-columns:
-        $navWidth calc(100vw - #{$notesWidth} - #{$navWidth})
-        $notesWidth;
+        $navWidth calc(100vw - #{$notesWidth} - #{$navWidth} + 100px)
+        calc(#{$notesWidth} - 100px);
       .oith-navigation {
         display: block;
       }
