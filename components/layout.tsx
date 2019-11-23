@@ -44,8 +44,8 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
       </Helmet>
       <div>h</div>
       <HeaderComponent></HeaderComponent>
-
-      <div className="oith-content-parent">{children}</div>
+      {children}
+      {/* <div className=""></div> */}
     </div>
   );
 };

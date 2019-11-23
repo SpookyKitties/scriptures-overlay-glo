@@ -10,6 +10,9 @@ import {
   buildShell,
   parseChapterParams
 } from "../../oith-lib/src/shells/build-shells";
+import { Component } from "react";
+import { appSettings } from "../../components/header.component";
+import { forkJoin } from "rxjs";
 
 export type ImgAttr = {
   src: string;
@@ -36,23 +39,48 @@ function scroll() {
   }
 }
 
-const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
-  return (
-    <Layout
-      title={chapter ? chapter.title : ""}
-      shortTitle={chapter ? chapter.shortTitle : ""}
-    >
-      <nav></nav>
-      <div className="chapter-loader " onScroll={scroll}>
-        <ChapterComponent chapter={chapter}></ChapterComponent>
-        <div className="white-space"></div>
-      </div>
-      <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>
-      {/* <div className="verse-notes"></div> */}
-    </Layout>
-  );
-};
+class OithParent extends Component<{ chapter: Chapter }> {
+  componentDidMount() {
+    appSettings.displayNav$.subscribe(o => {
+      console.log(o);
+      this.setState({ displayNav: o });
+    });
 
+    appSettings.notesMode$.subscribe(o => {
+      this.setState({ notesMode: o ? o : "off" });
+    });
+  }
+
+  render() {
+    const chapter = this.props.chapter;
+    return (
+      <Layout
+        title={chapter ? chapter.title : ""}
+        shortTitle={chapter ? chapter.shortTitle : ""}
+      >
+        <div
+          className={`oith-content-parent ${
+            this.state && this.state["displayNav"] ? "nav" : ""
+          } ${this.state ? `${this.state["notesMode"]}-notes` : ""}`}
+        >
+          <nav></nav>
+          <div className={`chapter-loader `} onScroll={scroll}>
+            <ChapterComponent chapter={chapter}></ChapterComponent>
+            <div className="white-space"></div>
+          </div>
+          <VerseNotesShellComponent
+            chapter={chapter}
+          ></VerseNotesShellComponent>
+        </div>
+        {/* <div className="verse-notes"></div> */}
+      </Layout>
+    );
+  }
+}
+
+const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
+  return <OithParent chapter={chapter}></OithParent>;
+};
 ChapterParent.getInitialProps = async ({ query }) => {
   const params = parseChapterParams(query);
   const data = await axios.get(

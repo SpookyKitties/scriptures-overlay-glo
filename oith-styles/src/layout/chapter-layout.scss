@@ -239,40 +239,37 @@ body {
 @mixin oithContent($navWidth, $notesWidth) {
   display: grid;
 
-  grid-template-columns:
-    $navWidth calc(100vw - #{$navWidth} - (#{$notesWidth} - 100px))
-    calc(#{$notesWidth} - 100px);
+  grid-template-columns: 0 calc(100vw) 0;
+  // calc(#{$notesWidth} - 100px);
   // grid-template-columns: 0px;
   &.large-notes {
+    grid-template-columns:
+      0 calc(100vw - (#{$notesWidth}))
+      $notesWidth;
+    .oith-navigation {
+      display: none;
+    }
     &.nav {
       grid-template-columns:
-        $navWidth calc(100vw - (#{$notesWidth}) - $navWidth)
+        $navWidth calc(100vw - (#{$notesWidth}) - #{$navWidth})
         $notesWidth;
     }
     &.no-nav {
-      grid-template-columns:
-        $navWidth calc(100vw - (#{$notesWidth}) - $navWidth)
-        $notesWidth;
-      .oith-navigation {
-        display: none;
-      }
     }
   }
   &.small-notes {
+    grid-template-columns: 0 calc(100vw - #{$notesWidth} + 100px) calc(
+        #{$notesWidth} - 100px
+      );
+    .oith-navigation {
+      display: none;
+    }
     &.nav {
       grid-template-columns:
-        $navWidth calc(100vw - (#{$notesWidth}) - $navWidth)
+        $navWidth calc(100vw - #{$notesWidth} - #{$navWidth})
         $notesWidth;
       .oith-navigation {
         display: block;
-      }
-    }
-    &.no-nav {
-      grid-template-columns: $navWidth calc(
-          100vw - (#{$notesWidth}) - 100 - $navWidth
-        ) (#{$notesWidth}) - 100;
-      .oith-navigation {
-        display: none;
       }
     }
   }

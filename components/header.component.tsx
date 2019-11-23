@@ -7,6 +7,8 @@ import {
 } from "../oith-lib/src/verse-notes/settings/note-gorup-settings";
 import { tap } from "rxjs/operators";
 import { Chapter } from "../oith-lib/src/models/Chapter";
+import { Subject, BehaviorSubject } from "rxjs";
+import { settings } from "cluster";
 export class Settings {
   public textSize = 18;
   public notePaneWidth = 300;
@@ -20,12 +22,15 @@ export class Settings {
   public vis = {};
   public displayNotes: boolean;
   public displayNav: boolean;
+  public notesMode: "large" | "small" | "off" = "small";
 }
 
 export class AppSettings {
   public settings: Settings;
   public noteSettings?: NoteGroupSettings;
   public noteTypes?: NoteTypes;
+  public displayNav$: BehaviorSubject<boolean>; //(false);
+  public notesMode$: BehaviorSubject<string>;
   public noteCategories?: NoteCategories;
   constructor() {
     const settingsS = localStorage.getItem("scriptures-overlay-settings");
@@ -44,6 +49,28 @@ export class AppSettings {
     this.noteCategories = noteCategoriesS
       ? JSON.parse(noteCategoriesS)
       : undefined;
+
+    this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
+    this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
+  }
+  public displayNav() {
+    this.settings.displayNav = !this.settings.displayNav;
+    this.displayNav$.next(this.settings.displayNav);
+    this.save("settings");
+  }
+
+  public displayNotes() {
+    const displayNotes = this.settings.notesMode;
+    console.log(displayNotes);
+
+    if (displayNotes === "off" || typeof displayNotes === "undefined") {
+      this.settings.notesMode = "small";
+    } else if (displayNotes === "small") {
+      this.settings.notesMode = "large";
+    } else {
+      this.settings.notesMode = "off";
+    }
+    this.notesMode$.next(this.settings.notesMode);
   }
   public save<T extends keyof this>(key: T) {
     localStorage.setItem(
@@ -60,19 +87,27 @@ type HProps = {
 };
 
 export class HeaderComponent extends Component {
-  public componentDidMount() {}
+  public componentDidMount() {
+    appSettings = new AppSettings();
+  }
   public componentWillMount() {
     // appSettings = new AppSettings();
   }
-  public showNotes(props) {
+  public showNotes() {
+    appSettings.displayNotes();
     // appSettings.settings.displayNotes = !appSettings.settings.displayNotes;
     // appSettings.save("settings");
   }
 
+  public displayNavClick() {
+    appSettings.settings.displayNav = !appSettings.settings.displayNav;
+    appSettings.displayNav$.next(appSettings.settings.displayNav);
+    appSettings.save("settings");
+  }
   public render() {
     return (
       <div className="oith-header">
-        <div className="oith-header-item">
+        <div className="oith-header-item" onClick={this.displayNavClick}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -98,10 +133,7 @@ export class HeaderComponent extends Component {
             ></path>
           </svg>
         </div>
-        <div
-          className="oith-header-item"
-          onClick={() => this.showNotes(this.props)}
-        >
+        <div className="oith-header-item" onClick={() => this.showNotes()}>
           <svg
             width="24"
             height="24"

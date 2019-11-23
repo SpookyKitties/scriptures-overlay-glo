@@ -12,6 +12,7 @@ import Head from "next/head";
 import { VerseComponent } from "./verse.component";
 import { forkJoin, of } from "rxjs";
 import { filter, map } from "rxjs/operators";
+import { appSettings } from "./header.component";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -259,6 +260,8 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 
 export class ChapterComponent extends Component<ChapterProps> {
   componentDidMount() {
+    console.log(appSettings);
+
     forkJoin(
       of(document.querySelector(".highlight,.context")).pipe(
         filter(o => o !== null),
@@ -270,14 +273,14 @@ export class ChapterComponent extends Component<ChapterProps> {
    * render
    */
   public render() {
-    const verses = this.props.chapter.verses;
+    // const verses = this.props.chapter.verses;
     return (
       <div
-        className={
+        className={`chapter-content ${
           this.props.chapter && !this.props.chapter.id.includes("-come-foll")
-            ? "chapter-content classic-scriptures"
-            : "chapter-content manual"
-        }
+            ? " classic-scriptures"
+            : "manual"
+        }`}
       >
         <span className={"left-nav"}>
           <svg
