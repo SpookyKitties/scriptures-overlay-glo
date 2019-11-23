@@ -70,6 +70,7 @@ export class AppSettings {
     } else {
       this.settings.notesMode = "off";
     }
+    this.save("settings");
     this.notesMode$.next(this.settings.notesMode);
   }
   public save<T extends keyof this>(key: T) {
