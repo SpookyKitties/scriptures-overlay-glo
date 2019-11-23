@@ -1,20 +1,5 @@
 @import './images.scss';
 
-#oith-main {
-  // width: 100vw;
-  // height: 100vh;
-}
-#oith-content {
-  .parent {
-    // width: calc(100vw - 250px);
-    // left: 250px;
-    // position: absolute;
-    .chapter-loader {
-      // width: calc(100% - 300px);
-    }
-  }
-}
-
 .ref-label {
   font-weight: 700;
 }
@@ -30,15 +15,30 @@ body {
   }
 }
 .chapter {
-  max-width: 70%;
+  // max-width: 70%;
 }
 .white-space {
   height: calc(100vh - 48px);
 }
+
+@mixin chapterContent {
+  justify-items: center;
+  display: grid;
+  grid-template-columns: 48px auto 48px;
+  font-size: 1em;
+  font-family: Palatino-Roman, PahoranldsLat-Roman, Palatino, NotoSansMyanmar,
+    SaysetthaldsLao, serif;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 1.33em;
+  text-align: left;
+}
+
 .chapter-loader {
   overflow-y: scroll;
   // height: calc(100vh - 48px);
-  height: 100vh;
+  // height: 100vh;
   chapter-content,
   .chapter-content {
     justify-items: center;
@@ -246,12 +246,12 @@ body {
   &.large-notes {
     &.nav {
       grid-template-columns:
-        $navWidth calc(100vw - $notesWidth - $navWidth)
+        $navWidth calc(100vw - (#{$notesWidth}) - $navWidth)
         $notesWidth;
     }
     &.no-nav {
       grid-template-columns:
-        $navWidth calc(100vw - $notesWidth - $navWidth)
+        $navWidth calc(100vw - (#{$notesWidth}) - $navWidth)
         $notesWidth;
       .oith-navigation {
         display: none;
@@ -261,16 +261,16 @@ body {
   &.small-notes {
     &.nav {
       grid-template-columns:
-        $navWidth calc(100vw - $notesWidth - $navWidth)
+        $navWidth calc(100vw - (#{$notesWidth}) - $navWidth)
         $notesWidth;
       .oith-navigation {
         display: block;
       }
     }
     &.no-nav {
-      grid-template-columns:
-        $navWidth calc(100vw - $notesWidth - 100 - $navWidth)
-        $notesWidth - 100;
+      grid-template-columns: $navWidth calc(
+          100vw - (#{$notesWidth}) - 100 - $navWidth
+        ) (#{$notesWidth}) - 100;
       .oith-navigation {
         display: none;
       }
@@ -315,11 +315,12 @@ body {
   .oith-content-parent {
     @media screen and (max-width: 700px) {
       display: grid;
+      grid-template-rows: 0 calc(100% - 250px) 250px;
       &.large-notes {
-        grid-template-columns: 0 calc(100% - 250px) 250px;
+        grid-template-rows: 0 calc(100% - 250px) 250px;
       }
       &.small-notes {
-        grid-template-columns: 0 calc(100% - 250px) 250px;
+        grid-template-rows: 0 calc(100% - 250px) 250px;
       }
       @include mobileNav();
     }
@@ -339,5 +340,27 @@ body {
     // >=768px	Medium
     // >=992px	Large
     // >=1200px
+
+    .left-nav,
+    .right-nav {
+      svg {
+        position: fixed;
+        width: 48px;
+        top: calc(100% - 350px - 48px);
+      }
+    }
+    .left-nav {
+      svg {
+        left: 0;
+      }
+    }
+    .right-nav {
+      svg {
+        right: 0;
+      }
+    }
+    .chapter-content {
+      @include chapterContent();
+    }
   }
 }
