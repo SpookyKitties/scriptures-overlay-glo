@@ -1,16 +1,16 @@
 @import './images.scss';
 
 #oith-main {
-  width: 100vw;
-  height: 100vh;
+  // width: 100vw;
+  // height: 100vh;
 }
 #oith-content {
   .parent {
-    width: calc(100vw - 250px);
-    left: 250px;
-    position: absolute;
+    // width: calc(100vw - 250px);
+    // left: 250px;
+    // position: absolute;
     .chapter-loader {
-      width: calc(100% - 300px);
+      // width: calc(100% - 300px);
     }
   }
 }
@@ -234,5 +234,110 @@ body {
         }
       }
     }
+  }
+}
+@mixin oithContent($navWidth, $notesWidth) {
+  display: grid;
+
+  grid-template-columns:
+    $navWidth calc(100vw - #{$notesWidth} - #{$navWidth})
+    $notesWidth;
+  // grid-template-columns: 0px;
+  &.large-notes {
+    &.nav {
+      grid-template-columns:
+        $navWidth calc(100vw - $notesWidth - $navWidth)
+        $notesWidth;
+    }
+    &.no-nav {
+      grid-template-columns:
+        $navWidth calc(100vw - $notesWidth - $navWidth)
+        $notesWidth;
+      .oith-navigation {
+        display: none;
+      }
+    }
+  }
+  &.small-notes {
+    &.nav {
+      grid-template-columns:
+        $navWidth calc(100vw - $notesWidth - $navWidth)
+        $notesWidth;
+      .oith-navigation {
+        display: block;
+      }
+    }
+    &.no-nav {
+      grid-template-columns:
+        $navWidth calc(100vw - $notesWidth - 100 - $navWidth)
+        $notesWidth - 100;
+      .oith-navigation {
+        display: none;
+      }
+    }
+  }
+}
+
+// 48px: 48px;
+@mixin mobileNav {
+  &.nav {
+    .oith-navigation {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+  .oith-navigation {
+    display: none;
+  }
+}
+.oith-main {
+  height: 100vh;
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 0px 48px calc(100vh - 48px);
+  &.with-logo {
+    grid-template-rows: 48px 48px calc(100vh - 48px - 48px) !important;
+  }
+  .logo {
+    width: 100vw;
+    height: 48px;
+  }
+  .oith-header {
+    width: 100vw;
+    height: 48px;
+  }
+
+  .oith-content-parent {
+    @media screen and (max-width: 700px) {
+      display: grid;
+      &.large-notes {
+        grid-template-columns: 0 calc(100% - 250px) 250px;
+      }
+      &.small-notes {
+        grid-template-columns: 0 calc(100% - 250px) 250px;
+      }
+      @include mobileNav();
+    }
+    @media screen and (min-width: 768px) {
+      display: grid;
+      @include mobileNav();
+      @include oithContent(0, 350px);
+    }
+    @media screen and (min-width: 992px) {
+      display: grid;
+      @include oithContent(250px, 350px);
+    }
+    @media screen and (min-width: 1120px) {
+      display: grid;
+      @include oithContent(250px, 350px);
+    }
+    // >=768px	Medium
+    // >=992px	Large
+    // >=1200px
   }
 }

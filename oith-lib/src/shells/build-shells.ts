@@ -179,7 +179,6 @@ function highlightContext(
 }
 
 export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
-  console.log(chapterParams);
   if (chapterParams.highlight) {
     highlightContext(verses, chapterParams, 'highlight');
   }

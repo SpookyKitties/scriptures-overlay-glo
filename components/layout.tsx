@@ -5,6 +5,7 @@ import Head from "next/head";
 import "../styles/styles.scss";
 import { HeaderComponent } from "./header.component";
 import Helmet from "react-helmet";
+// import { oithMain } from "../styles/typed/chapter-layout";
 const oithContentStyles: CSSProperties = {
   height: "calc(100vh - 48px)",
   display: "block",
@@ -19,7 +20,7 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
   shortTitle
 }) => {
   return (
-    <div id="oith-main">
+    <div id="oith-main" className={`oith-main`}>
       {/* <Head>
         <title>{title}</title>
       </Head> */}
@@ -41,10 +42,10 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
           }}
         />
       </Helmet>
+      <div>h</div>
       <HeaderComponent></HeaderComponent>
-      <div id="oith-content" style={oithContentStyles}>
-        {children}
-      </div>
+
+      <div className="oith-content-parent">{children}</div>
     </div>
   );
 };

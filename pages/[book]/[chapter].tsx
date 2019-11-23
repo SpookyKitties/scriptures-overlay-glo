@@ -28,7 +28,6 @@ function scroll() {
       const tempID = /^(p)(.+)$/g.exec(verse.id);
       const id = tempID ? tempID[2] : verse.id;
       const verseNote = document.querySelector(`[id*='-${id}-verse-note']`);
-      console.log(verse);
 
       if (verseNote) {
         verseNote.scrollIntoView();
@@ -44,14 +43,12 @@ const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
       shortTitle={chapter ? chapter.shortTitle : ""}
     >
       <nav></nav>
-      <div className="parent">
-        <div className="chapter-loader" onScroll={scroll}>
-          <ChapterComponent chapter={chapter}></ChapterComponent>
-          <div className="white-space"></div>
-        </div>
-        <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>
-        {/* <div className="verse-notes"></div> */}
+      <div className="chapter-loader " onScroll={scroll}>
+        <ChapterComponent chapter={chapter}></ChapterComponent>
+        <div className="white-space"></div>
       </div>
+      <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>
+      {/* <div className="verse-notes"></div> */}
     </Layout>
   );
 };
