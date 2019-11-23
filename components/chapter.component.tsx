@@ -13,6 +13,7 @@ import { VerseComponent } from "./verse.component";
 import { forkJoin, of } from "rxjs";
 import { filter, map } from "rxjs/operators";
 import { appSettings } from "./header.component";
+import Link from "next/link";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -172,7 +173,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "a": {
           const href: string | undefined = formatGroup.attrs["href"];
-          if (href && href.includes("note")) {
+          if (!href || (href && href.includes("note"))) {
             attrs["href"] = undefined;
             return (
               <span {...(attrs ? attrs : {})}>
@@ -181,9 +182,11 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
             );
           }
           return (
-            <a className="valid-href" {...(attrs ? attrs : {})}>
-              {renderFormatGroups(formatGroup.grps)}
-            </a>
+            <Link href={href}>
+              <a className="valid-href">
+                {renderFormatGroups(formatGroup.grps)}
+              </a>
+            </Link>
           );
         }
         case "": {
