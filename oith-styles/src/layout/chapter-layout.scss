@@ -240,8 +240,8 @@ body {
   display: grid;
 
   grid-template-columns:
-    $navWidth calc(100vw - #{$notesWidth} - #{$navWidth})
-    $notesWidth;
+    $navWidth calc(100vw - #{$navWidth} - (#{$notesWidth} - 100px))
+    calc(#{$notesWidth} - 100px);
   // grid-template-columns: 0px;
   &.large-notes {
     &.nav {
@@ -326,7 +326,7 @@ body {
     @media screen and (min-width: 768px) {
       display: grid;
       @include mobileNav();
-      @include oithContent(0, 350px);
+      @include oithContent(0px, 350px);
     }
     @media screen and (min-width: 992px) {
       display: grid;
