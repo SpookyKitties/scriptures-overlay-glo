@@ -104,6 +104,13 @@ export function renderFormat(ft: FormatText) {
   return <div>bbbhh</div>;
 }
 
+function normalizeAttrs(attrs?: {}) {
+  if (attrs) {
+    attrs["className"] = attrs["class"];
+    attrs["class"] = undefined;
+  }
+}
+
 function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   const docType = (grp as FormatGroup).docType;
 
@@ -111,6 +118,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
     case 4: {
       const formatGroup = grp as FormatGroup;
       const attrs = formatGroup.attrs;
+      // normalizeAttrs(attrs);
       const elementName = formatGroup.name
         ? formatGroup.name.toLowerCase()
         : "";
