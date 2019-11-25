@@ -61,7 +61,6 @@ export class AppSettings {
 
   public displayNotes() {
     const displayNotes = this.settings.notesMode;
-    console.log(displayNotes);
 
     if (displayNotes === "off" || typeof displayNotes === "undefined") {
       this.settings.notesMode = "small";

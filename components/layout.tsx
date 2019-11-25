@@ -14,10 +14,10 @@ const oithContentStyles: CSSProperties = {
   top: "48px"
 };
 
-const Layout: React.FunctionComponent<NavbarProps> = ({
-  children,
-  title,
-  shortTitle
+const Layout: React.FunctionComponent = ({
+  children
+  // title,
+  // shortTitle
 }) => {
   return (
     <div id="oith-main" className={`oith-main`}>
@@ -26,7 +26,7 @@ const Layout: React.FunctionComponent<NavbarProps> = ({
       </Head> */}
       <Helmet>
         <html lang="en" />
-        <title>{title}</title>
+        {/* <title>{title}</title> */}
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${"UA-153000658-1"}`}

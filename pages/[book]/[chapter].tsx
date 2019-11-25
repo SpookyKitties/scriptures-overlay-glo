@@ -42,7 +42,6 @@ function scroll() {
 class OithParent extends Component<{ chapter: Chapter }> {
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
-      console.log(o);
       this.setState({ displayNav: o });
     });
 
@@ -54,26 +53,18 @@ class OithParent extends Component<{ chapter: Chapter }> {
   render() {
     const chapter = this.props.chapter;
     return (
-      <Layout
-        title={chapter ? chapter.title : ""}
-        shortTitle={chapter ? chapter.shortTitle : ""}
+      <div
+        className={`oith-content-parent ${
+          this.state && this.state["displayNav"] ? "nav" : ""
+        } ${this.state ? `${this.state["notesMode"]}-notes` : ""}`}
       >
-        <div
-          className={`oith-content-parent ${
-            this.state && this.state["displayNav"] ? "nav" : ""
-          } ${this.state ? `${this.state["notesMode"]}-notes` : ""}`}
-        >
-          <nav></nav>
-          <div className={`chapter-loader `} onScroll={scroll}>
-            <ChapterComponent chapter={chapter}></ChapterComponent>
-            <div className="white-space"></div>
-          </div>
-          <VerseNotesShellComponent
-            chapter={chapter}
-          ></VerseNotesShellComponent>
+        <nav></nav>
+        <div className={`chapter-loader `} onScroll={scroll}>
+          <ChapterComponent chapter={chapter}></ChapterComponent>
+          <div className="white-space"></div>
         </div>
-        {/* <div className="verse-notes"></div> */}
-      </Layout>
+        <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>
+      </div>
     );
   }
 }

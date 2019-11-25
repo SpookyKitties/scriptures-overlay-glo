@@ -193,8 +193,9 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           } else if (href && href.includes("churchofjesuschrist")) {
             return <a href={href}>{renderFormatGroups(formatGroup.grps)}</a>;
           }
+
           return (
-            <Link href={href}>
+            <Link as={href} href="/[book]/[chapter]">
               <a className="valid-href">
                 {renderFormatGroups(formatGroup.grps)}
               </a>
@@ -275,8 +276,6 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 
 export class ChapterComponent extends Component<ChapterProps> {
   componentDidMount() {
-    console.log(appSettings);
-
     forkJoin(
       of(document.querySelector(".highlight,.context")).pipe(
         filter(o => o !== null),

@@ -27,8 +27,6 @@ export class VerseComponent extends Component<VerseProps> {
       verse.attrs["class"] = undefined;
       switch (elementName) {
         case "p": {
-          console.log(verse.attrs);
-
           return (
             <p id={verse.id} className={classList} {...verse.attrs}>
               {renderFormatGroups(verse.grps)}
