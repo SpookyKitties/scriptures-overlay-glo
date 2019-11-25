@@ -19,69 +19,46 @@ export class VerseComponent extends Component<VerseProps> {
 
     if (verse) {
       const elementName = verse.n.toLowerCase();
+      const attrClass = verse.attrs["class"];
+      const classList = `verse ${verse.highlight ? "highlight" : ""} ${
+        verse.context ? "context" : ""
+      } ${attrClass ? attrClass : ""}`;
 
+      verse.attrs["class"] = undefined;
       switch (elementName) {
         case "p": {
+          console.log(verse.attrs);
+
           return (
-            <p
-              id={verse.id}
-              className={`verse ${verse.highlight ? "highlight" : ""} ${
-                verse.context ? "context" : ""
-              }`}
-              {...verse.attrs}
-            >
+            <p id={verse.id} className={classList} {...verse.attrs}>
               {renderFormatGroups(verse.grps)}
             </p>
           );
         }
         case "h1": {
           return (
-            <h1
-              {...verse.attrs}
-              id={verse.id}
-              className={`verse ${verse.highlight ? "highlight" : ""} ${
-                verse.context ? "context" : ""
-              }`}
-            >
+            <h1 {...verse.attrs} id={verse.id} className={classList}>
               {renderFormatGroups(verse.grps)}
             </h1>
           );
         }
         case "h2": {
           return (
-            <h2
-              {...verse.attrs}
-              id={verse.id}
-              className={`verse ${verse.highlight ? "highlight" : ""} ${
-                verse.context ? "context" : ""
-              }`}
-            >
+            <h2 {...verse.attrs} id={verse.id} className={classList}>
               {renderFormatGroups(verse.grps)}
             </h2>
           );
         }
         case "h3": {
           return (
-            <h3
-              {...verse.attrs}
-              id={verse.id}
-              className={`verse ${verse.highlight ? "highlight" : ""} ${
-                verse.context ? "context" : ""
-              }`}
-            >
+            <h3 {...verse.attrs} id={verse.id} className={classList}>
               {renderFormatGroups(verse.grps)}
             </h3>
           );
         }
         case "h4": {
           return (
-            <h4
-              {...verse.attrs}
-              id={verse.id}
-              className={`verse ${verse.highlight ? "highlight" : ""} ${
-                verse.context ? "context" : ""
-              }`}
-            >
+            <h4 {...verse.attrs} id={verse.id} className={classList}>
               {renderFormatGroups(verse.grps)}
             </h4>
           );

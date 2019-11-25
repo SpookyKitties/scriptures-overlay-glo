@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { Component, CSSProperties, Fragment } from "react";
 import {
   Chapter,
@@ -161,7 +162,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "img": {
           attrs["alt"] = attrs["alt"];
-          const src = `${`${attrs["src"]}`
+          const src = `/images/${`${attrs["src"]}`
             .replace(/\.jpg.*/g, "")
             .replace(/\/images.*images\//g, "")}.jpg`;
           attrs["src"] === undefined;
@@ -189,6 +190,8 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
                 {renderFormatGroups(formatGroup.grps)}
               </span>
             );
+          } else if (href && href.includes("churchofjesuschrist")) {
+            return <a href={href}>{renderFormatGroups(formatGroup.grps)}</a>;
           }
           return (
             <Link href={href}>
