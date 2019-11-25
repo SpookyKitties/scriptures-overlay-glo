@@ -195,7 +195,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           }
 
           return (
-            <Link as={href} href="/[book]/[chapter]">
+            <Link as={`${href}?lang=jpn`} href="/[book]/[chapter]?lang=jpn">
               <a className="valid-href">
                 {renderFormatGroups(formatGroup.grps)}
               </a>

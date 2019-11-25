@@ -4,6 +4,10 @@ import {
   VerseNoteGroup
 } from "../oith-lib/src/verse-notes/verse-note";
 import { Chapter } from "../oith-lib/src/models/Chapter";
+import { fromEvent } from "rxjs";
+import { map, filter } from "rxjs/operators";
+import { useRouter } from "next/router";
+import Router from "next/router";
 
 type VNProps = {
   chapter?: Chapter;
@@ -13,13 +17,31 @@ function createMarkup(txt: string) {
   return { __html: txt };
 }
 
+function noteClick(event: MouseEvent) {
+  console.log(event);
+}
+
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
     <div className="verse-note-group">
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>
       {noteGroup.notes.map(note => {
         return (
-          <div className="note">
+          <div
+            className="note"
+            onClick={event => {
+              event.preventDefault();
+              const href = (event.target as HTMLAnchorElement).href;
+              // console.log(href.split('/').pop());
+
+              if (href) {
+                const url = /(^.+)(\/.+\/.+)/g.exec(href);
+                Router.push("/[book]/[chapter]", url[2]);
+
+                //<Link as={`${href}?lang=jpn`} href="/[book]/[chapter]?lang=jpn">
+              }
+            }}
+          >
             {note.ref.map(ref => {
               return (
                 <p className="note-reference">
