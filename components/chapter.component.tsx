@@ -161,12 +161,13 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case "img": {
           attrs["alt"] = attrs["alt"];
-          attrs["src"] = `/images/${`${attrs["src"]}`
+          const src = `${`${attrs["src"]}`
             .replace(/\.jpg.*/g, "")
             .replace(/\/images.*images\//g, "")}.jpg`;
+          attrs["src"] === undefined;
           return (
             <div className="img-container">
-              <img {...attrs} />
+              <img {...attrs} src={src} />
             </div>
           );
         }

@@ -1,4 +1,8 @@
-@import '../oith-styles/src/lib.scss';
+@import "../oith-styles/src/lib.scss";
+[id*="pes-"] {
+  text-align: right;
+  direction: rtl;
+}
 // .verse-number {
 //   font-weight: bold;
 // }
