@@ -9,10 +9,10 @@ export function scrollIntoView(chapter?: Chapter) {
     // first(),
     filter(o => o !== undefined),
     map(c => {
-      console.log(c);
+      console.log(store.history);
 
       // console.log(document.querySelector(".highlight,.context"));
-      if (c && c.params && c.params.highlight && !store.history) {
+      if (c && c.params && c.params.highlight && !c.history) {
         return of(document.querySelector(".highlight,.context")).pipe(
           filter(o => o !== null),
           map(o => o.scrollIntoView())

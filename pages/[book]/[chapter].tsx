@@ -93,12 +93,16 @@ class OithParent extends Component<{ chapter: Chapter }> {
 const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
   return <OithParent chapter={chapter}></OithParent>;
 };
-ChapterParent.getInitialProps = async ({ query }) => {
+ChapterParent.getInitialProps = async ({ query, req, res }) => {
   const params = parseChapterParams(query);
   const data = await axios.get(
     `/scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
     { proxy: { port: 3000, host: "127.0.0.1" } }
   );
+
+  console.log(query);
+  console.log("req");
+
   const chapter = data.data as Chapter;
   chapter.params = params;
 
@@ -115,7 +119,6 @@ ChapterParent.getInitialProps = async ({ query }) => {
       `${params.lang}-${params.book}-${params.chapter}-chapter`
     );
     // console.log(checkHistory);
-
     store.chapter.next(checkHistory ? checkHistory : chapter);
     store.history = true;
   } else return { chapter };

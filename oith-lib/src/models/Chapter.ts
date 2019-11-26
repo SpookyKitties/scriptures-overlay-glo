@@ -84,6 +84,7 @@ export class Chapter extends Doc {
   params: import('c:/users/jared/source/repos/scriptures-overlay/oith-lib/src/shells/build-shells').ChapterParams;
   chapterTop: number;
   verseNotesTop: number;
+  history: any;
   // public verses: Verse[];
   public constructor(
     id: string,

@@ -19,6 +19,7 @@ export class Store {
 
   public addToHistory(chapter?: Chapter) {
     if (chapter) {
+      chapter.history = true;
       chapter.chapterTop = this.getScrollTop(".chapter-loader");
       chapter.verseNotesTop = this.getScrollTop(".verse-notes");
       this.chapterHistory = this.chapterHistory
