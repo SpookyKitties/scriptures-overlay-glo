@@ -99,6 +99,7 @@ ChapterParent.getInitialProps = async ({ query }) => {
     { proxy: { port: 3000, host: "127.0.0.1" } }
   );
   const chapter = data.data as Chapter;
+  chapter.params = params;
 
   const b = await addVersesToBody(chapter)
     .pipe(
@@ -107,7 +108,6 @@ ChapterParent.getInitialProps = async ({ query }) => {
     )
     .toPromise();
   if (store) {
-    console.log("jjjj");
     store.chapter.next(chapter);
   } else return { chapter };
 };

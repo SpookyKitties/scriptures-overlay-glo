@@ -12,7 +12,7 @@ import { VideoComponent } from "./VideoComponent";
 import Head from "next/head";
 import { VerseComponent } from "./verse.component";
 import { forkJoin, of } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { filter, map, take, flatMap } from "rxjs/operators";
 import { appSettings, store } from "./header.component";
 import Link from "next/link";
 
@@ -287,23 +287,37 @@ export class ChapterComponent extends Component {
     store.chapter
       .pipe(
         map(c => {
-          console.log(c);
           this.setState({ chapter: undefined });
           this.setState({ chapter: c });
         })
       )
       .subscribe(() => {
-        forkJoin(
-          of(document.querySelector(".highlight,.context")).pipe(
-            filter(o => o !== null),
-            map(o => o.scrollIntoView())
+        store.chapter
+          .pipe(
+            take(1),
+            map(c => {
+              console.log(c);
+              if (c && c.params && c.params.highlight) {
+                // console.log(c.params);
+                return of(document.querySelector(".highlight,.context")).pipe(
+                  filter(o => o !== null),
+                  map(o => o.scrollIntoView())
+                );
+              }
+              return of(document.querySelector(".chapter-loader")).pipe(
+                filter(o => o !== null),
+                map(o => {
+                  o.scrollTop = 0;
+                })
+              );
+              // .subscribe();
+            }),
+            flatMap(o => o)
           )
-        ).subscribe();
+          .subscribe();
       });
   }
-  componentDidUpdate() {
-    console.log("hhhyy");
-  }
+  componentDidUpdate() {}
   /**
    * render
    */

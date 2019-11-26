@@ -93,9 +93,6 @@ export class HeaderComponent extends Component {
     appSettings = new AppSettings();
     store = new Store();
   }
-  public componentWillMount() {
-    // appSettings = new AppSettings();
-  }
   public showNotes() {
     appSettings.displayNotes();
     // appSettings.settings.displayNotes = !appSettings.settings.displayNotes;
