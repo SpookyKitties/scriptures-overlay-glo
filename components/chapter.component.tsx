@@ -16,7 +16,6 @@ import { filter, map, flatMap, delay } from "rxjs/operators";
 import { appSettings, store } from "./header.component";
 import Link from "next/link";
 import { scrollIntoView } from "./scrollIntoView";
-import { gotoLink } from "./gotoLink";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -193,20 +192,19 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
               </span>
             );
           } else if (href && href.includes("churchofjesuschrist")) {
-            return <a href={href}>{renderFormatGroups(formatGroup.grps)}</a>;
+            return (
+              <a href={href} target={"_blank"}>
+                {renderFormatGroups(formatGroup.grps)}
+              </a>
+            );
           }
 
           return (
-            <a
-              className="valid-href"
-              onClick={event => {
-                gotoLink(event, href);
-              }}
-            >
-              {renderFormatGroups(formatGroup.grps)}
-            </a>
-            // <Link as={`${href}`} href="/[book]/[chapter]">
-            // </Link>
+            <Link as={`${href}`} href="/[book]/[chapter]">
+              <a className="valid-href">
+                {renderFormatGroups(formatGroup.grps)}
+              </a>
+            </Link>
           );
         }
         case "": {
