@@ -16,6 +16,7 @@ import { filter, map, flatMap, delay } from "rxjs/operators";
 import { appSettings, store } from "./header.component";
 import Link from "next/link";
 import { scrollIntoView } from "./scrollIntoView";
+import { gotoLink } from "./gotoLink";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -196,11 +197,16 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           }
 
           return (
-            <Link as={`${href}`} href="/[book]/[chapter]">
-              <a className="valid-href">
-                {renderFormatGroups(formatGroup.grps)}
-              </a>
-            </Link>
+            <a
+              className="valid-href"
+              onClick={event => {
+                gotoLink(event, href);
+              }}
+            >
+              {renderFormatGroups(formatGroup.grps)}
+            </a>
+            // <Link as={`${href}`} href="/[book]/[chapter]">
+            // </Link>
           );
         }
         case "": {
@@ -289,8 +295,6 @@ export class ChapterComponent extends Component {
       .pipe(
         filter(o => o !== undefined),
         map(c => {
-          console.log(c);
-
           this.setState({ chapter: undefined });
           this.setState({ chapter: c });
           return c;
@@ -299,9 +303,7 @@ export class ChapterComponent extends Component {
         map(c => scrollIntoView(c)),
         flatMap(o => o)
       )
-      .subscribe(() => {
-        console.log("jhhh");
-      });
+      .subscribe(() => {});
   }
   componentDidUpdate() {}
   /**

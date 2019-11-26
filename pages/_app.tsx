@@ -29,7 +29,6 @@ export class Store {
   }
 
   public checkHistory(id: string) {
-    console.log(id);
     if (this.history) {
       return this.chapterHistory.find(c => c.id === id);
     }
@@ -58,7 +57,6 @@ class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props;
-    console.log(appSettings);
     return (
       <Layout>
         <div className="oiajsdfoiajsdfoijasdfoij">

@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, MouseEvent } from "react";
 import {
   VerseNote,
   VerseNoteGroup
@@ -7,8 +7,7 @@ import { Chapter } from "../oith-lib/src/models/Chapter";
 import { fromEvent } from "rxjs";
 import { map, filter } from "rxjs/operators";
 import { useRouter } from "next/router";
-import Router from "next/router";
-import { store } from "./header.component";
+import { gotoLink } from "./gotoLink";
 
 type VNProps = {
   chapter?: Chapter;
@@ -18,9 +17,7 @@ function createMarkup(txt: string) {
   return { __html: txt };
 }
 
-function noteClick(event: MouseEvent) {
-  console.log(event);
-}
+function noteClick(event: MouseEvent) {}
 
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
@@ -31,16 +28,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
           <div
             className="note"
             onClick={event => {
-              event.preventDefault();
-              const href = (event.target as HTMLAnchorElement).href;
-              // console.log(href.split('/').pop());
-
-              if (href) {
-                const url = /(^.+)(\/.+\/.+)/g.exec(href);
-                Router.push("/[book]/[chapter]", url[2]);
-                store.history = false;
-                //<Link as={`${href}?lang=jpn`} href="/[book]/[chapter]?lang=jpn">
-              }
+              gotoLink(event);
             }}
           >
             {note.ref.map(ref => {

@@ -93,15 +93,12 @@ class OithParent extends Component<{ chapter: Chapter }> {
 const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
   return <OithParent chapter={chapter}></OithParent>;
 };
-ChapterParent.getInitialProps = async ({ query, req, res }) => {
+ChapterParent.getInitialProps = async ({ query }) => {
   const params = parseChapterParams(query);
   const data = await axios.get(
     `/scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
     { proxy: { port: 3000, host: "127.0.0.1" } }
   );
-
-  console.log(query);
-  console.log("req");
 
   const chapter = data.data as Chapter;
   chapter.params = params;
