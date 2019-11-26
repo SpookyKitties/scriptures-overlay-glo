@@ -1,11 +1,17 @@
 import { of } from "rxjs";
-import { filter, map, take, flatMap } from "rxjs/operators";
+import { filter, map, take, flatMap, takeLast, first } from "rxjs/operators";
 import { store } from "./header.component";
-export function scrollIntoView() {
-  return store.chapter.pipe(
-    take(1),
+import { Chapter } from "../oith-lib/src/models/Chapter";
+export function scrollIntoView(chapter?: Chapter) {
+  // console.log(store);
+  const c$ = chapter ? of(chapter) : store.chapter.pipe(first());
+  return c$.pipe(
+    // first(),
+    filter(o => o !== undefined),
     map(c => {
       console.log(c);
+
+      // console.log(document.querySelector(".highlight,.context"));
       if (c && c.params && c.params.highlight && !store.history) {
         return of(document.querySelector(".highlight,.context")).pipe(
           filter(o => o !== null),
