@@ -11,8 +11,9 @@ import {
   parseChapterParams
 } from "../../oith-lib/src/shells/build-shells";
 import { Component } from "react";
-import { appSettings } from "../../components/header.component";
+import { appSettings, store } from "../../components/header.component";
 import { forkJoin } from "rxjs";
+// import { store } from "../_app";
 
 export type ImgAttr = {
   src: string;
@@ -48,10 +49,23 @@ class OithParent extends Component<{ chapter: Chapter }> {
     appSettings.notesMode$.subscribe(o => {
       this.setState({ notesMode: o ? o : "off" });
     });
+    console.log(this.props);
+
+    store.chapter.subscribe(chapter => {
+      console.log(chapter);
+
+      this.setState({ chapter: chapter });
+    });
   }
 
   render() {
     const chapter = this.props.chapter;
+
+    if (store) {
+      // store.chapter.next(this.props.chapter);
+    } else {
+      this.setState({ chapter: chapter });
+    }
     return (
       <div
         className={`oith-content-parent ${
@@ -60,10 +74,16 @@ class OithParent extends Component<{ chapter: Chapter }> {
       >
         <nav></nav>
         <div className={`chapter-loader `} onScroll={scroll}>
-          <ChapterComponent chapter={chapter}></ChapterComponent>
+          <ChapterComponent></ChapterComponent>
           <div className="white-space"></div>
         </div>
-        <VerseNotesShellComponent chapter={chapter}></VerseNotesShellComponent>
+        <VerseNotesShellComponent
+          chapter={
+            this.state && this.state["chapter"]
+              ? this.state["chapter"]
+              : undefined
+          }
+        ></VerseNotesShellComponent>
       </div>
     );
   }
@@ -86,8 +106,10 @@ ChapterParent.getInitialProps = async ({ query }) => {
       flatMap(o => o)
     )
     .toPromise();
-
-  return { chapter };
+  if (store) {
+    console.log("jjjj");
+    store.chapter.next(chapter);
+  } else return { chapter };
 };
 
 export default ChapterParent;

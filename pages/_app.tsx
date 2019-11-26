@@ -2,6 +2,12 @@ import React from "react";
 import App from "next/app";
 import Layout from "../components/layout";
 import { appSettings } from "../components/header.component";
+import { BehaviorSubject } from "rxjs";
+import { Chapter } from "../oith-lib/src/models/Chapter";
+
+export class Store {
+  public chapter = new BehaviorSubject<Chapter>(undefined);
+}
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -15,6 +21,12 @@ class MyApp extends App {
   //
   //   return { ...appProps }
   // }
+  componentDidMount() {
+    // store = new Store();
+    // store.chapter.subscribe(c => {
+    //   console.log(c);
+    // });
+  }
 
   render() {
     const { Component, pageProps } = this.props;

@@ -13,7 +13,7 @@ import Head from "next/head";
 import { VerseComponent } from "./verse.component";
 import { forkJoin, of } from "rxjs";
 import { filter, map } from "rxjs/operators";
-import { appSettings } from "./header.component";
+import { appSettings, store } from "./header.component";
 import Link from "next/link";
 
 type ChapterProps = {
@@ -195,7 +195,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           }
 
           return (
-            <Link as={`${href}?lang=jpn`} href="/[book]/[chapter]?lang=jpn">
+            <Link as={`${href}`} href="/[book]/[chapter]">
               <a className="valid-href">
                 {renderFormatGroups(formatGroup.grps)}
               </a>
@@ -274,7 +274,8 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   }
 }
 
-export class ChapterComponent extends Component<ChapterProps> {
+export class ChapterComponent extends Component {
+  public state: { chapter: Chapter };
   componentDidMount() {
     forkJoin(
       of(document.querySelector(".highlight,.context")).pipe(
@@ -282,54 +283,68 @@ export class ChapterComponent extends Component<ChapterProps> {
         map(o => o.scrollIntoView())
       )
     ).subscribe();
+
+    store.chapter.subscribe(c => {
+      console.log(c);
+      this.setState({ chapter: undefined });
+      this.setState({ chapter: c });
+    });
   }
   /**
    * render
    */
   public render() {
     // const verses = this.props.chapter.verses;
-    return (
-      <div
-        className={`chapter-content ${
-          this.props.chapter && !this.props.chapter.id.includes("-come-foll")
-            ? " classic-scriptures"
-            : "manual"
-        }`}
-      >
-        <span className={"left-nav"}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z" />
-            <path fill="none" d="M0 0h24v24H0z" />
-          </svg>
-        </span>
+    // if (!this.props.chapter) {
+    //   return <div></div>;
+    // }
+    if (this.state && this.state.chapter) {
+      return (
         <div
-          id={this.props.chapter.id}
-          className="chapter"
-          style={chapterStyles}
+          className={`chapter-content ${
+            this.state &&
+            this.state.chapter &&
+            !this.state.chapter.id.includes("-come-foll")
+              ? " classic-scriptures"
+              : "manual"
+          }`}
         >
-          {/* <header>
-          <span className="title">{this.props.chapter.title}</span>
-          <span className="shortTitle">{this.props.chapter.shortTitle}</span>
-        </header> */}
-          {renderFormatGroups(this.props.chapter.body.grps)}
-        </div>
-        <span className={"right-nav"}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
+          <span className={"left-nav"}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M11.67 3.87L9.9 2.1 0 12l9.9 9.9 1.77-1.77L3.54 12z" />
+              <path fill="none" d="M0 0h24v24H0z" />
+            </svg>
+          </span>
+          <div
+            id={this.state.chapter.id}
+            className="chapter"
+            style={chapterStyles}
           >
-            <path d="M5.88 4.12L13.76 12l-7.88 7.88L8 22l10-10L8 2z" />
-            <path fill="none" d="M0 0h24v24H0z" />
-          </svg>
-        </span>
-      </div>
-    );
+            {/* <header>
+            <span className="title">{this.props.chapter.title}</span>
+            <span className="shortTitle">{this.props.chapter.shortTitle}</span>
+          </header> */}
+            {renderFormatGroups(this.state.chapter.body.grps)}
+          </div>
+          <span className={"right-nav"}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5.88 4.12L13.76 12l-7.88 7.88L8 22l10-10L8 2z" />
+              <path fill="none" d="M0 0h24v24H0z" />
+            </svg>
+          </span>
+        </div>
+      );
+    }
+    return <div></div>;
   }
 }

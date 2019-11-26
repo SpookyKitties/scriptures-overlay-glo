@@ -9,6 +9,7 @@ import { tap } from "rxjs/operators";
 import { Chapter } from "../oith-lib/src/models/Chapter";
 import { Subject, BehaviorSubject } from "rxjs";
 import { settings } from "cluster";
+import { Store } from "../pages/_app";
 export class Settings {
   public textSize = 18;
   public notePaneWidth = 300;
@@ -81,6 +82,7 @@ export class AppSettings {
 }
 
 export let appSettings: AppSettings; // = new AppSettings();
+export let store: Store;
 
 type HProps = {
   chapter: Chapter | undefined;
@@ -89,6 +91,7 @@ type HProps = {
 export class HeaderComponent extends Component {
   public componentDidMount() {
     appSettings = new AppSettings();
+    store = new Store();
   }
   public componentWillMount() {
     // appSettings = new AppSettings();
