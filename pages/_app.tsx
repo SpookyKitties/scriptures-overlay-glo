@@ -6,7 +6,34 @@ import { BehaviorSubject } from "rxjs";
 import { Chapter } from "../oith-lib/src/models/Chapter";
 
 export class Store {
+  public chapterHistory: Chapter[] = [];
   public chapter = new BehaviorSubject<Chapter>(undefined);
+  history: boolean;
+
+  public constructor() {}
+
+  private getScrollTop(selector: string) {
+    const chapterLoadElement = document.querySelector(selector);
+    return chapterLoadElement ? chapterLoadElement.scrollTop : 0;
+  }
+
+  public addToHistory(chapter?: Chapter) {
+    if (chapter) {
+      chapter.chapterTop = this.getScrollTop(".chapter-loader");
+      chapter.verseNotesTop = this.getScrollTop(".verse-notes");
+      this.chapterHistory = this.chapterHistory
+        .filter(o => o.id !== chapter.id)
+        .concat([chapter]);
+    }
+  }
+
+  public checkHistory(id: string) {
+    console.log(id);
+    if (this.history) {
+      return this.chapterHistory.find(c => c.id === id);
+    }
+    return undefined;
+  }
 }
 
 class MyApp extends App {

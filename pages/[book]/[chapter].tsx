@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NextPage } from "next";
-import { flatMap, map } from "rxjs/operators";
+import { flatMap, map, take } from "rxjs/operators";
 import { ChapterComponent } from "../../components/chapter.component";
 import Layout from "../../components/layout";
 import { VerseNotesShellComponent } from "../../components/verse-notes-shell";
@@ -12,9 +12,9 @@ import {
 } from "../../oith-lib/src/shells/build-shells";
 import { Component } from "react";
 import { appSettings, store } from "../../components/header.component";
-import { forkJoin } from "rxjs";
+import { forkJoin, fromEvent } from "rxjs";
 // import { store } from "../_app";
-
+import Router from "next/router";
 export type ImgAttr = {
   src: string;
   alt: string;
@@ -51,6 +51,7 @@ class OithParent extends Component<{ chapter: Chapter }> {
     });
     // console.log(this.props);
     store.chapter.next(this.props.chapter);
+
     store.chapter.subscribe(chapter => {
       // console.log(chapter);
 
@@ -108,7 +109,15 @@ ChapterParent.getInitialProps = async ({ query }) => {
     )
     .toPromise();
   if (store) {
-    store.chapter.next(chapter);
+    store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
+
+    const checkHistory = store.checkHistory(
+      `${params.lang}-${params.book}-${params.chapter}-chapter`
+    );
+    // console.log(checkHistory);
+
+    store.chapter.next(checkHistory ? checkHistory : chapter);
+    store.history = true;
   } else return { chapter };
 };
 

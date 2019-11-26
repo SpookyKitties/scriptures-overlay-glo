@@ -12,9 +12,10 @@ import { VideoComponent } from "./VideoComponent";
 import Head from "next/head";
 import { VerseComponent } from "./verse.component";
 import { forkJoin, of } from "rxjs";
-import { filter, map, take, flatMap } from "rxjs/operators";
+import { filter, map, flatMap } from "rxjs/operators";
 import { appSettings, store } from "./header.component";
 import Link from "next/link";
+import { scrollIntoView } from "./scrollIntoView";
 
 type ChapterProps = {
   chapter: Chapter;
@@ -277,45 +278,23 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
   componentDidMount() {
-    forkJoin(
-      of(document.querySelector(".highlight,.context")).pipe(
-        filter(o => o !== null),
-        map(o => o.scrollIntoView())
-      )
-    ).subscribe();
+    // forkJoin(
+    //   of(document.querySelector(".highlight,.context")).pipe(
+    //     filter(o => o !== null),
+    //     map(o => o.scrollIntoView())
+    //   )
+    // ).subscribe();
 
     store.chapter
       .pipe(
         map(c => {
           this.setState({ chapter: undefined });
           this.setState({ chapter: c });
-        })
+        }),
+        map(() => scrollIntoView()),
+        flatMap(o => o)
       )
-      .subscribe(() => {
-        store.chapter
-          .pipe(
-            take(1),
-            map(c => {
-              console.log(c);
-              if (c && c.params && c.params.highlight) {
-                // console.log(c.params);
-                return of(document.querySelector(".highlight,.context")).pipe(
-                  filter(o => o !== null),
-                  map(o => o.scrollIntoView())
-                );
-              }
-              return of(document.querySelector(".chapter-loader")).pipe(
-                filter(o => o !== null),
-                map(o => {
-                  o.scrollTop = 0;
-                })
-              );
-              // .subscribe();
-            }),
-            flatMap(o => o)
-          )
-          .subscribe();
-      });
+      .subscribe(() => {});
   }
   componentDidUpdate() {}
   /**

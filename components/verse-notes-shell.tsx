@@ -8,6 +8,7 @@ import { fromEvent } from "rxjs";
 import { map, filter } from "rxjs/operators";
 import { useRouter } from "next/router";
 import Router from "next/router";
+import { store } from "./header.component";
 
 type VNProps = {
   chapter?: Chapter;
@@ -37,7 +38,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
               if (href) {
                 const url = /(^.+)(\/.+\/.+)/g.exec(href);
                 Router.push("/[book]/[chapter]", url[2]);
-
+                store.history = false;
                 //<Link as={`${href}?lang=jpn`} href="/[book]/[chapter]?lang=jpn">
               }
             }}
