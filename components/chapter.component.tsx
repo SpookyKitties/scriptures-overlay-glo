@@ -284,11 +284,25 @@ export class ChapterComponent extends Component {
       )
     ).subscribe();
 
-    store.chapter.subscribe(c => {
-      console.log(c);
-      this.setState({ chapter: undefined });
-      this.setState({ chapter: c });
-    });
+    store.chapter
+      .pipe(
+        map(c => {
+          console.log(c);
+          this.setState({ chapter: undefined });
+          this.setState({ chapter: c });
+        })
+      )
+      .subscribe(() => {
+        forkJoin(
+          of(document.querySelector(".highlight,.context")).pipe(
+            filter(o => o !== null),
+            map(o => o.scrollIntoView())
+          )
+        ).subscribe();
+      });
+  }
+  componentDidUpdate() {
+    console.log("hhhyy");
   }
   /**
    * render

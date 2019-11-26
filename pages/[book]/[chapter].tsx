@@ -49,10 +49,10 @@ class OithParent extends Component<{ chapter: Chapter }> {
     appSettings.notesMode$.subscribe(o => {
       this.setState({ notesMode: o ? o : "off" });
     });
-    console.log(this.props);
-
+    // console.log(this.props);
+    store.chapter.next(this.props.chapter);
     store.chapter.subscribe(chapter => {
-      console.log(chapter);
+      // console.log(chapter);
 
       this.setState({ chapter: chapter });
     });
