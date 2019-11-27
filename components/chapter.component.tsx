@@ -277,6 +277,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
       );
     }
   }
+  return <></>;
 }
 
 export class ChapterComponent extends Component {

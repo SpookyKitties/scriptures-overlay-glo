@@ -5,11 +5,14 @@ import {
   NoteTypes,
   NoteCategories
 } from "../oith-lib/src/verse-notes/settings/note-gorup-settings";
-import { tap } from "rxjs/operators";
+import { tap, flatMap, catchError } from "rxjs/operators";
 import { Chapter } from "../oith-lib/src/models/Chapter";
-import { Subject, BehaviorSubject } from "rxjs";
+import { Subject, BehaviorSubject, of, forkJoin } from "rxjs";
 import { settings } from "cluster";
 import { Store } from "../pages/_app";
+import axios from "axios";
+import { flatMap$ } from "../oith-lib/src/rx/flatMap$";
+import { resetNotes$ } from "./resetNotes";
 export class Settings {
   public textSize = 18;
   public notePaneWidth = 300;
@@ -35,6 +38,49 @@ export class AppSettings {
   public noteCategories?: NoteCategories;
   constructor() {
     const settingsS = localStorage.getItem("scriptures-overlay-settings");
+    this.settings = settingsS ? JSON.parse(settingsS) : new Settings();
+    this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
+    this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
+    this.loadNoteSettings();
+  }
+
+  private async getNoteTypeSettings<T extends keyof AppSettings>(
+    key: T,
+    fileName: "note-settings" | "note-categories" | "note-types"
+  ) {
+    if (!this[key]) {
+      const lang = this.settings.lang;
+      console.log(`${lang}-${fileName}`);
+      try {
+        const data = await axios.get(
+          `/scripture_files/${lang}-${fileName}.json`,
+          {
+            responseType: "json"
+          }
+        );
+        console.log(data);
+
+        this[key] = data.data;
+        // console.log(data);
+        this.save(key);
+      } catch (error) {
+        console.log(error);
+      }
+      // of(axios.get(`${lang}-${fileName}`, { responseType: "json" }))
+      //   .pipe(
+      //     flatMap$,
+      //     map(o => console.log(o)),
+      //     catchError(o => {
+      //       console.log(o);
+
+      //       return [];
+      //     })
+      //   )
+      //   .subscribe();
+    }
+  }
+
+  public loadNoteSettings() {
     const noteSettingsS = localStorage.getItem(
       "scriptures-overlay-noteSettings"
     );
@@ -42,18 +88,20 @@ export class AppSettings {
     const noteCategoriesS = localStorage.getItem(
       "scriptures-overlay-noteCategories"
     );
-
-    this.settings = settingsS ? JSON.parse(settingsS) : new Settings();
-
     this.noteSettings = noteSettingsS ? JSON.parse(noteSettingsS) : undefined;
     this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
     this.noteCategories = noteCategoriesS
       ? JSON.parse(noteCategoriesS)
       : undefined;
-
-    this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
-    this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
+    forkJoin(
+      of(this.getNoteTypeSettings("noteSettings", "note-settings")),
+      of(this.getNoteTypeSettings("noteCategories", "note-categories")),
+      of(this.getNoteTypeSettings("noteTypes", "note-types"))
+    )
+      .pipe(flatMap(o => o))
+      .subscribe();
   }
+
   public displayNav() {
     this.settings.displayNav = !this.settings.displayNav;
     this.displayNav$.next(this.settings.displayNav);
@@ -92,6 +140,8 @@ export class HeaderComponent extends Component {
   public componentDidMount() {
     appSettings = new AppSettings();
     store = new Store();
+    resetNotes$();
+    // appSettings.loadNoteSettings();
   }
   public showNotes() {
     appSettings.displayNotes();

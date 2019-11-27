@@ -46,16 +46,12 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
     this.setState({ text: this.props.formatMerged.text });
     this.setState({ formatMerged: this.props.formatMerged });
 
-    this.setState({
-      classList: `${calcClassList(this.props.formatMerged)} f-t`
-    });
     store.updateFTags$
       .pipe(
         map(() => {
           this.setState({
             classList: `${calcClassList(this.props.formatMerged)} f-t`
           });
-          console.log(calcClassList(this.props.formatMerged));
         })
       )
       .subscribe();

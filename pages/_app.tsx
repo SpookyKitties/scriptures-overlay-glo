@@ -11,6 +11,7 @@ export class Store {
   public chapterHistory: Chapter[] = [];
   public chapter = new BehaviorSubject<Chapter>(undefined);
   public updateFTags$ = new BehaviorSubject<boolean>(true);
+  public resetNotes$ = new BehaviorSubject(undefined);
   history: boolean;
   public title$ = new BehaviorSubject<string>("Library");
 
