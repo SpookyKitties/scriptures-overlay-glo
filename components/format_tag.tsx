@@ -1,8 +1,31 @@
 import { Component, CSSProperties } from "react";
 import { FormatMerged } from "../oith-lib/src/models/Chapter";
+import { store } from "./header.component";
+import { map } from "rxjs/operators";
+
+export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
+  return state ? state[key] : "";
+}
+
+export function calcClassList(formatMerged: FormatMerged) {
+  const fts = formatMerged.formatTags.filter(f => {
+    return [55, 56].includes(f.fType) && f.visible;
+  });
+  const all = fts.find(
+    ft =>
+      ft.offsets === "all" ||
+      (ft.uncompressedOffsets && ft.uncompressedOffsets.includes(0))
+  )
+    ? "all"
+    : "";
+
+  const refCount =
+    fts.length > 0 ? (fts.length > 1 ? "ref-double" : "ref-single") : "";
+  return `${all} ${refCount}`;
+}
 
 export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
-  public state: { formatMerged: FormatMerged };
+  public state: { formatMerged: FormatMerged; classList: string; text: string };
 
   public style: CSSProperties = {
     backgroundColor: "inherit"
@@ -10,7 +33,7 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
   public className = "";
   constructor(props) {
     super(props);
-    this.state = { formatMerged: this.props.formatMerged };
+    // this.state = { formatMerged: this.props.formatMerged };
     const fm = this.props.formatMerged;
 
     fm.all = fm.formatTags.find(f => f.offsets === "all") !== null;
@@ -19,10 +42,28 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
     }
   }
 
+  componentDidMount() {
+    this.setState({ text: this.props.formatMerged.text });
+    this.setState({ formatMerged: this.props.formatMerged });
+
+    this.setState({
+      classList: `${calcClassList(this.props.formatMerged)} f-t`
+    });
+    store.updateFTags$
+      .pipe(
+        map(() => {
+          this.setState({
+            classList: `${calcClassList(this.props.formatMerged)} f-t`
+          });
+          console.log(calcClassList(this.props.formatMerged));
+        })
+      )
+      .subscribe();
+  }
+
   public click(fm: FormatMerged) {
     // this.style = { backgroundColor: "black" };
     this.setState({ style: this.style });
-
     // this.state.formatMerged.text = "lkasdf";
     // this.setState((state, props) => {
     //
@@ -31,11 +72,11 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
   public render() {
     return (
       <span
-        className={this.className}
+        className={`${displayStateKey(this.state, "classList")}`}
         style={this.style}
         onClick={() => this.click(this.state.formatMerged)}
       >
-        {this.state.formatMerged.text}
+        {displayStateKey(this.state, "text")}
       </span>
     );
   }

@@ -103,6 +103,7 @@ export class HeaderComponent extends Component {
     appSettings.settings.displayNav = !appSettings.settings.displayNav;
     appSettings.displayNav$.next(appSettings.settings.displayNav);
     appSettings.save("settings");
+    store.updateFTags$.next(true);
   }
   public render() {
     return (

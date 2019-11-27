@@ -2,7 +2,7 @@ import React from "react";
 import App from "next/app";
 import Layout from "../components/layout";
 import { appSettings, store } from "../components/header.component";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { Chapter } from "../oith-lib/src/models/Chapter";
 import { filter, map } from "rxjs/operators";
 import Helmet from "react-helmet";
@@ -10,6 +10,7 @@ import Helmet from "react-helmet";
 export class Store {
   public chapterHistory: Chapter[] = [];
   public chapter = new BehaviorSubject<Chapter>(undefined);
+  public updateFTags$ = new BehaviorSubject<boolean>(true);
   history: boolean;
   public title$ = new BehaviorSubject<string>("Library");
 
