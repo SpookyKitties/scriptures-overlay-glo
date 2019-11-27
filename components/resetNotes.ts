@@ -1,4 +1,4 @@
-import { map, filter } from "rxjs/operators";
+import { map, filter, take, flatMap } from "rxjs/operators";
 import { store, appSettings } from "./header.component";
 import { Chapter } from "../oith-lib/src/models/Chapter";
 function resetNotes(
@@ -30,6 +30,21 @@ export function resetNotes$() {
       filter(o => o !== undefined),
       map(chapter => {
         resetNotes(chapter);
+      })
+    )
+    .subscribe();
+
+  store.resetNotes$
+    .pipe(
+      map(() => store.chapter.pipe(take(1))),
+
+      flatMap(o => o),
+      filter(o => o !== undefined),
+      map(chapter => {
+        // resetNotes(chapter);
+        console.log(chapter);
+
+        chapter.verseNotes.map(v => (v.vis = true));
       })
     )
     .subscribe();

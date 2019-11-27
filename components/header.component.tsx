@@ -154,6 +154,7 @@ export class HeaderComponent extends Component {
     appSettings.displayNav$.next(appSettings.settings.displayNav);
     appSettings.save("settings");
     store.updateFTags$.next(true);
+    store.resetNotes$.next(undefined);
   }
   public render() {
     return (

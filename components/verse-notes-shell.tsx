@@ -52,7 +52,10 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
 function renderVerseNote(verseNote: VerseNote) {
   if (verseNote.noteGroups) {
     return (
-      <div className="verse-note" id={verseNote.id}>
+      <div
+        className={`verse-note ${verseNote.vis ? "" : "none"}`}
+        id={verseNote.id}
+      >
         <p className="short-title">{generateShortTitle(verseNote)}</p>
         {verseNote.noteGroups.map(noteGroup => renderNoteGroup(noteGroup))}
       </div>
