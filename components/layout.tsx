@@ -3,7 +3,7 @@ import { NavbarComponents, NavbarProps } from "./navbar.component";
 import { CSSProperties } from "react";
 import Head from "next/head";
 import "../styles/styles.scss";
-import { HeaderComponent } from "./header.component";
+import { HeaderComponent, store } from "./header.component";
 import Helmet from "react-helmet";
 // import { oithMain } from "../styles/typed/chapter-layout";
 const oithContentStyles: CSSProperties = {
@@ -26,7 +26,7 @@ const Layout: React.FunctionComponent = ({
       </Head> */}
       <Helmet>
         <html lang="en" />
-        {/* <title>{title}</title> */}
+        {/* <title>{store ? store.title$.toPromise() : "hhh"}</title> */}
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${"UA-153000658-1"}`}

@@ -1,20 +1,33 @@
 import React from "react";
 import App from "next/app";
 import Layout from "../components/layout";
-import { appSettings } from "../components/header.component";
+import { appSettings, store } from "../components/header.component";
 import { BehaviorSubject } from "rxjs";
 import { Chapter } from "../oith-lib/src/models/Chapter";
+import { filter, map } from "rxjs/operators";
+import Helmet from "react-helmet";
 
 export class Store {
   public chapterHistory: Chapter[] = [];
   public chapter = new BehaviorSubject<Chapter>(undefined);
   history: boolean;
+  public title$ = new BehaviorSubject<string>("Library");
 
-  public constructor() {}
+  public constructor() {
+    this.setChapterTitle();
+  }
 
   private getScrollTop(selector: string) {
     const chapterLoadElement = document.querySelector(selector);
     return chapterLoadElement ? chapterLoadElement.scrollTop : 0;
+  }
+  private setChapterTitle() {
+    this.chapter
+      .pipe(
+        filter(o => o !== undefined),
+        map(c => this.title$.next(c.title))
+      )
+      .subscribe();
   }
 
   public addToHistory(chapter?: Chapter) {
@@ -49,6 +62,14 @@ class MyApp extends App {
   //   return { ...appProps }
   // }
   componentDidMount() {
+    if (store) {
+      // console.log(store);
+      store.title$.subscribe(title => {
+        console.log(title);
+
+        this.setState({ title: title });
+      });
+    }
     // store = new Store();
     // store.chapter.subscribe(c => {
     //   console.log(c);
@@ -59,9 +80,10 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Layout>
-        <div className="oiajsdfoiajsdfoijasdfoij">
-          <Component {...pageProps} />;
-        </div>
+        <Helmet>
+          <title>{this.state ? this.state["title"] : "z"}</title>
+        </Helmet>
+        <Component {...pageProps} />;
       </Layout>
     );
   }
