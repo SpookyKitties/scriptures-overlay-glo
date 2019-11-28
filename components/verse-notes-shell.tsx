@@ -2,6 +2,8 @@ import { Component, MouseEvent } from 'react';
 import {
   VerseNote,
   VerseNoteGroup,
+  Note,
+  NoteRef,
 } from '../oith-lib/src/verse-notes/verse-note';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { fromEvent } from 'rxjs';
@@ -19,6 +21,14 @@ function createMarkup(txt: string) {
 
 function noteClick(event: MouseEvent) {}
 
+function sortNotes(noteA: Note, noteB: Note) {
+  return noteA.noteType - noteB.noteType;
+}
+
+function sortNoteRefs(noteRefA: NoteRef, noteRefB: NoteRef) {
+  return noteRefA.category - noteRefB.category;
+}
+
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
     <div
@@ -27,32 +37,50 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
       }`}
     >
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>
-      {noteGroup.notes.map(note => {
-        return (
-          <div
-            className={`note ${note.formatTag.visible ? '' : 'none'}`}
-            onClick={event => {
-              gotoLink(event);
-            }}
-          >
-            {note.ref.map(ref => {
-              return (
-                <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
-                  <span className="ref-label">{ref.label}</span>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: ref.text.replace(/\#/g, ''),
-                    }}
-                  ></span>
-                </p>
-              );
-            })}
-          </div>
-        );
-      })}
+      {noteGroup.notes
+        .sort((a, b) => sortNotes(a, b))
+        .map(note => {
+          return (
+            <div
+              className={`note ${note.formatTag.visible ? '' : 'none'}`}
+              onClick={event => {
+                gotoLink(event);
+              }}
+            >
+              {note.ref
+                .sort((a, b) => sortNoteRefs(a, b))
+                .map(ref => {
+                  return (
+                    <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
+                      <span className="ref-label">{ref.label}</span>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: ref.text.replace(/\#/g, ''),
+                        }}
+                      ></span>
+                    </p>
+                  );
+                })}
+            </div>
+          );
+        })}
     </div>
   );
 }
+
+function sortVerseNoteGroups(
+  verseNoteGroupA: VerseNoteGroup,
+  verseNoteGroupB: VerseNoteGroup,
+) {
+  const getFirstOffset = (vng: VerseNoteGroup) => {
+    return vng.formatTag && vng.formatTag.uncompressedOffsets
+      ? vng.formatTag.uncompressedOffsets[0]
+      : 0;
+  };
+
+  return getFirstOffset(verseNoteGroupA) - getFirstOffset(verseNoteGroupB);
+}
+
 function renderVerseNote(verseNote: VerseNote) {
   if (verseNote.noteGroups) {
     return (
@@ -61,11 +89,13 @@ function renderVerseNote(verseNote: VerseNote) {
         id={verseNote.id}
       >
         <p className="short-title">{generateShortTitle(verseNote)}</p>
-        {verseNote.noteGroups.map(noteGroup => renderNoteGroup(noteGroup))}
+        {verseNote.noteGroups
+          .sort((a, b) => sortVerseNoteGroups(a, b))
+          .map(noteGroup => renderNoteGroup(noteGroup))}
       </div>
     );
   }
-  return;
+  return <></>;
 }
 
 export class VerseNotesShellComponent extends Component<VNProps> {
