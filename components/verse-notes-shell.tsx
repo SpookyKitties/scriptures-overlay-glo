@@ -19,8 +19,6 @@ function createMarkup(txt: string) {
   return { __html: txt };
 }
 
-function noteClick(event: MouseEvent) {}
-
 function sortNotes(noteA: Note, noteB: Note) {
   return noteA.noteType - noteB.noteType;
 }

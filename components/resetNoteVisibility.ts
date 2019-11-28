@@ -6,13 +6,16 @@ import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 function resetNoteCategories() {
   appSettings.noteCategories.noteCategories
     .filter(noteCategory => {
-      return !noteCategory.on
-        .map(on => appSettings.settings.vis[on] !== true)
-        .includes(false) && noteCategory.off
+      const off = noteCategory.off
         ? !noteCategory.off
-            .map(off => appSettings.settings.vis[off] === true)
+            .map(off => appSettings.settings.vis[off] !== true)
             .includes(true)
         : true;
+      const on = !noteCategory.on
+        .map(on => appSettings.settings.vis[on] === true)
+        .includes(false);
+
+      return on === true && off === true;
     })
     .map(c => {
       appSettings.settings.vis[`nc-${c.category}`] = true;
@@ -43,13 +46,11 @@ function resetNoteSettings() {
 export function resetNoteVisibilitySettings() {
   return of(resetNoteSettings()).pipe(
     map(() => {
-      return forkJoin(of(resetNoteCategories()), of(resetNoteTypes())).pipe();
+      return forkJoin(of(resetNoteCategories()), of(resetNoteTypes()));
     }),
     flatMap$,
     map(() => {
       appSettings.save('settings');
-
-      store.updateFTags$.next(true);
     }),
   );
 }

@@ -41,7 +41,9 @@ export function resetNotes$() {
         return resetNotes(chapter);
       }),
     )
-    .subscribe();
+    .subscribe(() => {
+      store.updateFTags$.next(true);
+    });
 
   store.resetNotes$
     .pipe(
@@ -64,5 +66,7 @@ export function resetNotes$() {
 
       flatMap(o => o),
     )
-    .subscribe();
+    .subscribe(() => {
+      store.updateFTags$.next(true);
+    });
 }

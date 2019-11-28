@@ -61,7 +61,16 @@ export class HeaderComponent extends Component {
         <div
           className="oith-header-item"
           style={noteSettingsMenuBtn}
-          onClick={() => {
+          onClick={evt => {
+            const noteSettingsMenu = document.querySelector(
+              '.note-settings-menu',
+            );
+            if (
+              noteSettingsMenu &&
+              noteSettingsMenu.contains(evt.target as HTMLElement)
+            ) {
+              return;
+            }
             this.setState({
               displayNoteSettings: this.state
                 ? !this.state.displayNoteSettings
