@@ -49,7 +49,6 @@ export function resetNoteVisibilitySettings() {
     map(() => {
       appSettings.save('settings');
 
-      store.resetNotes$.next(true);
       store.updateFTags$.next(true);
     }),
   );

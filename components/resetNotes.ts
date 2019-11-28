@@ -10,6 +10,8 @@ function resetNotes(
       const v = noteGroup.notes.map(note => {
         note.formatTag.visible =
           appSettings.settings.vis[`nt-${note.noteType}`] === true;
+        // console.log(appSettings.settings.vis[`nt-${note.noteType}`]);
+        // console.log(note.noteType);
 
         if (note.formatTag.visible) {
           const refVis = note.ref.map(
@@ -36,7 +38,7 @@ export function resetNotes$() {
       }),
       flatMap(o => o),
       map(chapter => {
-        resetNotes(chapter);
+        return resetNotes(chapter);
       }),
     )
     .subscribe();
@@ -48,6 +50,10 @@ export function resetNotes$() {
           take(1),
           filter(o => o !== undefined),
 
+          map(chapter => {
+            return resetNoteVisibilitySettings().pipe(map(() => chapter));
+          }),
+          flatMap(o => o),
           map(chapter => {
             // resetNotes(chapter);
 
