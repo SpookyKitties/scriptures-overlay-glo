@@ -125,6 +125,8 @@ ChapterParent.getInitialProps = async ({ query }) => {
   //   )
   //   .toPromise();
 
+  console.log(`${chapter}`);
+
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
 
@@ -134,13 +136,16 @@ ChapterParent.getInitialProps = async ({ query }) => {
     // console.log(checkHistory);
     // store.chapter.next(checkHistory ? checkHistory : chapter);
 
+    store.history = true;
     if (checkHistory) {
       console.log(checkHistory);
       store.chapter.next(checkHistory);
     } else {
       store.initChapter$.next(chapter);
     }
-    store.history = true;
+    return { chapter };
+
+    return;
   } else return { chapter };
 };
 
