@@ -1,6 +1,7 @@
 import { map, filter, take, flatMap } from 'rxjs/operators';
 import { store, appSettings } from './header.component';
 import { Chapter } from '../oith-lib/src/models/Chapter';
+import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 function resetNotes(
   chapter: Chapter, //import("c:/users/jared/source/repos/scriptures-overlay/oith-lib/src/models/Chapter").Chapter
 ) {
@@ -9,8 +10,6 @@ function resetNotes(
       const v = noteGroup.notes.map(note => {
         note.formatTag.visible =
           appSettings.settings.vis[`nt-${note.noteType}`] === true;
-        // console.log(appSettings.settings.vis[`nt-${note.noteType}`]);
-        // console.log(note.noteType);
 
         if (note.formatTag.visible) {
           const refVis = note.ref.map(
@@ -18,6 +17,7 @@ function resetNotes(
               (ref.vis =
                 appSettings.settings.vis[`nc-${ref.category}`] === true),
           );
+
           note.formatTag.visible = refVis.includes(true);
         }
         return note.formatTag.visible;
@@ -32,6 +32,10 @@ export function resetNotes$() {
     .pipe(
       filter(o => o !== undefined),
       map(chapter => {
+        return resetNoteVisibilitySettings().pipe(map(() => chapter));
+      }),
+      flatMap(o => o),
+      map(chapter => {
         resetNotes(chapter);
       }),
     )
@@ -43,9 +47,9 @@ export function resetNotes$() {
         store.chapter.pipe(
           take(1),
           filter(o => o !== undefined),
+
           map(chapter => {
             // resetNotes(chapter);
-            console.log(chapter);
 
             resetNotes(chapter);
           }),

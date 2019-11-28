@@ -1,6 +1,10 @@
 app-verse-notes,
 verse-notes,
 .verse-notes {
+  &.none,
+  .none {
+    display: none !important;
+  }
   display: block;
   background-color: #f7f8f8;
 

@@ -1,6 +1,6 @@
 import { appSettings, store } from './header.component';
 import { of, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, toArray } from 'rxjs/operators';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 
 function resetNoteCategories() {
@@ -14,7 +14,9 @@ function resetNoteCategories() {
             .includes(true)
         : true;
     })
-    .map(c => (appSettings.settings.vis[`nc-${c.category}`] = true));
+    .map(c => {
+      appSettings.settings.vis[`nc-${c.category}`] = true;
+    });
 }
 
 function resetNoteTypes() {
@@ -26,23 +28,28 @@ function resetNoteTypes() {
 }
 
 function resetNoteSettings() {
+  appSettings.settings.vis = undefined;
+  appSettings.settings.vis = {};
   appSettings.noteSettings.noteSettings
+
     .filter(g => g.enabled)
     .map(grp => {
-      grp.catOn
-        .concat(grp.overlays)
-        .map(o => (appSettings.settings.vis[o] = true));
+      grp.catOn.concat(grp.overlays).map(o => {
+        appSettings.settings.vis[o] = true;
+      });
     });
 }
 
 export function resetNoteVisibilitySettings() {
-  appSettings.settings.vis = {};
   return of(resetNoteSettings()).pipe(
-    map(() => forkJoin(of(resetNoteCategories()), of(resetNoteTypes())).pipe()),
+    map(() => {
+      return forkJoin(of(resetNoteCategories()), of(resetNoteTypes())).pipe();
+    }),
     flatMap$,
     map(() => {
-      console.log('asdiofjaoisdjfoiasjdasdfasdfweweqaafoij');
+      appSettings.save('settings');
 
+      store.resetNotes$.next(true);
       store.updateFTags$.next(true);
     }),
   );

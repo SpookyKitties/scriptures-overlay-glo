@@ -1,21 +1,21 @@
-import { useRouter } from "next/router";
-import { Component, CSSProperties, Fragment } from "react";
+import { useRouter } from 'next/router';
+import { Component, CSSProperties, Fragment } from 'react';
 import {
   Chapter,
   FormatGroup,
   VersePlaceholder,
   FormatText,
-  Verse
-} from "../oith-lib/src/models/Chapter";
-import { FormatTag } from "./format_tag";
-import { VideoComponent } from "./VideoComponent";
-import Head from "next/head";
-import { VerseComponent } from "./verse.component";
-import { forkJoin, of } from "rxjs";
-import { filter, map, flatMap, delay } from "rxjs/operators";
-import { appSettings, store } from "./header.component";
-import Link from "next/link";
-import { scrollIntoView } from "./scrollIntoView";
+  Verse,
+} from '../oith-lib/src/models/Chapter';
+import { FormatTag } from './format_tag';
+import { VideoComponent } from './VideoComponent';
+import Head from 'next/head';
+import { VerseComponent } from './verse.component';
+import { forkJoin, of } from 'rxjs';
+import { filter, map, flatMap, delay } from 'rxjs/operators';
+import { appSettings, store } from './header.component';
+import Link from 'next/link';
+import { scrollIntoView } from './scrollIntoView';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -32,7 +32,7 @@ const asdf: CSSProperties = {
 };
 
 export function renderFormatGroups(
-  grps?: (FormatGroup | VersePlaceholder | FormatText)[]
+  grps?: (FormatGroup | VersePlaceholder | FormatText)[],
 ): JSX.Element {
   if (grps) {
     return <Fragment>{grps.map(grp => renderFormatGroup(grp))}</Fragment>;
@@ -93,7 +93,7 @@ export function renderFormat(ft: FormatText) {
           return (
             <span
               onClick={() => {
-                fm.text = "aaa";
+                fm.text = 'aaa';
               }}
             >
               {fm.text}
@@ -108,8 +108,8 @@ export function renderFormat(ft: FormatText) {
 
 function normalizeAttrs(attrs?: {}) {
   if (attrs) {
-    attrs["className"] = attrs["class"];
-    attrs["class"] = undefined;
+    attrs['className'] = attrs['class'];
+    attrs['class'] = undefined;
   }
 }
 
@@ -123,10 +123,10 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
       // normalizeAttrs(attrs);
       const elementName = formatGroup.name
         ? formatGroup.name.toLowerCase()
-        : "";
+        : '';
       switch (elementName) {
-        case "body":
-        case "div": {
+        case 'body':
+        case 'div': {
           return (
             <div {...(attrs ? attrs : {})}>
               {renderFormatGroups(formatGroup.grps)}
@@ -134,7 +134,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
           break;
         }
-        case "header": {
+        case 'header': {
           return (
             <header {...(attrs ? attrs : {})}>
               {renderFormatGroups(formatGroup.grps)}
@@ -142,7 +142,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
           break;
         }
-        case "span": {
+        case 'span': {
           return (
             <span {...(attrs ? attrs : {})}>
               {renderFormatGroups(formatGroup.grps)}
@@ -150,7 +150,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
           break;
         }
-        case "small": {
+        case 'small': {
           return (
             <small {...(attrs ? attrs : {})}>
               {renderFormatGroups(formatGroup.grps)}
@@ -158,22 +158,22 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
           break;
         }
-        case "br": {
+        case 'br': {
           return <br />;
         }
-        case "img": {
-          attrs["alt"] = attrs["alt"];
-          const src = `/images/${`${attrs["src"]}`
-            .replace(/\.jpg.*/g, "")
-            .replace(/\/images.*images\//g, "")}.jpg`;
-          attrs["src"] === undefined;
+        case 'img': {
+          attrs['alt'] = attrs['alt'];
+          const src = `/images/${`${attrs['src']}`
+            .replace(/\.jpg.*/g, '')
+            .replace(/\/images.*images\//g, '')}.jpg`;
+          attrs['src'] === undefined;
           return (
             <div className="img-container">
               <img {...attrs} src={src} />
             </div>
           );
         }
-        case "video": {
+        case 'video': {
           return (
             <VideoComponent
               grp={grp as FormatGroup}
@@ -182,18 +182,18 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
           // return <video {...attrs} />;
         }
-        case "a": {
-          const href: string | undefined = formatGroup.attrs["href"];
-          if (!href || (href && href.includes("note"))) {
-            attrs["href"] = undefined;
+        case 'a': {
+          const href: string | undefined = formatGroup.attrs['href'];
+          if (!href || (href && href.includes('note'))) {
+            attrs['href'] = undefined;
             return (
               <span {...(attrs ? attrs : {})}>
                 {renderFormatGroups(formatGroup.grps)}
               </span>
             );
-          } else if (href && href.includes("churchofjesuschrist")) {
+          } else if (href && href.includes('churchofjesuschrist')) {
             return (
-              <a href={href} target={"_blank"}>
+              <a href={href} target={'_blank'}>
                 {renderFormatGroups(formatGroup.grps)}
               </a>
             );
@@ -207,46 +207,49 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
             </Link>
           );
         }
-        case "": {
+        case '': {
           return <Fragment>{renderFormatGroups(formatGroup.grps)}</Fragment>;
         }
-        case "cite": {
+        case 'u': {
+          return <u>{renderFormatGroups(formatGroup.grps)}</u>;
+        }
+        case 'cite': {
           return <cite>{renderFormatGroups(formatGroup.grps)}</cite>;
         }
-        case "strong": {
+        case 'strong': {
           return <strong>{renderFormatGroups(formatGroup.grps)}</strong>;
         }
-        case "em": {
+        case 'em': {
           return <em>{renderFormatGroups(formatGroup.grps)}</em>;
         }
-        case "nav": {
+        case 'nav': {
           return <nav>{renderFormatGroups(formatGroup.grps)}</nav>;
         }
-        case "i": {
+        case 'i': {
           return <i>{renderFormatGroups(formatGroup.grps)}</i>;
         }
-        case "ruby": {
+        case 'ruby': {
           return <ruby>{renderFormatGroups(formatGroup.grps)}</ruby>;
         }
-        case "rb": {
+        case 'rb': {
           return <Fragment>{renderFormatGroups(formatGroup.grps)}</Fragment>;
         }
-        case "rt": {
+        case 'rt': {
           return <rt>{renderFormatGroups(formatGroup.grps)}</rt>;
         }
-        case "figure": {
+        case 'figure': {
           return <figure>{renderFormatGroups(formatGroup.grps)}</figure>;
         }
-        case "ul": {
+        case 'ul': {
           return <ul>{renderFormatGroups(formatGroup.grps)}</ul>;
         }
-        case "li": {
+        case 'li': {
           return <li>{renderFormatGroups(formatGroup.grps)}</li>;
         }
-        case "section": {
+        case 'section': {
           return <section>{renderFormatGroups(formatGroup.grps)}</section>;
         }
-        case "figcaption": {
+        case 'figcaption': {
           return (
             <figcaption>{renderFormatGroups(formatGroup.grps)}</figcaption>
           );
@@ -300,7 +303,7 @@ export class ChapterComponent extends Component {
         }),
         delay(100),
         map(c => scrollIntoView(c)),
-        flatMap(o => o)
+        flatMap(o => o),
       )
       .subscribe(() => {});
   }
@@ -319,12 +322,12 @@ export class ChapterComponent extends Component {
           className={`chapter-content ${
             this.state &&
             this.state.chapter &&
-            !this.state.chapter.id.includes("-come-foll")
-              ? " classic-scriptures"
-              : "manual"
+            !this.state.chapter.id.includes('-come-foll')
+              ? ' classic-scriptures'
+              : 'manual'
           }`}
         >
-          <span className={"left-nav"}>
+          <span className={'left-nav'}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -346,7 +349,7 @@ export class ChapterComponent extends Component {
           </header> */}
             {renderFormatGroups(this.state.chapter.body.grps)}
           </div>
-          <span className={"right-nav"}>
+          <span className={'right-nav'}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
