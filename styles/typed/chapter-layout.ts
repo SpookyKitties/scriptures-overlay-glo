@@ -1,10 +1,10 @@
-import { style } from "typestyle";
-import { Settings } from "../../components/header.component";
+import { style } from 'typestyle';
+import { Settings } from '../../components/Settings';
 
 export const oithContentParent = style({
-  width: "calc(100vw - 250px)",
-  left: "250px",
-  position: "absolute"
+  width: 'calc(100vw - 250px)',
+  left: '250px',
+  position: 'absolute',
 });
 
 export function oithContentParent2(settings: Settings) {
