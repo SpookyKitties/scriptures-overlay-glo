@@ -1,19 +1,20 @@
-import React from "react";
-import App from "next/app";
-import Layout from "../components/layout";
-import { appSettings, store } from "../components/header.component";
-import { BehaviorSubject, Subject } from "rxjs";
-import { Chapter } from "../oith-lib/src/models/Chapter";
-import { filter, map } from "rxjs/operators";
-import Helmet from "react-helmet";
+import React from 'react';
+import App from 'next/app';
+import Layout from '../components/layout';
+import { appSettings, store } from '../components/header.component';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Chapter } from '../oith-lib/src/models/Chapter';
+import { filter, map } from 'rxjs/operators';
+import Helmet from 'react-helmet';
 
 export class Store {
   public chapterHistory: Chapter[] = [];
   public chapter = new BehaviorSubject<Chapter>(undefined);
   public updateFTags$ = new BehaviorSubject<boolean>(true);
   public resetNotes$ = new BehaviorSubject(undefined);
+  public initChapter$ = new BehaviorSubject<Chapter>(undefined);
   history: boolean;
-  public title$ = new BehaviorSubject<string>("Library");
+  public title$ = new BehaviorSubject<string>('Library');
 
   public constructor() {
     this.setChapterTitle();
@@ -27,7 +28,7 @@ export class Store {
     this.chapter
       .pipe(
         filter(o => o !== undefined),
-        map(c => this.title$.next(c.title))
+        map(c => this.title$.next(c.title)),
       )
       .subscribe();
   }
@@ -35,8 +36,8 @@ export class Store {
   public addToHistory(chapter?: Chapter) {
     if (chapter) {
       chapter.history = true;
-      chapter.chapterTop = this.getScrollTop(".chapter-loader");
-      chapter.verseNotesTop = this.getScrollTop(".verse-notes");
+      chapter.chapterTop = this.getScrollTop('.chapter-loader');
+      chapter.verseNotesTop = this.getScrollTop('.verse-notes');
       this.chapterHistory = this.chapterHistory
         .filter(o => o.id !== chapter.id)
         .concat([chapter]);
@@ -67,8 +68,6 @@ class MyApp extends App {
     if (store) {
       // console.log(store);
       store.title$.subscribe(title => {
-        console.log(title);
-
         this.setState({ title: title });
       });
     }
@@ -83,7 +82,7 @@ class MyApp extends App {
     return (
       <Layout>
         <Helmet>
-          <title>{this.state ? this.state["title"] : "z"}</title>
+          <title>{this.state ? this.state['title'] : 'z'}</title>
         </Helmet>
         <Component {...pageProps} />;
       </Layout>

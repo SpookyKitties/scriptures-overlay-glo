@@ -25,7 +25,10 @@ function expandNoteOffsets(verseNote?: VerseNote) {
             map(o => o[1]),
           ),
         ),
-      ).pipe(flatMap$, flatMap$); //, toArray());
+      ).pipe(
+        flatMap$,
+        flatMap$,
+      ); //, toArray());
     }
     // return of(vasdf).pipe(
     //   flatMap(o => o),
@@ -41,9 +44,9 @@ function extractFormatText(
   verse: FormatGroup | Verse | FormatText,
 ): Observable<FormatText> {
   if (Array.isArray((verse as FormatGroup | Verse).grps)) {
-    return of(
-      (verse as FormatGroup | Verse).grps as (FormatGroup | FormatText)[],
-    ).pipe(
+    return of((verse as FormatGroup | Verse).grps as (
+      | FormatGroup
+      | FormatText)[]).pipe(
       flatMap$,
       map(o => extractFormatText(o)),
       flatMap$,
@@ -138,6 +141,7 @@ export function buildFMerged(chapter: Chapter) {
         const verseNote = chapter.verseNotes.find(vN =>
           vN.id.includes(`-${verse.id}-verse-note`),
         );
+
         return expandNoteOffsets(verseNote).pipe(
           toArray(),
           map(formatTags => resetVerse(verse, formatTags)),

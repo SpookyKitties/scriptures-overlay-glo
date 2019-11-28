@@ -1,13 +1,13 @@
-import { Component, MouseEvent } from "react";
+import { Component, MouseEvent } from 'react';
 import {
   VerseNote,
-  VerseNoteGroup
-} from "../oith-lib/src/verse-notes/verse-note";
-import { Chapter } from "../oith-lib/src/models/Chapter";
-import { fromEvent } from "rxjs";
-import { map, filter } from "rxjs/operators";
-import { useRouter } from "next/router";
-import { gotoLink } from "./gotoLink";
+  VerseNoteGroup,
+} from '../oith-lib/src/verse-notes/verse-note';
+import { Chapter } from '../oith-lib/src/models/Chapter';
+import { fromEvent } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
+import { useRouter } from 'next/router';
+import { gotoLink } from './gotoLink';
 
 type VNProps = {
   chapter?: Chapter;
@@ -21,23 +21,27 @@ function noteClick(event: MouseEvent) {}
 
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
-    <div className="verse-note-group">
+    <div
+      className={`verse-note-group ${
+        noteGroup.formatTag.visible ? '' : 'none'
+      }`}
+    >
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>
       {noteGroup.notes.map(note => {
         return (
           <div
-            className="note"
+            className={`note ${note.formatTag.visible ? '' : 'none'}`}
             onClick={event => {
               gotoLink(event);
             }}
           >
             {note.ref.map(ref => {
               return (
-                <p className="note-reference">
+                <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
                   <span className="ref-label">{ref.label}</span>
                   <span
                     dangerouslySetInnerHTML={{
-                      __html: ref.text.replace(/\#/g, "")
+                      __html: ref.text.replace(/\#/g, ''),
                     }}
                   ></span>
                 </p>
@@ -53,7 +57,7 @@ function renderVerseNote(verseNote: VerseNote) {
   if (verseNote.noteGroups) {
     return (
       <div
-        className={`verse-note ${verseNote.vis ? "" : "none"}`}
+        className={`verse-note ${verseNote.vis ? '' : 'none'}`}
         id={verseNote.id}
       >
         <p className="short-title">{generateShortTitle(verseNote)}</p>
@@ -71,7 +75,7 @@ export class VerseNotesShellComponent extends Component<VNProps> {
         <div className="verse-notes">
           {this.props.chapter.verses.map(verse => {
             const verseNote = this.props.chapter.verseNotes.find(vN =>
-              vN.id.includes(`-${verse.id}-verse-notes`)
+              vN.id.includes(`-${verse.id}-verse-notes`),
             );
             if (verseNote) {
               return renderVerseNote(verseNote);
@@ -88,17 +92,17 @@ export class VerseNotesShellComponent extends Component<VNProps> {
 
 function generateShortTitle(verseNote: VerseNote) {
   if (verseNote) {
-    if (doesntInclude(["title1", "closing1"], verseNote.id)) {
-      const idSplit = verseNote.id.split("-");
+    if (doesntInclude(['title1', 'closing1'], verseNote.id)) {
+      const idSplit = verseNote.id.split('-');
 
       return `Verse ${idSplit[idSplit.length - 3]} Notes`;
-    } else if (verseNote.id.includes("title1")) {
-      return "Chapter Notes";
-    } else if (verseNote.id.includes("closing")) {
-      return "Footer Notes";
+    } else if (verseNote.id.includes('title1')) {
+      return 'Chapter Notes';
+    } else if (verseNote.id.includes('closing')) {
+      return 'Footer Notes';
     }
   }
-  return "";
+  return '';
 }
 
 export function capitalizeFirstLetter(str: string) {

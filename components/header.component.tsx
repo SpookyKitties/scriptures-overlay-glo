@@ -1,18 +1,20 @@
-import { Component } from "react";
-import { Params } from "../oith-lib/src/shells/build-shells";
+import { Component } from 'react';
+import { Params } from '../oith-lib/src/shells/build-shells';
 import {
   NoteGroupSettings,
   NoteTypes,
-  NoteCategories
-} from "../oith-lib/src/verse-notes/settings/note-gorup-settings";
-import { tap, flatMap, catchError } from "rxjs/operators";
-import { Chapter } from "../oith-lib/src/models/Chapter";
-import { Subject, BehaviorSubject, of, forkJoin } from "rxjs";
-import { settings } from "cluster";
-import { Store } from "../pages/_app";
-import axios from "axios";
-import { flatMap$ } from "../oith-lib/src/rx/flatMap$";
-import { resetNotes$ } from "./resetNotes";
+  NoteCategories,
+} from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
+import { tap, flatMap, catchError, map } from 'rxjs/operators';
+import { Chapter } from '../oith-lib/src/models/Chapter';
+import { Subject, BehaviorSubject, of, forkJoin } from 'rxjs';
+import { settings } from 'cluster';
+import { Store } from '../pages/_app';
+import axios from 'axios';
+import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
+import { resetNotes$ } from './resetNotes';
+import { resetNoteVisibilitySettings } from './resetNoteVisibility';
+import { NoteSettings } from '../oith-lib/src/processors/NoteSettings';
 export class Settings {
   public textSize = 18;
   public notePaneWidth = 300;
@@ -22,22 +24,22 @@ export class Settings {
   public noteCatList: Params = {};
   public oithHeaderTop = 0;
   public contentTop = 48;
-  public lang = "eng";
+  public lang = 'eng';
   public vis = {};
   public displayNotes: boolean;
   public displayNav: boolean;
-  public notesMode: "large" | "small" | "off" = "small";
+  public notesMode: 'large' | 'small' | 'off' = 'small';
 }
 
 export class AppSettings {
   public settings: Settings;
-  public noteSettings?: NoteGroupSettings;
+  public noteSettings?: NoteSettings;
   public noteTypes?: NoteTypes;
   public displayNav$: BehaviorSubject<boolean>; //(false);
   public notesMode$: BehaviorSubject<string>;
   public noteCategories?: NoteCategories;
   constructor() {
-    const settingsS = localStorage.getItem("scriptures-overlay-settings");
+    const settingsS = localStorage.getItem('scriptures-overlay-settings');
     this.settings = settingsS ? JSON.parse(settingsS) : new Settings();
     this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
     this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
@@ -46,19 +48,17 @@ export class AppSettings {
 
   private async getNoteTypeSettings<T extends keyof AppSettings>(
     key: T,
-    fileName: "note-settings" | "note-categories" | "note-types"
+    fileName: 'note-settings' | 'note-categories' | 'note-types',
   ) {
     if (!this[key]) {
       const lang = this.settings.lang;
-      console.log(`${lang}-${fileName}`);
       try {
         const data = await axios.get(
           `/scripture_files/${lang}-${fileName}.json`,
           {
-            responseType: "json"
-          }
+            responseType: 'json',
+          },
         );
-        console.log(data);
 
         this[key] = data.data;
         // console.log(data);
@@ -82,11 +82,11 @@ export class AppSettings {
 
   public loadNoteSettings() {
     const noteSettingsS = localStorage.getItem(
-      "scriptures-overlay-noteSettings"
+      'scriptures-overlay-noteSettings',
     );
-    const noteTypesS = localStorage.getItem("scriptures-overlay-noteTypes");
+    const noteTypesS = localStorage.getItem('scriptures-overlay-noteTypes');
     const noteCategoriesS = localStorage.getItem(
-      "scriptures-overlay-noteCategories"
+      'scriptures-overlay-noteCategories',
     );
     this.noteSettings = noteSettingsS ? JSON.parse(noteSettingsS) : undefined;
     this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
@@ -94,9 +94,9 @@ export class AppSettings {
       ? JSON.parse(noteCategoriesS)
       : undefined;
     forkJoin(
-      of(this.getNoteTypeSettings("noteSettings", "note-settings")),
-      of(this.getNoteTypeSettings("noteCategories", "note-categories")),
-      of(this.getNoteTypeSettings("noteTypes", "note-types"))
+      of(this.getNoteTypeSettings('noteSettings', 'note-settings')),
+      of(this.getNoteTypeSettings('noteCategories', 'note-categories')),
+      of(this.getNoteTypeSettings('noteTypes', 'note-types')),
     )
       .pipe(flatMap(o => o))
       .subscribe();
@@ -105,26 +105,26 @@ export class AppSettings {
   public displayNav() {
     this.settings.displayNav = !this.settings.displayNav;
     this.displayNav$.next(this.settings.displayNav);
-    this.save("settings");
+    this.save('settings');
   }
 
   public displayNotes() {
     const displayNotes = this.settings.notesMode;
 
-    if (displayNotes === "off" || typeof displayNotes === "undefined") {
-      this.settings.notesMode = "small";
-    } else if (displayNotes === "small") {
-      this.settings.notesMode = "large";
+    if (displayNotes === 'off' || typeof displayNotes === 'undefined') {
+      this.settings.notesMode = 'small';
+    } else if (displayNotes === 'small') {
+      this.settings.notesMode = 'large';
     } else {
-      this.settings.notesMode = "off";
+      this.settings.notesMode = 'off';
     }
-    this.save("settings");
+    this.save('settings');
     this.notesMode$.next(this.settings.notesMode);
   }
   public save<T extends keyof this>(key: T) {
     localStorage.setItem(
       `scriptures-overlay-${key}`,
-      JSON.stringify(this[key])
+      JSON.stringify(this[key]),
     );
   }
 }
@@ -152,9 +152,8 @@ export class HeaderComponent extends Component {
   public displayNavClick() {
     appSettings.settings.displayNav = !appSettings.settings.displayNav;
     appSettings.displayNav$.next(appSettings.settings.displayNav);
-    appSettings.save("settings");
-    store.updateFTags$.next(true);
-    store.resetNotes$.next(undefined);
+    appSettings.save('settings');
+    resetNoteVisibilitySettings().subscribe(() => {});
   }
   public render() {
     return (

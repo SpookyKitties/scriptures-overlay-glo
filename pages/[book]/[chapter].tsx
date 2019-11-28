@@ -1,32 +1,32 @@
-import axios from "axios";
-import { NextPage } from "next";
-import { flatMap, map, take } from "rxjs/operators";
-import { ChapterComponent } from "../../components/chapter.component";
-import Layout from "../../components/layout";
-import { VerseNotesShellComponent } from "../../components/verse-notes-shell";
-import { Chapter } from "../../oith-lib/src/models/Chapter";
+import axios from 'axios';
+import { NextPage } from 'next';
+import { flatMap, map, take, filter } from 'rxjs/operators';
+import { ChapterComponent } from '../../components/chapter.component';
+import Layout from '../../components/layout';
+import { VerseNotesShellComponent } from '../../components/verse-notes-shell';
+import { Chapter } from '../../oith-lib/src/models/Chapter';
 import {
   addVersesToBody,
   buildShell,
-  parseChapterParams
-} from "../../oith-lib/src/shells/build-shells";
-import { Component } from "react";
-import { appSettings, store } from "../../components/header.component";
-import { forkJoin, fromEvent } from "rxjs";
+  parseChapterParams,
+} from '../../oith-lib/src/shells/build-shells';
+import { Component } from 'react';
+import { appSettings, store } from '../../components/header.component';
+import { forkJoin, fromEvent, of } from 'rxjs';
 // import { store } from "../_app";
-import Router from "next/router";
+import Router from 'next/router';
 export type ImgAttr = {
   src: string;
   alt: string;
 };
 
 function scroll() {
-  const verses = Array.from(document.querySelectorAll(".verse"));
-  const chapterElement = document.querySelector(".chapter-loader");
+  const verses = Array.from(document.querySelectorAll('.verse'));
+  const chapterElement = document.querySelector('.chapter-loader');
   if (chapterElement) {
     const y = chapterElement.getBoundingClientRect().top;
     const verse = verses.find(
-      e => e.getBoundingClientRect().top + 10 >= y === true
+      e => e.getBoundingClientRect().top + 10 >= y === true,
     );
     if (verse) {
       const tempID = /^(p)(.+)$/g.exec(verse.id);
@@ -47,31 +47,46 @@ class OithParent extends Component<{ chapter: Chapter }> {
     });
 
     appSettings.notesMode$.subscribe(o => {
-      this.setState({ notesMode: o ? o : "off" });
+      this.setState({ notesMode: o ? o : 'off' });
     });
     // console.log(this.props);
-    store.chapter.next(this.props.chapter);
 
-    store.chapter.subscribe(chapter => {
-      // console.log(chapter);
+    store.initChapter$.next(this.props.chapter);
+    // store.chapter.next(this.props.chapter);
+    store.initChapter$
+      .pipe(
+        filter(o => o !== undefined),
+        map(chapter =>
+          addVersesToBody(chapter).pipe(
+            map(() => buildShell(chapter, chapter.params)),
+            flatMap(o => o),
+            map(() => chapter),
+          ),
+        ),
+        flatMap(o => o),
+      )
+      .subscribe(chapter => {
+        store.chapter.next(chapter);
+      });
 
+    store.chapter.pipe(filter(o => o !== undefined)).subscribe(chapter => {
       this.setState({ chapter: chapter });
     });
   }
 
   render() {
-    const chapter = this.props.chapter;
+    // const chapter = this.props.chapter;
 
-    if (store) {
-      // store.chapter.next(this.props.chapter);
-    } else {
-      this.setState({ chapter: chapter });
-    }
+    // if (store) {
+    //   // store.chapter.next(this.props.chapter);
+    // } else {
+    //   this.setState({ chapter: chapter });
+    // }
     return (
       <div
         className={`oith-content-parent ${
-          this.state && this.state["displayNav"] ? "nav" : ""
-        } ${this.state ? `${this.state["notesMode"]}-notes` : ""}`}
+          this.state && this.state['displayNav'] ? 'nav' : ''
+        } ${this.state ? `${this.state['notesMode']}-notes` : ''}`}
       >
         <nav></nav>
         <div className={`chapter-loader `} onScroll={scroll}>
@@ -80,8 +95,8 @@ class OithParent extends Component<{ chapter: Chapter }> {
         </div>
         <VerseNotesShellComponent
           chapter={
-            this.state && this.state["chapter"]
-              ? this.state["chapter"]
+            this.state && this.state['chapter']
+              ? this.state['chapter']
               : undefined
           }
         ></VerseNotesShellComponent>
@@ -97,26 +112,34 @@ ChapterParent.getInitialProps = async ({ query }) => {
   const params = parseChapterParams(query);
   const data = await axios.get(
     `/scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
-    { proxy: { port: 3000, host: "127.0.0.1" } }
+    { proxy: { port: 3000, host: '127.0.0.1' } },
   );
 
   const chapter = data.data as Chapter;
   chapter.params = params;
 
-  const b = await addVersesToBody(chapter)
-    .pipe(
-      map(() => buildShell(chapter, params)),
-      flatMap(o => o)
-    )
-    .toPromise();
+  // const b = await addVersesToBody(chapter)
+  //   .pipe(
+  //     map(() => buildShell(chapter, params)),
+  //     flatMap(o => o),
+  //   )
+  //   .toPromise();
+
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
 
     const checkHistory = store.checkHistory(
-      `${params.lang}-${params.book}-${params.chapter}-chapter`
+      `${params.lang}-${params.book}-${params.chapter}-chapter`,
     );
     // console.log(checkHistory);
-    store.chapter.next(checkHistory ? checkHistory : chapter);
+    // store.chapter.next(checkHistory ? checkHistory : chapter);
+
+    if (checkHistory) {
+      console.log(checkHistory);
+      store.chapter.next(checkHistory);
+    } else {
+      store.initChapter$.next(chapter);
+    }
     store.history = true;
   } else return { chapter };
 };
