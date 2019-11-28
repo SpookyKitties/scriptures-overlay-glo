@@ -43,6 +43,7 @@ export function resetNotes$() {
     )
     .subscribe(() => {
       store.updateFTags$.next(true);
+      store.updateNoteVisibility$.next(true);
     });
 
   store.resetNotes$
@@ -68,5 +69,6 @@ export function resetNotes$() {
     )
     .subscribe(() => {
       store.updateFTags$.next(true);
+      store.updateNoteVisibility$.next(true);
     });
 }

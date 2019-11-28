@@ -4,12 +4,13 @@ import {
   VerseNoteGroup,
   Note,
   NoteRef,
-} from '../oith-lib/src/verse-notes/verse-note';
-import { Chapter } from '../oith-lib/src/models/Chapter';
+} from '../../oith-lib/src/verse-notes/verse-note';
+import { Chapter } from '../../oith-lib/src/models/Chapter';
 import { fromEvent } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { useRouter } from 'next/router';
-import { gotoLink } from './gotoLink';
+import { gotoLink } from '../gotoLink';
+import { store } from '../header.component';
 
 type VNProps = {
   chapter?: Chapter;
@@ -96,7 +97,52 @@ function renderVerseNote(verseNote: VerseNote) {
   return <></>;
 }
 
+type VerseNoteState = { verseNote: VerseNote };
+
+export class VerseNoteComponent extends Component<VerseNoteState> {
+  public state: VerseNoteState;
+
+  componentDidMount() {
+    store.updateNoteVisibility$.subscribe(() => {
+      this.setState({ verseNote: this.props.verseNote });
+    });
+  }
+  public render() {
+    if (this.state && this.state.verseNote) {
+      const verseNote = this.state.verseNote;
+      if (verseNote.noteGroups) {
+        return (
+          <div
+            className={`verse-note ${verseNote.vis ? '' : 'none'}`}
+            id={verseNote.id}
+          >
+            <p className="short-title">{generateShortTitle(verseNote)}</p>
+            {verseNote.noteGroups
+              .sort((a, b) => sortVerseNoteGroups(a, b))
+              .map(noteGroup => renderNoteGroup(noteGroup))}
+          </div>
+        );
+      }
+    }
+    return <></>;
+  }
+}
+
 export class VerseNotesShellComponent extends Component<VNProps> {
+  public state: { chapter: Chapter };
+
+  componentDidMount() {
+    // store.chapter
+    //   .pipe(
+    //     filter(o => o !== undefined),
+    //     map(chapter => {
+    //       console.log(chapter);
+    //       this.setState({ chapter: chapter });
+    //     }),
+    //   )
+    //   .subscribe();
+  }
+
   render() {
     if (this.props.chapter) {
       return (
@@ -106,13 +152,30 @@ export class VerseNotesShellComponent extends Component<VNProps> {
               vN.id.includes(`-${verse.id}-verse-notes`),
             );
             if (verseNote) {
-              return renderVerseNote(verseNote);
+              return <VerseNoteComponent verseNote={verseNote} />;
+              // return renderVerseNote(verseNote);
             }
           })}
           <div className="white-space"></div>
         </div>
       );
     }
+    // if (this.state && this.state.chapter) {
+    //   return (
+    //     <div className="verse-notes">
+    //       {this.state.chapter.verses.map(verse => {
+    //         const verseNote = this.state.chapter.verseNotes.find(vN =>
+    //           vN.id.includes(`-${verse.id}-verse-notes`),
+    //         );
+    //         if (verseNote) {
+    //           return <VerseNoteComponent verseNote={verseNote} />;
+    //           // return renderVerseNote(verseNote);
+    //         }
+    //       })}
+    //       <div className="white-space"></div>
+    //     </div>
+    //   );
+    // }
 
     return <div className="verse-notes"></div>;
   }

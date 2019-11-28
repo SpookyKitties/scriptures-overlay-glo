@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import { flatMap, map, take, filter } from 'rxjs/operators';
 import { ChapterComponent } from '../../components/chapter.component';
 import Layout from '../../components/layout';
-import { VerseNotesShellComponent } from '../../components/verse-notes-shell';
+import { VerseNotesShellComponent } from '../../components/verse-notes/verse-notes-shell';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
 import {
   addVersesToBody,

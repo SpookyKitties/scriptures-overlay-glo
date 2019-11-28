@@ -13,6 +13,7 @@ export class Store {
   public updateFTags$ = new BehaviorSubject<boolean>(true);
   public resetNotes$ = new BehaviorSubject(undefined);
   public initChapter$ = new BehaviorSubject<Chapter>(undefined);
+  public updateNoteVisibility$ = new BehaviorSubject<boolean>(true);
   history: boolean;
   public title$ = new BehaviorSubject<string>('Library');
 

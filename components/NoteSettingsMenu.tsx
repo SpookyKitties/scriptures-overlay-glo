@@ -22,14 +22,13 @@ class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
     event.preventDefault();
 
     const nodeName = (event.target as HTMLElement).nodeName;
-    console.log(nodeName);
+    // console.log(nodeName);
 
     noteSetting.enabled =
       (event.target as HTMLInputElement).checked !== undefined
         ? (event.target as HTMLInputElement).checked
         : !noteSetting.enabled;
     this.setState({ enabled: noteSetting.enabled });
-    console.log('asoidfj98342897fdvbjnkc vskjnadfguhiosdfaguihasdfiuh');
 
     appSettings.save('noteSettings');
     store.resetNotes$.next(true);
