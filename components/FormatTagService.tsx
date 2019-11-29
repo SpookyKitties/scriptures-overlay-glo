@@ -58,8 +58,22 @@ export class FormatTagService {
       toArray(),
     );
   }
+
+  public reset() {
+    this.currentFormatMerged = undefined;
+    this.formatMergedNoteOffets = undefined;
+    this.notePhrase = undefined;
+
+    this.resetUnderline().subscribe();
+  }
   /**
    * notePhaseClick
    */
-  public notePhaseClick(ft: FormatTagNoteOffsets) {}
+  public notePhaseClick(ft: FormatTagNoteOffsets) {
+    return this.resetUnderline().pipe(
+      map(() => {
+        this;
+      }),
+    );
+  }
 }

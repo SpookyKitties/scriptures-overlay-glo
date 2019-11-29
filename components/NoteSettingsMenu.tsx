@@ -1,5 +1,5 @@
 import { Component, CSSProperties, MouseEvent } from 'react';
-import { appSettings, store } from './header.component';
+import { appSettings, store, formatTagService } from './header.component';
 import {
   NoteSetting,
   NoteSettings,
@@ -31,6 +31,7 @@ class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
     this.setState({ enabled: noteSetting.enabled });
 
     appSettings.save('noteSettings');
+    formatTagService.reset();
     store.resetNotes$.next(true);
   }
   componentDidMount() {
