@@ -10,6 +10,7 @@ import { resetNotes$ } from './resetNotes';
 import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 import { AppSettings } from './AppSettings';
 import { NoteSettingsMenu } from './NoteSettingsMenu';
+import { menuOverlay$ } from './MenuOverlay';
 
 export let appSettings: AppSettings;
 export let store: Store;
@@ -28,11 +29,15 @@ const noteSettingsMenuBtn: CSSProperties = {
 
 export class HeaderComponent extends Component {
   public state: { displayNoteSettings: boolean };
-
+  public closeMenu$ = new Subject<boolean>();
   public componentDidMount() {
     appSettings = new AppSettings();
     store = new Store();
     resetNotes$();
+
+    this.closeMenu$.subscribe(() => {
+      this.setState({ displayNoteSettings: false });
+    });
   }
   public showNotes() {
     appSettings.displayNotes();
@@ -62,20 +67,26 @@ export class HeaderComponent extends Component {
           className="oith-header-item"
           style={noteSettingsMenuBtn}
           onClick={evt => {
-            const noteSettingsMenu = document.querySelector(
-              '.note-settings-menu',
-            );
-            if (
-              noteSettingsMenu &&
-              noteSettingsMenu.contains(evt.target as HTMLElement)
-            ) {
-              return;
+            console.log(this.state);
+
+            if (!this.state || this.state.displayNoteSettings !== true) {
+              console.log(evt);
+              // const noteSettingsMenu = document.querySelector(
+              //   '.note-settings-menu',
+              // );
+              // if (
+              //   noteSettingsMenu &&
+              //   noteSettingsMenu.contains(evt.target as HTMLElement)
+              // ) {
+              //   return;
+              // }
+
+              this.setState({
+                displayNoteSettings: true,
+              });
+
+              menuOverlay$.next(this.closeMenu$);
             }
-            this.setState({
-              displayNoteSettings: this.state
-                ? !this.state.displayNoteSettings
-                : true,
-            });
           }}
         >
           <svg

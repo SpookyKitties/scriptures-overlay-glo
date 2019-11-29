@@ -1,21 +1,22 @@
-import { NextPage } from "next";
-import { NavbarComponents, NavbarProps } from "./navbar.component";
-import { CSSProperties } from "react";
-import Head from "next/head";
-import "../styles/styles.scss";
-import { HeaderComponent, store } from "./header.component";
-import Helmet from "react-helmet";
+import { NextPage } from 'next';
+import { NavbarComponents, NavbarProps } from './navbar.component';
+import { CSSProperties } from 'react';
+import Head from 'next/head';
+import '../styles/styles.scss';
+import { HeaderComponent, store } from './header.component';
+import Helmet from 'react-helmet';
+import { MenuOverlay } from './MenuOverlay';
 // import { oithMain } from "../styles/typed/chapter-layout";
 const oithContentStyles: CSSProperties = {
-  height: "calc(100vh - 48px)",
-  display: "block",
-  width: "100vw",
-  position: "fixed",
-  top: "48px"
+  height: 'calc(100vh - 48px)',
+  display: 'block',
+  width: '100vw',
+  position: 'fixed',
+  top: '48px',
 };
 
 const Layout: React.FunctionComponent = ({
-  children
+  children,
   // title,
   // shortTitle
 }) => {
@@ -29,7 +30,7 @@ const Layout: React.FunctionComponent = ({
         {/* <title>{store ? store.title$.toPromise() : "hhh"}</title> */}
         <script
           async
-          src={`https://www.googletagmanager.com/gtag/js?id=${"UA-153000658-1"}`}
+          src={`https://www.googletagmanager.com/gtag/js?id=${'UA-153000658-1'}`}
         />
         <script
           dangerouslySetInnerHTML={{
@@ -37,8 +38,8 @@ const Layout: React.FunctionComponent = ({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${"UA-153000658-1"}');
-          `
+            gtag('config', '${'UA-153000658-1'}');
+          `,
           }}
         />
       </Helmet>
@@ -46,6 +47,7 @@ const Layout: React.FunctionComponent = ({
       <HeaderComponent></HeaderComponent>
       {children}
       {/* <div className=""></div> */}
+      <MenuOverlay />
     </div>
   );
 };
