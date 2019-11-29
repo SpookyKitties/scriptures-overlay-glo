@@ -22,7 +22,6 @@ class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
     event.preventDefault();
 
     const nodeName = (event.target as HTMLElement).nodeName;
-    // console.log(nodeName);
 
     noteSetting.enabled =
       (event.target as HTMLInputElement).checked !== undefined

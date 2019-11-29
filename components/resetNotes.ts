@@ -10,8 +10,6 @@ function resetNotes(
       const v = noteGroup.notes.map(note => {
         note.formatTag.visible =
           appSettings.settings.vis[`nt-${note.noteType}`] === true;
-        // console.log(appSettings.settings.vis[`nt-${note.noteType}`]);
-        // console.log(note.noteType);
 
         if (note.formatTag.visible) {
           const refVis = note.ref.map(

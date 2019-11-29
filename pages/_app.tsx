@@ -67,7 +67,6 @@ class MyApp extends App {
   // }
   componentDidMount() {
     if (store) {
-      // console.log(store);
       store.title$.subscribe(title => {
         this.setState({ title: title });
       });

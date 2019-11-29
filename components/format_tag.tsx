@@ -1,7 +1,7 @@
 import { Component, CSSProperties } from 'react';
 import { FormatMerged } from '../oith-lib/src/models/Chapter';
 import { store, formatTagService } from './header.component';
-import { map, filter, toArray } from 'rxjs/operators';
+import { map, filter, toArray, delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
@@ -68,7 +68,7 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
 
   public click(fm: FormatMerged) {
     // this.style = { backgroundColor: "black" };
-    // console.log(fm.formatTags.map(o => (o.visible = !o.visible)));
+
     of(fm)
       .pipe(
         filter(
@@ -76,11 +76,18 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
         ),
         map(o => formatTagService.fMergedClick(o)),
         flatMap$,
+        map(() => {
+          store.updateFTags$.next(true);
+          store.updateNoteVisibility$.next(true);
+        }),
+        delay(100),
       )
       .subscribe(() => {
-        console.log('oijoij');
-        store.updateFTags$.next(true);
-        store.updateNoteVisibility$.next(true);
+        const vng = document.querySelector('.verse-note-group.highlight'); //.scrollIntoView();
+
+        if (vng) {
+          vng.scrollIntoView();
+        }
       });
 
     // of(fm.formatTags as FormatTagNoteOffsets[])

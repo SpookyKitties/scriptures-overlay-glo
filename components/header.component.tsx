@@ -70,10 +70,7 @@ export class HeaderComponent extends Component {
           className="oith-header-item"
           style={noteSettingsMenuBtn}
           onClick={evt => {
-            console.log(this.state);
-
             if (!this.state || this.state.displayNoteSettings !== true) {
-              console.log(evt);
               // const noteSettingsMenu = document.querySelector(
               //   '.note-settings-menu',
               // );

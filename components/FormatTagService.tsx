@@ -25,7 +25,6 @@ export class FormatTagService {
     return this.resetUnderline().pipe(
       map(() => {
         if (fMerged === this.currentFormatMerged) {
-          console.log('this.currentFormatMerged');
           if (
             this.formatMergedNoteOffets &&
             this.formatMergedNoteOffets.length > 0

@@ -27,8 +27,6 @@ export class MenuOverlay extends Component {
     });
   }
   public click() {
-    console.log(this);
-
     if (this.state && this.state.closeMenu$) {
       this.state.closeMenu$.next(true);
     }

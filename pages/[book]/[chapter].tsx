@@ -49,7 +49,7 @@ class OithParent extends Component<{ chapter: Chapter }> {
     appSettings.notesMode$.subscribe(o => {
       this.setState({ notesMode: o ? o : 'off' });
     });
-    // console.log(this.props);
+    
 
     store.initChapter$.next(this.props.chapter);
     // store.chapter.next(this.props.chapter);
@@ -125,7 +125,6 @@ ChapterParent.getInitialProps = async ({ query }) => {
   //   )
   //   .toPromise();
 
-  console.log(`${chapter}`);
 
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
@@ -133,12 +132,11 @@ ChapterParent.getInitialProps = async ({ query }) => {
     const checkHistory = store.checkHistory(
       `${params.lang}-${params.book}-${params.chapter}-chapter`,
     );
-    // console.log(checkHistory);
+    
     // store.chapter.next(checkHistory ? checkHistory : chapter);
 
     store.history = true;
     if (checkHistory) {
-      console.log(checkHistory);
       store.chapter.next(checkHistory);
     } else {
       store.initChapter$.next(chapter);
