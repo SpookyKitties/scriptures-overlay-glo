@@ -71,7 +71,12 @@ export class FormatTagService {
   public notePhaseClick(ft: FormatTagNoteOffsets) {
     return this.resetUnderline().pipe(
       map(() => {
-        this;
+        if (this.notePhrase === ft) {
+          this.notePhrase = undefined;
+        } else {
+          this.notePhrase = ft;
+          this.notePhrase.highlight = true;
+        }
       }),
     );
   }
