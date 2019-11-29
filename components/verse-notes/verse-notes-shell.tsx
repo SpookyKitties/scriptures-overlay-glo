@@ -33,7 +33,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
     <div
       className={`verse-note-group ${
         noteGroup.formatTag.visible ? '' : 'none'
-      }`}
+      }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
     >
       <span className="note-phrase">{noteGroup.notes[0].phrase}</span>
       {noteGroup.notes

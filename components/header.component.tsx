@@ -11,10 +11,11 @@ import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 import { AppSettings } from './AppSettings';
 import { NoteSettingsMenu } from './NoteSettingsMenu';
 import { menuOverlay$ } from './MenuOverlay';
+import { FormatTagService } from './FormatTagService';
 
 export let appSettings: AppSettings;
 export let store: Store;
-
+export let formatTagService: FormatTagService;
 type HProps = {
   chapter: Chapter | undefined;
 };
@@ -33,6 +34,8 @@ export class HeaderComponent extends Component {
   public componentDidMount() {
     appSettings = new AppSettings();
     store = new Store();
+    formatTagService = new FormatTagService();
+
     resetNotes$();
 
     this.closeMenu$.subscribe(() => {

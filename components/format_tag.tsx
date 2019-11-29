@@ -1,7 +1,10 @@
 import { Component, CSSProperties } from 'react';
 import { FormatMerged } from '../oith-lib/src/models/Chapter';
-import { store } from './header.component';
-import { map } from 'rxjs/operators';
+import { store, formatTagService } from './header.component';
+import { map, filter, toArray } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
+import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
 
 export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
   return state ? state[key] : '';
@@ -20,9 +23,14 @@ export function calcClassList(formatMerged: FormatMerged) {
     ? 'all'
     : '';
 
+  const highlight =
+    fts.find((o: FormatTagNoteOffsets) => o.highlight === true) !== undefined
+      ? 'highlight'
+      : '';
+
   const refCount =
     fts.length > 0 ? (fts.length > 1 ? 'ref-double' : 'ref-single') : '';
-  return `${all} ${refCount}`;
+  return `${all} ${refCount} ${highlight}`;
 }
 
 export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
@@ -60,10 +68,37 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
 
   public click(fm: FormatMerged) {
     // this.style = { backgroundColor: "black" };
-    console.log(fm.formatTags.map(o => (o.visible = !o.visible)));
-    store.updateFTags$.next(true);
+    // console.log(fm.formatTags.map(o => (o.visible = !o.visible)));
+    of(fm)
+      .pipe(
+        filter(
+          o => o.formatTags && o.formatTags.filter(o => o.visible).length > 0,
+        ),
+        map(o => formatTagService.fMergedClick(o)),
+        flatMap$,
+      )
+      .subscribe(() => {
+        console.log('oijoij');
+        store.updateFTags$.next(true);
+        store.updateNoteVisibility$.next(true);
+      });
 
-    this.setState({ style: this.style });
+    // of(fm.formatTags as FormatTagNoteOffsets[])
+    //   .pipe(
+    //     flatMap$,
+    //     filter(o => o.visible),
+    //     map(o => {
+    //       console.log(o);
+    //       o.highlight = !o.highlight;
+    //     }),
+    //     toArray(),
+    //   )
+    //   .subscribe(() => {
+    //     store.updateFTags$.next(true);
+    //     store.updateNoteVisibility$.next(true);
+    //   });
+
+    // this.setState({ style: this.style });
     // this.state.formatMerged.text = "lkasdf";
     // this.setState((state, props) => {
     //
