@@ -111,6 +111,9 @@ function sortVerseNoteGroups(
   verseNoteGroupB: VerseNoteGroup,
 ) {
   const getFirstOffset = (vng: VerseNoteGroup) => {
+    if (vng.formatTag.offsets === 'all') {
+      return -1;
+    }
     return vng.formatTag && vng.formatTag.uncompressedOffsets
       ? vng.formatTag.uncompressedOffsets[0]
       : 0;

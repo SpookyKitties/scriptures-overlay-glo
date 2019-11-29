@@ -39,9 +39,14 @@ export class FormatTagService {
           return EMPTY;
         } else {
           this.currentFormatMerged = fMerged;
-          this.formatMergedNoteOffets = fMerged.formatTags.filter(
-            f => f.visible,
-          ) as FormatTagNoteOffsets[];
+          this.formatMergedNoteOffets = fMerged.formatTags
+            .filter(f => f.visible)
+            .sort((a, b) => {
+              const numa = a.offsets === 'all' ? -1 : a.uncompressedOffsets[0];
+              const numb = b.offsets === 'all' ? -1 : b.uncompressedOffsets[0];
+
+              return numa - numb;
+            }) as FormatTagNoteOffsets[];
 
           return of(
             this.formatMergedNoteOffets.shift() as FormatTagNoteOffsets,
