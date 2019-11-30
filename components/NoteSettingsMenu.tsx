@@ -13,6 +13,7 @@ const noteSettingsMenuStyles: CSSProperties = {
   top: '100%',
   zIndex: 20,
   backgroundColor: 'white',
+  left: 'unset',
 };
 
 class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
@@ -44,11 +45,12 @@ class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
     if (this.state) {
       return (
         <div
+          className={`dropdown-item`}
           onClick={event =>
             this.noteSettingClick(event, this.state.noteSetting)
           }
         >
-          <label>
+          <label className={`checkbox`}>
             <input type="checkbox" checked={this.state.enabled} />
             {this.state.noteSetting.label}
           </label>
@@ -73,7 +75,7 @@ export class NoteSettingsMenu extends Component<{
 
   private renderNoteSettings() {
     return (
-      <div>
+      <div className={`dropdown-content`}>
         {appSettings.noteSettings.noteSettings
           .filter(ns => ns.display)
           .map(noteSetting => {
@@ -92,11 +94,12 @@ export class NoteSettingsMenu extends Component<{
       return (
         <div
           style={noteSettingsMenuStyles}
-          className={`note-settings-menu ${
-            this.props.displayNoteSettings === true ? '' : 'none'
-          }`}
+          className={`note-settings-menu  dropdown-menu`}
         >
+          <div>Note Sets</div>
+          <hr />
           {this.renderNoteSettings()}
+          <hr />
         </div>
       );
     }

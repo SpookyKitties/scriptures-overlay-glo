@@ -66,8 +66,24 @@ export class HeaderComponent extends Component {
           </svg>
         </div>
         <div></div>
+        <div className={`"oith-header-item" `} onClick={() => this.showNotes()}>
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            role="presentation"
+          >
+            <path
+              fill="currentColor"
+              d="M2 15c0-.828.666-1.5 1.5-1.5.828 0 1.5.666 1.5 1.5 0 .828-.666 1.5-1.5 1.5-.828 0-1.5-.666-1.5-1.5zm0-9c0-.828.666-1.5 1.5-1.5.828 0 1.5.666 1.5 1.5 0 .828-.666 1.5-1.5 1.5C2.672 7.5 2 6.834 2 6zm5 0c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 6zm0 3.5c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 9.5zm0 9c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 18.5zM7 15c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 15z"
+            ></path>
+          </svg>
+        </div>
         <div
-          className="oith-header-item"
+          className={`oith-header-item dropdown ${
+            this.state && this.state.displayNoteSettings ? 'is-active' : ''
+          }`}
+          role="menu"
           style={noteSettingsMenuBtn}
           onClick={evt => {
             if (!this.state || this.state.displayNoteSettings !== true) {
@@ -94,6 +110,7 @@ export class HeaderComponent extends Component {
             height="24"
             xmlns="http://www.w3.org/2000/svg"
             role="presentation"
+            className={`dropdown-trigger `}
           >
             <path
               fill="currentColor"
@@ -105,19 +122,6 @@ export class HeaderComponent extends Component {
               this.state ? this.state.displayNoteSettings === true : false
             }
           />
-        </div>
-        <div className="oith-header-item" onClick={() => this.showNotes()}>
-          <svg
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-            role="presentation"
-          >
-            <path
-              fill="currentColor"
-              d="M2 15c0-.828.666-1.5 1.5-1.5.828 0 1.5.666 1.5 1.5 0 .828-.666 1.5-1.5 1.5-.828 0-1.5-.666-1.5-1.5zm0-9c0-.828.666-1.5 1.5-1.5.828 0 1.5.666 1.5 1.5 0 .828-.666 1.5-1.5 1.5C2.672 7.5 2 6.834 2 6zm5 0c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 6zm0 3.5c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 9.5zm0 9c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 18.5zM7 15c0-.414.341-.75.744-.75h13.512c.411 0 .744.333.744.75 0 .414-.341.75-.744.75H7.744A.745.745 0 0 1 7 15z"
-            ></path>
-          </svg>
         </div>
       </div>
     );
