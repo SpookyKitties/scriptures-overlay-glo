@@ -15,6 +15,7 @@ import { appSettings, store } from '../../components/header.component';
 import { forkJoin, fromEvent, of } from 'rxjs';
 // import { store } from "../_app";
 import Router from 'next/router';
+import { NavigationComponenet } from '../../components/navigation/navigation.component';
 export type ImgAttr = {
   src: string;
   alt: string;
@@ -87,7 +88,9 @@ class OithParent extends Component<{ chapter: Chapter }> {
           this.state && this.state['displayNav'] ? 'nav' : ''
         } ${this.state ? `${this.state['notesMode']}-notes` : ''}`}
       >
-        <nav></nav>
+        <nav>
+          <NavigationComponenet />{' '}
+        </nav>
         <div className={`chapter-loader `} onScroll={scroll}>
           <ChapterComponent></ChapterComponent>
           <div className="white-space"></div>

@@ -9,6 +9,8 @@ export class NavigationItem {
   public imgUrl?: string;
   public display?: boolean;
 
+  public open?: boolean;
+
   public constructor(
     title: string,
     shortTitle: string,

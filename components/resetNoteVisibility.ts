@@ -15,16 +15,6 @@ function resetNoteCategories() {
         .map(on => appSettings.settings.vis[on] === true)
         .includes(false);
 
-      if (noteCategory.category === 41) {
-        console.log(noteCategory);
-        console.log(on);
-        console.log(off);
-        noteCategory.off.map(off => {
-          console.log(off);
-
-          console.log(appSettings.settings.vis[off] !== true);
-        });
-      }
       return on === true && off === true;
     })
     .map(c => {
