@@ -6,6 +6,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { filter, map } from 'rxjs/operators';
 import Helmet from 'react-helmet';
+import { NavigationItem } from '../components/navigation-item';
 
 export class Store {
   public chapterHistory: Chapter[] = [];

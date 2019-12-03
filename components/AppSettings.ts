@@ -2,17 +2,19 @@ import {
   NoteTypes,
   NoteCategories,
 } from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
-import { flatMap } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import { BehaviorSubject, of, forkJoin } from 'rxjs';
 import axios from 'axios';
 import { NoteSettings } from '../oith-lib/src/processors/NoteSettings';
 import { Settings } from './Settings';
+import { NavigationItem } from './navigation-item';
 export class AppSettings {
   public settings: Settings;
   public noteSettings?: NoteSettings;
   public noteTypes?: NoteTypes;
   public displayNav$: BehaviorSubject<boolean>; //(false);
   public notesMode$: BehaviorSubject<string>;
+  public navigation$ = new BehaviorSubject<NavigationItem>(undefined);
   public noteCategories?: NoteCategories;
   constructor() {
     const settingsS = localStorage.getItem('scriptures-overlay-settings');
@@ -20,6 +22,7 @@ export class AppSettings {
     this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
     this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
     this.loadNoteSettings();
+    this.initNav();
   }
   private async getNoteTypeSettings<T extends keyof AppSettings>(
     key: T,
@@ -40,6 +43,21 @@ export class AppSettings {
         console.log(error);
       }
     }
+  }
+
+  private initNav() {
+    of(
+      axios.get(`/files/navigation/${this.settings.lang}-navigation.json`, {
+        responseType: 'json',
+      }),
+    )
+      .pipe(
+        flatMap(o => o),
+        map(o => o.data as NavigationItem),
+      )
+      .subscribe(o => {
+        this.navigation$.next(o);
+      });
   }
   public loadNoteSettings() {
     const noteSettingsS = localStorage.getItem(
