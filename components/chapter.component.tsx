@@ -11,11 +11,14 @@ import { FormatTag } from './format_tag';
 import { VideoComponent } from './VideoComponent';
 import Head from 'next/head';
 import { VerseComponent } from './verse.component';
-import { forkJoin, of } from 'rxjs';
-import { filter, map, flatMap, delay } from 'rxjs/operators';
+import { forkJoin, of, Observable } from 'rxjs';
+import { filter, map, flatMap, delay, toArray } from 'rxjs/operators';
 import { appSettings, store } from './header.component';
 import Link from 'next/link';
 import { scrollIntoView } from './scrollIntoView';
+import { NavigationItem } from './navigation-item';
+import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
+import { gotoLink } from './gotoLink';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -283,6 +286,44 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   return <></>;
 }
 
+const flattenPrimaryManifest = (
+  navItems: NavigationItem[],
+): Observable<NavigationItem[]> => {
+  return of(navItems).pipe(
+    flatMap$,
+    map(navItem => {
+      if (navItem.navigationItems && navItem.navigationItems.length > 0) {
+        return flattenPrimaryManifest(navItem.navigationItems).pipe(
+          map(o => o.concat([navItem])),
+          flatMap$,
+        );
+      }
+
+      return of(navItem);
+    }),
+    flatMap$,
+    toArray(),
+  );
+};
+
+import Router from 'next/router';
+
+export function nextPage() {
+  const urlReg = /(^http.*\/)(.+?)(\/)(.+?)($|\.)/g.exec(window.location.href);
+  if (urlReg) {
+    const url = `${urlReg[2]}/${urlReg[4]}`;
+    console.log(url);
+    getNav().subscribe(o => {
+      const n = o.find(n => n.href === url);
+      if (n) {
+        const i = o[o.indexOf(n) + 1];
+
+        Router.push('/[book]/[chapter]', `/${i.href}`);
+      }
+    });
+  }
+}
+
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
   componentDidMount() {
@@ -291,7 +332,7 @@ export class ChapterComponent extends Component {
     //     filter(o => o !== null),
     //     map(o => o.scrollIntoView())
     //   )
-    // ).subscribe();
+    // ).subscribe(
 
     store.chapter
       .pipe(
@@ -349,7 +390,12 @@ export class ChapterComponent extends Component {
           </header> */}
             {renderFormatGroups(this.state.chapter.body.grps)}
           </div>
-          <span className={'right-nav'}>
+          <span
+            onClick={() => {
+              nextPage();
+            }}
+            className={'right-nav'}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -365,4 +411,15 @@ export class ChapterComponent extends Component {
     }
     return <div></div>;
   }
+}
+function getNav() {
+  return appSettings.navigation$.pipe(
+    filter(o => o !== undefined),
+    map(ni => {
+      return flattenPrimaryManifest(ni.navigationItems).pipe(
+        map(o => o.filter(n => n.href !== undefined)),
+      );
+    }),
+    flatMap(o => o),
+  );
 }
