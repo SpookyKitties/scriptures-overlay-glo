@@ -306,23 +306,7 @@ const flattenPrimaryManifest = (
   );
 };
 
-import Router from 'next/router';
-
-export function nextPage() {
-  const urlReg = /(^http.*\/)(.+?)(\/)(.+?)($|\.)/g.exec(window.location.href);
-  if (urlReg) {
-    const url = `${urlReg[2]}/${urlReg[4]}`;
-    console.log(url);
-    getNav().subscribe(o => {
-      const n = o.find(n => n.href === url);
-      if (n) {
-        const i = o[o.indexOf(n) + 1];
-
-        Router.push('/[book]/[chapter]', `/${i.href}`);
-      }
-    });
-  }
-}
+import { nextPage, previousPage } from './nextPage';
 
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
@@ -368,7 +352,12 @@ export class ChapterComponent extends Component {
               : 'manual'
           }`}
         >
-          <span className={'left-nav'}>
+          <span
+            onClick={() => {
+              previousPage();
+            }}
+            className={'left-nav'}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -411,15 +400,4 @@ export class ChapterComponent extends Component {
     }
     return <div></div>;
   }
-}
-function getNav() {
-  return appSettings.navigation$.pipe(
-    filter(o => o !== undefined),
-    map(ni => {
-      return flattenPrimaryManifest(ni.navigationItems).pipe(
-        map(o => o.filter(n => n.href !== undefined)),
-      );
-    }),
-    flatMap(o => o),
-  );
 }
