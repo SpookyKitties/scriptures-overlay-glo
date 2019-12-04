@@ -2,6 +2,21 @@ import { Component } from 'react';
 import { NavigationItem } from '../navigation-item';
 import { SearchBoxComponent } from './searchbox.component';
 import { appSettings } from '../header.component';
+import Link from 'next/link';
+
+export class OithLink extends Component<{ href: string; active: boolean }> {
+  public render() {
+    if (this.props.href.includes('churchofjesuschrist.')) {
+      return <Link href={`${this.props.href}`}>{this.props.children}</Link>;
+    }
+    return (
+      <Link as={`/${this.props.href}`} href="/[book]/[chapter]">
+        {this.props.children}
+      </Link>
+    );
+  }
+}
+
 class NavItem extends Component<{ navItem: NavigationItem }> {
   public state: { navItem: NavigationItem; open: boolean };
   componentDidMount() {
@@ -35,7 +50,13 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
           </div>
         );
       }
-      return <div>{ni.title}</div>;
+      return (
+        <div>
+          <OithLink href={ni.href} active={false}>
+            <a>{ni.title}</a>
+          </OithLink>{' '}
+        </div>
+      );
     }
     return <></>;
   }
