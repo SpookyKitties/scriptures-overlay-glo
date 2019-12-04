@@ -88,7 +88,7 @@ class OithParent extends Component<{ chapter: Chapter }> {
           this.state && this.state['displayNav'] ? 'nav' : ''
         } ${this.state ? `${this.state['notesMode']}-notes` : ''}`}
       >
-        <nav>
+        <nav className={`oith-navigation`}>
           <NavigationComponenet />{' '}
         </nav>
         <div className={`chapter-loader `} onScroll={scroll}>
