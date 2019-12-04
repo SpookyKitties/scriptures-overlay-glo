@@ -123,10 +123,16 @@ export class AppSettings {
   }
   public displayNotes() {
     const displayNotes = this.settings.notesMode;
+
+    const width = window.outerWidth;
+    console.log(width);
+
     if (displayNotes === 'off' || typeof displayNotes === 'undefined') {
       this.settings.notesMode = 'small';
     } else if (displayNotes === 'small') {
-      this.settings.notesMode = 'large';
+      if (width >= 768) {
+        this.settings.notesMode = 'off';
+      } else this.settings.notesMode = 'large';
     } else {
       this.settings.notesMode = 'off';
     }
