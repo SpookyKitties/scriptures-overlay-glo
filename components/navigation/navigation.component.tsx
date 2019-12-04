@@ -74,7 +74,7 @@ export class NavigationComponenet extends Component {
     if (this.state && this.state.navigation) {
       const n = this.state.navigation;
       return (
-        <div>
+        <div className={`oith-navigation`}>
           <SearchBoxComponent />
           <hr />
           <div>

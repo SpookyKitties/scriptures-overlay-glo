@@ -260,6 +260,9 @@ body {
     }
     &.no-nav {
     }
+    .right-nav svg {
+      right: calc(#{$notesWidth} + 10px);
+    }
   }
   &.small-notes {
     grid-template-columns: 0 calc(100vw - #{$notesWidth} + 100px) calc(
@@ -275,6 +278,10 @@ body {
       .oith-navigation {
         display: block;
       }
+    }
+
+    .right-nav svg {
+      right: calc(#{$notesWidth} - 100px + 10px);
     }
   }
 }
@@ -312,16 +319,20 @@ body {
     width: 100vw;
     height: 48px;
   }
-
+  .off-notes {
+    .verse-notes {
+      display: none !important;
+    }
+  }
   .oith-content-parent {
     @media screen and (max-width: 700px) {
       display: grid;
-      grid-template-rows: 0 calc(100% - 250px) 250px;
+      grid-template-rows: 0 calc(100% - 250px) 0px;
       &.large-notes {
         grid-template-rows: 0 calc(100% - 250px) 250px;
       }
       &.small-notes {
-        grid-template-rows: 0 calc(100% - 250px) 250px;
+        grid-template-rows: 0 calc(100% - 150px) 150px;
       }
       @include mobileNav();
     }
@@ -347,7 +358,9 @@ body {
       svg {
         position: fixed;
         width: 48px;
-        top: calc(100% - 350px - 48px);
+        height: 32px;
+        top: calc(100vh / 2);
+        // top: calc(100% - 350px - 48px);
       }
     }
     .left-nav {
