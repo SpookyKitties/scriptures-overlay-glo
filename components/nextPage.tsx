@@ -38,7 +38,7 @@ export function nextPage() {
   }
 }
 function parseUrl() {
-  const urlRegex = /(^http.*\/)(.+?)(\/)(.+?)($|\.)/g.exec(
+  const urlRegex = /(^http.*\/)(.+?)(\/)(.+?)(\?|$|\.)/g.exec(
     window.location.href,
   );
 
