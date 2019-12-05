@@ -85,11 +85,17 @@ class OithParent extends Component<{ chapter: Chapter }> {
     return (
       <div
         className={`oith-content-parent ${
-          this.state && this.state['displayNav'] ? 'nav' : ''
+          this.state && this.state['displayNav'] ? 'nav' : 'nav-off'
         } ${this.state ? `${this.state['notesMode']}-notes` : ''}`}
       >
-        <nav>
-          <NavigationComponenet />{' '}
+        <nav className={`oith-navigation`}>
+          <NavigationComponenet />
+          <div
+            className={`mobile-nav-close`}
+            onClick={() => {
+              appSettings.displayNav();
+            }}
+          ></div>
         </nav>
         <div className={`chapter-loader `} onScroll={scroll}>
           <ChapterComponent></ChapterComponent>

@@ -11,11 +11,14 @@ import { FormatTag } from './format_tag';
 import { VideoComponent } from './VideoComponent';
 import Head from 'next/head';
 import { VerseComponent } from './verse.component';
-import { forkJoin, of } from 'rxjs';
-import { filter, map, flatMap, delay } from 'rxjs/operators';
+import { forkJoin, of, Observable } from 'rxjs';
+import { filter, map, flatMap, delay, toArray } from 'rxjs/operators';
 import { appSettings, store } from './header.component';
 import Link from 'next/link';
 import { scrollIntoView } from './scrollIntoView';
+import { NavigationItem } from './navigation-item';
+import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
+import { gotoLink } from './gotoLink';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -283,6 +286,28 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   return <></>;
 }
 
+const flattenPrimaryManifest = (
+  navItems: NavigationItem[],
+): Observable<NavigationItem[]> => {
+  return of(navItems).pipe(
+    flatMap$,
+    map(navItem => {
+      if (navItem.navigationItems && navItem.navigationItems.length > 0) {
+        return flattenPrimaryManifest(navItem.navigationItems).pipe(
+          map(o => o.concat([navItem])),
+          flatMap$,
+        );
+      }
+
+      return of(navItem);
+    }),
+    flatMap$,
+    toArray(),
+  );
+};
+
+import { nextPage, previousPage } from './nextPage';
+
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
   componentDidMount() {
@@ -291,7 +316,7 @@ export class ChapterComponent extends Component {
     //     filter(o => o !== null),
     //     map(o => o.scrollIntoView())
     //   )
-    // ).subscribe();
+    // ).subscribe(
 
     store.chapter
       .pipe(
@@ -327,7 +352,12 @@ export class ChapterComponent extends Component {
               : 'manual'
           }`}
         >
-          <span className={'left-nav'}>
+          <span
+            onClick={() => {
+              previousPage();
+            }}
+            className={'left-nav'}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -349,7 +379,12 @@ export class ChapterComponent extends Component {
           </header> */}
             {renderFormatGroups(this.state.chapter.body.grps)}
           </div>
-          <span className={'right-nav'}>
+          <span
+            onClick={() => {
+              nextPage();
+            }}
+            className={'right-nav'}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

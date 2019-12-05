@@ -251,7 +251,7 @@ body {
       0 calc(100vw - (#{$notesWidth}))
       $notesWidth;
     .oith-navigation {
-      display: none;
+      // display: none/;
     }
     &.nav {
       grid-template-columns:
@@ -260,14 +260,15 @@ body {
     }
     &.no-nav {
     }
+    .right-nav svg {
+      right: calc(#{$notesWidth} + 10px);
+    }
   }
   &.small-notes {
     grid-template-columns: 0 calc(100vw - #{$notesWidth} + 100px) calc(
         #{$notesWidth} - 100px
       );
-    .oith-navigation {
-      display: none;
-    }
+
     &.nav {
       grid-template-columns:
         $navWidth calc(100vw - #{$notesWidth} - #{$navWidth} + 100px)
@@ -276,6 +277,10 @@ body {
         display: block;
       }
     }
+
+    .right-nav svg {
+      right: calc(#{$notesWidth} - 100px + 10px);
+    }
   }
 }
 
@@ -283,10 +288,15 @@ body {
 @mixin mobileNav {
   &.nav {
     .oith-navigation {
-      display: block;
+      display: grid;
       position: absolute;
-      top: 0;
+      top: 48px;
       left: 0;
+      width: 100vw;
+      grid-template-columns: 250px calc(100vw - 250px);
+      .mobile-nav-close {
+        height: calc(100vh - 48px);
+      }
     }
   }
   .oith-navigation {
@@ -312,42 +322,89 @@ body {
     width: 100vw;
     height: 48px;
   }
+  .off-notes {
+    .verse-notes {
+      display: none !important;
+    }
+  }
 
   .oith-content-parent {
     @media screen and (max-width: 700px) {
       display: grid;
-      grid-template-rows: 0 calc(100% - 250px) 250px;
+      grid-template-rows: calc(100vh) 0px;
       &.large-notes {
-        grid-template-rows: 0 calc(100% - 250px) 250px;
+        grid-template-rows: calc(100vh - 250px) 250px;
       }
       &.small-notes {
-        grid-template-rows: 0 calc(100% - 250px) 250px;
+        grid-template-rows: calc(100vh - 150px) 150px;
       }
       @include mobileNav();
     }
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 768px) and (max-width: 991.98px) {
       display: grid;
       @include mobileNav();
-      @include oithContent(0px, 350px);
+      // @include oithContent(0px, 350px);
+      grid-template-columns: calc(100%) 0px;
+      &.large-notes {
+        grid-template-columns: calc(100% - 350px) 350px;
+      }
+      &.small-notes {
+        grid-template-columns: calc(100% - 250px) 250px;
+
+        .right-nav svg {
+          right: 250px; //calc() + 10px);
+        }
+      }
     }
     @media screen and (min-width: 992px) {
       display: grid;
       @include oithContent(250px, 350px);
+      .oith-navigation {
+        height: calc(100vh - 48px);
+        background-color: #f7f8f8;
+        // display: grid;
+        // grid-template-columns: 250px 0;
+      }
+      &.nav {
+        .left-nav {
+          svg {
+            left: 250px;
+          }
+        }
+      }
     }
     @media screen and (min-width: 1120px) {
       display: grid;
       @include oithContent(250px, 350px);
+      .oith-navigation {
+        display: grid;
+
+        grid-template-columns: 250px 0;
+      }
     }
     // >=768px	Medium
     // >=992px	Large
     // >=1200px
-
+    &.nav-off {
+      .navigation {
+        display: none;
+      }
+    }
+    .oith-navigation {
+      .navigation {
+        background-color: #f7f8f8;
+        height: calc(100vh - 48px);
+      }
+      height: calc(100vh - 48px);
+    }
     .left-nav,
     .right-nav {
       svg {
         position: fixed;
         width: 48px;
-        top: calc(100% - 350px - 48px);
+        height: 32px;
+        top: calc(100vh / 2);
+        // top: calc(100% - 350px - 48px);
       }
     }
     .left-nav {
@@ -357,11 +414,34 @@ body {
     }
     .right-nav {
       svg {
-        right: 0;
+        right: 10;
       }
     }
     .chapter-content {
       @include chapterContent();
     }
+  }
+}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.navigation-parent {
+  .navigation-child {
+    margin-left: 10px;
+    padding: 0;
+    border-left-width: 1px;
+    border-left-style: ridge;
+    list-style: none;
+    // grid-template-columns: auto 24px !important;
+    // margin-bottom: 8px;
+    // margin-left: 20px;
+    // font-family: 'Open Sans' !important;
+    // display: grid;
+  }
+  .title {
+    font-family: 'Open Sans' !important;
+    padding-left: 5px;
+    font-size: 1em;
+    margin-bottom: 8px;
+    display: block;
   }
 }

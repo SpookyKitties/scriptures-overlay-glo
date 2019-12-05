@@ -2,10 +2,31 @@ import { Component } from 'react';
 import { NavigationItem } from '../navigation-item';
 import { SearchBoxComponent } from './searchbox.component';
 import { appSettings } from '../header.component';
+import Link from 'next/link';
+import { filterUndefined$ } from '../nextPage';
+import { map, take } from 'rxjs/operators';
+import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
+
+export class OithLink extends Component<{ href: string; active: boolean }> {
+  public render() {
+    if (this.props.href.includes('churchofjesuschrist.')) {
+      return <Link href={`${this.props.href}`}>{this.props.children}</Link>;
+    }
+    return (
+      <Link as={`/${this.props.href}`} href="/[book]/[chapter]">
+        {this.props.children}
+      </Link>
+    );
+  }
+}
+
 class NavItem extends Component<{ navItem: NavigationItem }> {
   public state: { navItem: NavigationItem; open: boolean };
   componentDidMount() {
-    this.setState({ navItem: this.props.navItem });
+    this.setState({
+      navItem: this.props.navItem,
+      open: this.props.navItem.open,
+    });
   }
 
   open(navItem: NavigationItem) {
@@ -19,23 +40,32 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
 
       if (ni.navigationItems) {
         return (
-          <div>
+          <div className={`navigation-parent`}>
             <span
               onClick={() => {
                 this.open(ni);
               }}
             >
-              {ni.title}
+              <span className={`title`}>{ni.title}</span>
+              {/* <span className={`short-title`}>{ni.title}</span> */}
             </span>
-            {this.state.open ? (
-              ni.navigationItems.map(n => <NavItem navItem={n} />)
-            ) : (
-              <></>
-            )}
+            <div className={`navigation-child`}>
+              {this.state.open ? (
+                ni.navigationItems.map(n => <NavItem navItem={n} />)
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         );
       }
-      return <div>{ni.title}</div>;
+      return (
+        <div>
+          <OithLink href={ni.href} active={false}>
+            <a className={`title`}>{ni.title}</a>
+          </OithLink>{' '}
+        </div>
+      );
     }
     return <></>;
   }
@@ -48,21 +78,40 @@ export class NavigationComponenet extends Component {
     appSettings.navigation$.subscribe(o => {
       this.setState({ navigation: o });
     });
+
+    appSettings.updatenavigation$
+      .pipe(
+        filterUndefined$,
+        map(() =>
+          appSettings.navigation$.pipe(
+            take(1),
+            filterUndefined$,
+          ),
+        ),
+        flatMap$,
+      )
+      .subscribe(o => {
+        this.setState({ navigation: undefined });
+        this.setState({ navigation: o });
+      });
   }
   public render() {
     if (this.state && this.state.navigation) {
       const n = this.state.navigation;
+
       return (
-        <div>
+        <div className={`navigation`}>
           <SearchBoxComponent />
           <hr />
           <div>
             <span>{this.state.navigation.title}</span>
           </div>
           <hr />
-          {this.state.navigation.navigationItems.map(ni => {
-            return <NavItem navItem={ni} />;
-          })}
+          <div>
+            {this.state.navigation.navigationItems.map(ni => {
+              return <NavItem navItem={ni} />;
+            })}
+          </div>
         </div>
       );
     }
