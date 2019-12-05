@@ -12,6 +12,7 @@ import { AppSettings } from './AppSettings';
 import { NoteSettingsMenu } from './NoteSettingsMenu';
 import { menuOverlay$ } from './MenuOverlay';
 import { FormatTagService } from './FormatTagService';
+import { setCurrentNav } from './nextPage';
 
 export let appSettings: AppSettings;
 export let store: Store;
@@ -37,7 +38,7 @@ export class HeaderComponent extends Component {
     formatTagService = new FormatTagService();
 
     resetNotes$();
-
+    setCurrentNav();
     this.closeMenu$.subscribe(() => {
       this.setState({ displayNoteSettings: false });
     });

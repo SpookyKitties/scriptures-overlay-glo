@@ -36,7 +36,11 @@ export class AppSettings {
   public displayNav$: BehaviorSubject<boolean>; //(false);
   public notesMode$: BehaviorSubject<string>;
   public navigation$ = new BehaviorSubject<NavigationItem>(undefined);
+  public updatenavigation$ = new BehaviorSubject<boolean>(undefined);
   public flatNavigation$ = new BehaviorSubject<NavigationItem[]>(undefined);
+  public flatNavigationParents$ = new BehaviorSubject<NavigationItem[]>(
+    undefined,
+  );
   public noteCategories?: NoteCategories;
   constructor() {
     const settingsS = localStorage.getItem('scriptures-overlay-settings');
