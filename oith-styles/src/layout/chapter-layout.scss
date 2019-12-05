@@ -290,11 +290,15 @@ body {
 @mixin mobileNav {
   &.nav {
     .oith-navigation {
-      display: block;
+      display: grid;
       position: absolute;
       top: 48px;
       left: 0;
-      width: 250px;
+      width: 100vw;
+      grid-template-columns: 250px calc(100vw - 250px);
+      .mobile-nav-close {
+        height: calc(100vh - 48px);
+      }
     }
   }
   .oith-navigation {
@@ -325,6 +329,7 @@ body {
       display: none !important;
     }
   }
+
   .oith-content-parent {
     @media screen and (max-width: 700px) {
       display: grid;
@@ -337,7 +342,7 @@ body {
       }
       @include mobileNav();
     }
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 768px) and (max-width: 991.98px) {
       display: grid;
       @include mobileNav();
       // @include oithContent(0px, 350px);
@@ -352,15 +357,37 @@ body {
     @media screen and (min-width: 992px) {
       display: grid;
       @include oithContent(250px, 350px);
+      .oith-navigation {
+        height: calc(100vh - 48px);
+        background-color: #f7f8f8;
+        // display: grid;
+        // grid-template-columns: 250px 0;
+      }
     }
     @media screen and (min-width: 1120px) {
       display: grid;
       @include oithContent(250px, 350px);
+      .oith-navigation {
+        display: grid;
+
+        grid-template-columns: 250px 0;
+      }
     }
     // >=768px	Medium
     // >=992px	Large
     // >=1200px
-
+    &.nav-off {
+      .navigation {
+        display: none;
+      }
+    }
+    .oith-navigation {
+      .navigation {
+        background-color: #f7f8f8;
+        height: calc(100vh - 48px);
+      }
+      height: calc(100vh - 48px);
+    }
     .left-nav,
     .right-nav {
       svg {
