@@ -251,7 +251,7 @@ body {
       0 calc(100vw - (#{$notesWidth}))
       $notesWidth;
     .oith-navigation {
-      display: none;
+      // display: none/;
     }
     &.nav {
       grid-template-columns:
@@ -269,7 +269,7 @@ body {
         #{$notesWidth} - 100px
       );
     .oith-navigation {
-      display: none;
+      // display: none;
     }
     &.nav {
       grid-template-columns:
@@ -352,6 +352,10 @@ body {
       }
       &.small-notes {
         grid-template-columns: calc(100% - 250px) 250px;
+
+        .right-nav svg {
+          right: 250px; //calc() + 10px);
+        }
       }
     }
     @media screen and (min-width: 992px) {
@@ -362,6 +366,13 @@ body {
         background-color: #f7f8f8;
         // display: grid;
         // grid-template-columns: 250px 0;
+      }
+      &.nav {
+        .left-nav {
+          svg {
+            left: 250px;
+          }
+        }
       }
     }
     @media screen and (min-width: 1120px) {
