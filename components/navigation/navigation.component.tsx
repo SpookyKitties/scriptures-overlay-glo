@@ -34,26 +34,29 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
 
       if (ni.navigationItems) {
         return (
-          <div>
+          <div className={`navigation-parent`}>
             <span
               onClick={() => {
                 this.open(ni);
               }}
             >
-              {ni.title}
+              <span className={`title`}>{ni.title}</span>
+              {/* <span className={`short-title`}>{ni.title}</span> */}
             </span>
-            {this.state.open ? (
-              ni.navigationItems.map(n => <NavItem navItem={n} />)
-            ) : (
-              <></>
-            )}
+            <div className={`navigation-child`}>
+              {this.state.open ? (
+                ni.navigationItems.map(n => <NavItem navItem={n} />)
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         );
       }
       return (
         <div>
           <OithLink href={ni.href} active={false}>
-            <a>{ni.title}</a>
+            <a className={`title`}>{ni.title}</a>
           </OithLink>{' '}
         </div>
       );
@@ -81,9 +84,11 @@ export class NavigationComponenet extends Component {
             <span>{this.state.navigation.title}</span>
           </div>
           <hr />
-          {this.state.navigation.navigationItems.map(ni => {
-            return <NavItem navItem={ni} />;
-          })}
+          <div>
+            {this.state.navigation.navigationItems.map(ni => {
+              return <NavItem navItem={ni} />;
+            })}
+          </div>
         </div>
       );
     }

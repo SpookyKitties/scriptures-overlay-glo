@@ -268,9 +268,7 @@ body {
     grid-template-columns: 0 calc(100vw - #{$notesWidth} + 100px) calc(
         #{$notesWidth} - 100px
       );
-    .oith-navigation {
-      // display: none;
-    }
+
     &.nav {
       grid-template-columns:
         $navWidth calc(100vw - #{$notesWidth} - #{$navWidth} + 100px)
@@ -422,5 +420,28 @@ body {
     .chapter-content {
       @include chapterContent();
     }
+  }
+}
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.navigation-parent {
+  .navigation-child {
+    margin-left: 10px;
+    padding: 0;
+    border-left-width: 1px;
+    border-left-style: ridge;
+    list-style: none;
+    // grid-template-columns: auto 24px !important;
+    // margin-bottom: 8px;
+    // margin-left: 20px;
+    // font-family: 'Open Sans' !important;
+    // display: grid;
+  }
+  .title {
+    font-family: 'Open Sans' !important;
+    padding-left: 5px;
+    font-size: 1em;
+    margin-bottom: 8px;
+    display: block;
   }
 }
