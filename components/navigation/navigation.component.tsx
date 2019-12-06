@@ -4,7 +4,7 @@ import { SearchBoxComponent } from './searchbox.component';
 import { appSettings } from '../header.component';
 import Link from 'next/link';
 import { filterUndefined$ } from '../nextPage';
-import { map, take } from 'rxjs/operators';
+import { map, take, delay } from 'rxjs/operators';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 
 export class OithLink extends Component<{ href: string; active: boolean }> {
@@ -20,12 +20,21 @@ export class OithLink extends Component<{ href: string; active: boolean }> {
   }
 }
 
+const isOpen = (open: boolean) => {
+  return open ? 'open' : '';
+};
 class NavItem extends Component<{ navItem: NavigationItem }> {
   public state: { navItem: NavigationItem; open: boolean };
   componentDidMount() {
     this.setState({
       navItem: this.props.navItem,
       open: this.props.navItem.open,
+    });
+
+    appSettings.updatenavigation$.pipe(filterUndefined$).subscribe(o => {
+      this.setState({
+        open: this.props.navItem.open,
+      });
     });
   }
 
@@ -46,7 +55,7 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
                 this.open(ni);
               }}
             >
-              <span className={`title`}>{ni.title}</span>
+              <span className={`title ${isOpen(ni.open)}`}>{ni.title}</span>
               {/* <span className={`short-title`}>{ni.title}</span> */}
             </span>
             <div className={`navigation-child`}>
@@ -62,7 +71,10 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
       return (
         <div>
           <OithLink href={ni.href} active={false}>
-            <a className={`title`}>{ni.title}</a>
+            <a className={`title  ${isOpen(ni.open)}`}>
+              {ni.open}
+              {ni.title}
+            </a>
           </OithLink>{' '}
         </div>
       );
@@ -82,17 +94,21 @@ export class NavigationComponenet extends Component {
     appSettings.updatenavigation$
       .pipe(
         filterUndefined$,
-        map(() =>
-          appSettings.navigation$.pipe(
-            take(1),
-            filterUndefined$,
-          ),
-        ),
-        flatMap$,
+        delay(200),
+        map(() => {
+          const titleOpen = document.querySelector('a.title.open');
+
+          if (titleOpen) {
+            titleOpen.scrollIntoView();
+          }
+
+          // console.log(document.querySelector('.nav-items-holder').scrollHeight);
+        }),
       )
       .subscribe(o => {
-        this.setState({ navigation: undefined });
-        this.setState({ navigation: o });
+        // this.setState({ navigation: undefined });
+        // this.setState({ navigation: o });
+        setTimeout(() => {}, 100);
       });
   }
   public render() {
@@ -103,14 +119,15 @@ export class NavigationComponenet extends Component {
         <div className={`navigation`}>
           <SearchBoxComponent />
           <hr />
-          <div>
+          <div id="library">
             <span>{this.state.navigation.title}</span>
           </div>
           <hr />
-          <div>
+          <div className={`nav-items-holder`}>
             {this.state.navigation.navigationItems.map(ni => {
               return <NavItem navItem={ni} />;
             })}
+            <div className={`white-space`}></div>
           </div>
         </div>
       );

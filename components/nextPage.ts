@@ -57,10 +57,14 @@ function navUPdate(
   navigationItem: NavigationItem,
   url: string,
 ): Observable<NavigationItem[]> {
-  if (
-    navigationItem.navigationItems !== undefined &&
-    navigationItem.navigationItems.find(ni => `/${ni.href}` === url)
-  ) {
+  const n = navigationItem.navigationItems
+    ? navigationItem.navigationItems.find(ni => `/${ni.href}` === url)
+    : undefined;
+
+  if (navigationItem.navigationItems !== undefined && n) {
+    n.open = true;
+    console.log(n);
+
     return of([navigationItem]); //.pipe(map(o=>o.concat()));
   } else if (navigationItem.navigationItems !== undefined) {
     return of(navigationItem.navigationItems).pipe(
@@ -78,8 +82,9 @@ export function setCurrentNav() {
   store.chapter
     .pipe(
       filterUndefined$,
-      map(() => {
-        console.log('jhhgg');
+      map(c => {
+        const url = urlFromID(c.id);
+        console.log(url);
 
         return forkJoin(
           appSettings.navigation$.pipe(
@@ -90,25 +95,17 @@ export function setCurrentNav() {
             take(1),
             filterUndefined$,
             map(nav => {
-              console.log('jht4343');
-
-              return nav
-                .filter(n => n.navigationItems !== undefined)
-                .map(n => (n.open = false));
+              return (
+                nav
+                  // .filter(n => n.navigationItems !== undefined)
+                  .map(n => (n.open = false))
+              );
             }),
           ),
-        ).pipe(map(o => o[0]));
+        ).pipe(map(o => navUPdate(o[0], url)));
       }),
       // flatMap$,
       flatMap(o => o),
-      map(o =>
-        navUPdate(o, getURL()).pipe(
-          flatMap$,
-          // toArray(),
-          toArray(),
-          map(o => o),
-        ),
-      ),
       flatMap(o => o),
     )
     .subscribe(o => {
@@ -117,4 +114,15 @@ export function setCurrentNav() {
 
       appSettings.updatenavigation$.next(true);
     });
+}
+function urlFromID(
+  id: string, // import('c:/users/jared/source/repos/scriptures-overlay/oith-lib/src/models/Chapter').Chapter,
+) {
+  const idreg = /^.+?\-(.+?)\-chapter/g.exec(id);
+  if (idreg) {
+    const book = /(.+)\-(.+$)/g.exec(idreg[1]);
+
+    return book ? `/${book[1]}/${book[2]}` : '';
+  }
+  return id;
 }

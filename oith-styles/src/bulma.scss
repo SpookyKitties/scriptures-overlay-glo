@@ -77,7 +77,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -132,7 +134,9 @@ button,
 input,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    'Helvetica', 'Arial', sans-serif;
 }
 
 code,
@@ -166,15 +170,15 @@ code {
   color: #f14668;
   font-size: 0.875em;
   font-weight: normal;
-  padding: .25em .5em .25em;
+  padding: 0.25em 0.5em 0.25em;
 }
 
 hr {
-  background-color: whitesmoke;
-  border: none;
-  display: block;
-  height: 2px;
-  margin: 1.5rem 0;
+  // background-color: whitesmoke;
+  // border: none;
+  // display: block;
+  // height: 2px;
+  // margin: 1.5rem 0;
 }
 
 img {
@@ -182,8 +186,8 @@ img {
   max-width: 100%;
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   vertical-align: baseline;
 }
 
@@ -236,7 +240,7 @@ table th {
 
 .is-clearfix::after {
   clear: both;
-  content: " ";
+  content: ' ';
   display: table;
 }
 
@@ -670,7 +674,8 @@ table th {
   color: white !important;
 }
 
-a.has-text-white:hover, a.has-text-white:focus {
+a.has-text-white:hover,
+a.has-text-white:focus {
   color: #e6e6e6 !important;
 }
 
@@ -682,7 +687,8 @@ a.has-text-white:hover, a.has-text-white:focus {
   color: #0a0a0a !important;
 }
 
-a.has-text-black:hover, a.has-text-black:focus {
+a.has-text-black:hover,
+a.has-text-black:focus {
   color: black !important;
 }
 
@@ -694,7 +700,8 @@ a.has-text-black:hover, a.has-text-black:focus {
   color: whitesmoke !important;
 }
 
-a.has-text-light:hover, a.has-text-light:focus {
+a.has-text-light:hover,
+a.has-text-light:focus {
   color: #dbdbdb !important;
 }
 
@@ -706,7 +713,8 @@ a.has-text-light:hover, a.has-text-light:focus {
   color: #363636 !important;
 }
 
-a.has-text-dark:hover, a.has-text-dark:focus {
+a.has-text-dark:hover,
+a.has-text-dark:focus {
   color: #1c1c1c !important;
 }
 
@@ -718,7 +726,8 @@ a.has-text-dark:hover, a.has-text-dark:focus {
   color: #00d1b2 !important;
 }
 
-a.has-text-primary:hover, a.has-text-primary:focus {
+a.has-text-primary:hover,
+a.has-text-primary:focus {
   color: #009e86 !important;
 }
 
@@ -730,7 +739,8 @@ a.has-text-primary:hover, a.has-text-primary:focus {
   color: #3273dc !important;
 }
 
-a.has-text-link:hover, a.has-text-link:focus {
+a.has-text-link:hover,
+a.has-text-link:focus {
   color: #205bbc !important;
 }
 
@@ -742,7 +752,8 @@ a.has-text-link:hover, a.has-text-link:focus {
   color: #3298dc !important;
 }
 
-a.has-text-info:hover, a.has-text-info:focus {
+a.has-text-info:hover,
+a.has-text-info:focus {
   color: #207dbc !important;
 }
 
@@ -754,7 +765,8 @@ a.has-text-info:hover, a.has-text-info:focus {
   color: #48c774 !important;
 }
 
-a.has-text-success:hover, a.has-text-success:focus {
+a.has-text-success:hover,
+a.has-text-success:focus {
   color: #34a85c !important;
 }
 
@@ -766,7 +778,8 @@ a.has-text-success:hover, a.has-text-success:focus {
   color: #ffdd57 !important;
 }
 
-a.has-text-warning:hover, a.has-text-warning:focus {
+a.has-text-warning:hover,
+a.has-text-warning:focus {
   color: #ffd324 !important;
 }
 
@@ -778,7 +791,8 @@ a.has-text-warning:hover, a.has-text-warning:focus {
   color: #f14668 !important;
 }
 
-a.has-text-danger:hover, a.has-text-danger:focus {
+a.has-text-danger:hover,
+a.has-text-danger:focus {
   color: #ee1742 !important;
 }
 
@@ -879,15 +893,21 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 }
 
 .is-family-primary {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    'Helvetica', 'Arial', sans-serif !important;
 }
 
 .is-family-secondary {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    'Helvetica', 'Arial', sans-serif !important;
 }
 
 .is-family-sans-serif {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    'Helvetica', 'Arial', sans-serif !important;
 }
 
 .is-family-monospace {
@@ -1277,7 +1297,8 @@ a.has-text-danger:hover, a.has-text-danger:focus {
   position: relative;
   vertical-align: top;
 }
-.dropdown.is-active .dropdown-menu, .dropdown.is-hoverable:hover .dropdown-menu {
+.dropdown.is-active .dropdown-menu,
+.dropdown.is-hoverable:hover .dropdown-menu {
   display: block;
 }
 .dropdown.is-right .dropdown-menu {
@@ -1304,7 +1325,8 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 .dropdown-content {
   background-color: white;
   border-radius: 4px;
-  box-shadow: 0 .5em 1em -.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+    0 0px 0 1px rgba(10, 10, 10, 0.02);
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
 }
@@ -1312,9 +1334,9 @@ a.has-text-danger:hover, a.has-text-danger:focus {
 .dropdown-item {
   color: #4a4a4a;
   display: block;
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.5;
-  padding: .375rem 1rem;
+  padding: 0.375rem 1rem;
   position: relative;
 }
 
@@ -1341,7 +1363,7 @@ button.dropdown-item.is-active {
   border: none;
   display: block;
   height: 1px;
-  margin: .5rem 0;
+  margin: 0.5rem 0;
 }
 
 .menu {

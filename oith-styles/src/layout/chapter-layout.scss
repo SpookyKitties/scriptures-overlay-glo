@@ -445,3 +445,24 @@ body {
     display: block;
   }
 }
+
+.title.open {
+  font-weight: 700;
+}
+.nav-items-holder {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+#searchBox {
+  width: 100%;
+  height: 2em;
+}
+
+#library {
+  width: 100%;
+  height: 2em;
+  display: grid;
+  align-items: center;
+  margin-left: 20px;
+}
