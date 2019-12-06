@@ -3,7 +3,7 @@ import { NavigationItem } from '../navigation-item';
 import { SearchBoxComponent } from './searchbox.component';
 import { appSettings } from '../header.component';
 import Link from 'next/link';
-import { filterUndefined$ } from '../nextPage';
+import { filterUndefined$, initnav } from '../nextPage';
 import { map, take, delay } from 'rxjs/operators';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 
@@ -89,9 +89,7 @@ export class NavigationComponenet extends Component {
   componentDidMount() {
     appSettings.navigation$.subscribe(o => {
       this.setState({ navigation: o });
-      console.log(o);
-
-      appSettings.updatenavigation$.next(true);
+      initnav();
     });
 
     appSettings.updatenavigation$
@@ -100,6 +98,7 @@ export class NavigationComponenet extends Component {
         delay(200),
         map(() => {
           const titleOpen = document.querySelector('a.title.open');
+          console.log(titleOpen);
 
           if (titleOpen) {
             titleOpen.scrollIntoView();

@@ -22,7 +22,7 @@ export function getNav() {
 export function previousPage() {
   const url = parseUrl();
   if (url) {
-    console.log(url);
+    // console.log(url);
     getNav().subscribe(o => {
       const n = o.find(n => n.href === url);
       if (n) {
@@ -35,9 +35,11 @@ export function previousPage() {
 export function nextPage() {
   const url = parseUrl();
   if (url) {
-    console.log(url);
+    // console.log(url);
     getNav().subscribe(o => {
       const n = o.find(n => n.href === url);
+      // console.log(n);
+
       if (n) {
         const i = o[o.indexOf(n) + 1];
         Router.push('/[book]/[chapter]', `/${i.href}`);
@@ -52,7 +54,7 @@ function parseUrl() {
     window.location.href,
   );
 
-  return urlRegex ? `/${urlRegex[2]}/${urlRegex[4]}` : undefined;
+  return urlRegex ? `${urlRegex[2]}/${urlRegex[4]}` : undefined;
 }
 
 function navUPdate(
@@ -65,7 +67,7 @@ function navUPdate(
 
   if (navigationItem.navigationItems !== undefined && n) {
     n.open = true;
-    console.log(n);
+    // console.log(n);
 
     return of([navigationItem]); //.pipe(map(o=>o.concat()));
   } else if (navigationItem.navigationItems !== undefined) {
@@ -75,11 +77,31 @@ function navUPdate(
       flatMap$,
     );
   }
-  // console.log(url);
+  console.log(url);
 
-  return EMPTY; // of(navigationItem).pipe();
+  return EMPTY; // of(navigationItem).pipe()
 }
 // export const filterUndefined<T> = () => filter((o: T) => o !== undefined); //=>{}
+export function initnav() {
+  store.chapter
+    .pipe(
+      take(1),
+      filterUndefined$,
+      delay(10),
+      map(c => {
+        return resetNav();
+      }),
+      // flatMap$,
+      flatMap(o => o),
+      flatMap(o => o),
+    )
+    .subscribe(o => {
+      o.map(i => (i.open = true));
+      // console.log(o);
+
+      appSettings.updatenavigation$.next(true);
+    });
+}
 export function setCurrentNav() {
   store.chapter
     .pipe(
@@ -93,8 +115,8 @@ export function setCurrentNav() {
       flatMap(o => o),
     )
     .subscribe(o => {
-      console.log(o.map(i => (i.open = true)));
-      console.log(o);
+      o.map(i => (i.open = true));
+      // console.log(o);
 
       appSettings.updatenavigation$.next(true);
     });
@@ -116,7 +138,7 @@ export function resetNav(): Observable<Observable<NavigationItem[]>> {
         );
       }),
     ),
-  ).pipe(map(o => navUPdate(o[0], parseUrl())));
+  ).pipe(map(o => navUPdate(o[0], `/${parseUrl()}`)));
 }
 
 export function urlFromID(
