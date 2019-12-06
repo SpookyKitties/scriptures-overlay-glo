@@ -1,6 +1,6 @@
 import Router from 'next/router';
 import { appSettings, store } from './header.component';
-import { filter, map, flatMap, take, toArray } from 'rxjs/operators';
+import { filter, map, flatMap, take, toArray, delay } from 'rxjs/operators';
 import { forkJoin, of, Observable, EMPTY } from 'rxjs';
 // import { filterUndefined$ } from '../oith-lib/src/process';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
@@ -46,11 +46,13 @@ export function nextPage() {
   }
 }
 function parseUrl() {
-  const urlRegex = /(^http.*\/)(.+?)(\/)(.+?)(\?|$|\.)/g.exec(
+  const href = window.location.href.split('.');
+
+  const urlRegex = /(^http.*\/)(.+?)(\/)(.+?)(\.|\?|$)/g.exec(
     window.location.href,
   );
 
-  return urlRegex ? `${urlRegex[2]}/${urlRegex[4]}` : undefined;
+  return urlRegex ? `/${urlRegex[2]}/${urlRegex[4]}` : undefined;
 }
 
 function navUPdate(
@@ -82,27 +84,9 @@ export function setCurrentNav() {
   store.chapter
     .pipe(
       filterUndefined$,
+      delay(10),
       map(c => {
-        const url = urlFromID(c.id);
-        console.log(url);
-
-        return forkJoin(
-          appSettings.navigation$.pipe(
-            take(1),
-            filter(o => o !== undefined),
-          ),
-          appSettings.flatNavigation$.pipe(
-            take(1),
-            filterUndefined$,
-            map(nav => {
-              return (
-                nav
-                  // .filter(n => n.navigationItems !== undefined)
-                  .map(n => (n.open = false))
-              );
-            }),
-          ),
-        ).pipe(map(o => navUPdate(o[0], url)));
+        return resetNav();
       }),
       // flatMap$,
       flatMap(o => o),
@@ -115,7 +99,27 @@ export function setCurrentNav() {
       appSettings.updatenavigation$.next(true);
     });
 }
-function urlFromID(
+export function resetNav(): Observable<Observable<NavigationItem[]>> {
+  return forkJoin(
+    appSettings.navigation$.pipe(
+      take(1),
+      filter(o => o !== undefined),
+    ),
+    appSettings.flatNavigation$.pipe(
+      take(1),
+      filterUndefined$,
+      map(nav => {
+        return (
+          nav
+            // .filter(n => n.navigationItems !== undefined)
+            .map(n => (n.open = false))
+        );
+      }),
+    ),
+  ).pipe(map(o => navUPdate(o[0], parseUrl())));
+}
+
+export function urlFromID(
   id: string, // import('c:/users/jared/source/repos/scriptures-overlay/oith-lib/src/models/Chapter').Chapter,
 ) {
   const idreg = /^.+?\-(.+?)\-chapter/g.exec(id);

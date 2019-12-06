@@ -89,11 +89,14 @@ export class NavigationComponenet extends Component {
   componentDidMount() {
     appSettings.navigation$.subscribe(o => {
       this.setState({ navigation: o });
+      console.log(o);
+
+      appSettings.updatenavigation$.next(true);
     });
 
     appSettings.updatenavigation$
       .pipe(
-        filterUndefined$,
+        // filterUndefined$,
         delay(200),
         map(() => {
           const titleOpen = document.querySelector('a.title.open');
@@ -108,7 +111,9 @@ export class NavigationComponenet extends Component {
       .subscribe(o => {
         // this.setState({ navigation: undefined });
         // this.setState({ navigation: o });
-        setTimeout(() => {}, 100);
+        console.log('huvrcrse');
+
+        // setTimeout(() => {}, 100);
       });
   }
   public render() {
