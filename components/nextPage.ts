@@ -22,7 +22,6 @@ export function getNav() {
 export function previousPage() {
   const url = parseUrl();
   if (url) {
-    // console.log(url);
     getNav().subscribe(o => {
       const n = o.find(n => n.href === url);
       if (n) {
@@ -35,10 +34,8 @@ export function previousPage() {
 export function nextPage() {
   const url = parseUrl();
   if (url) {
-    // console.log(url);
     getNav().subscribe(o => {
       const n = o.find(n => n.href === url);
-      // console.log(n);
 
       if (n) {
         const i = o[o.indexOf(n) + 1];
@@ -67,7 +64,6 @@ function navUPdate(
 
   if (navigationItem.navigationItems !== undefined && n) {
     n.open = true;
-    // console.log(n);
 
     return of([navigationItem]); //.pipe(map(o=>o.concat()));
   } else if (navigationItem.navigationItems !== undefined) {
@@ -77,7 +73,6 @@ function navUPdate(
       flatMap$,
     );
   }
-  console.log(url);
 
   return EMPTY; // of(navigationItem).pipe()
 }
@@ -97,7 +92,6 @@ export function initnav() {
     )
     .subscribe(o => {
       o.map(i => (i.open = true));
-      // console.log(o);
 
       appSettings.updatenavigation$.next(true);
     });
@@ -116,7 +110,6 @@ export function setCurrentNav() {
     )
     .subscribe(o => {
       o.map(i => (i.open = true));
-      // console.log(o);
 
       appSettings.updatenavigation$.next(true);
     });

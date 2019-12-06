@@ -7,6 +7,16 @@ export class SearchBoxComponent extends Component {
     //   return <div></div>;
     // }
 
-    return <input type="search" name="search" id="searchBox" />;
+    return (
+      <div>
+        <input
+          type="search"
+          name="search"
+          id="searchBox"
+          placeholder="Look Up"
+        />
+        ;
+      </div>
+    );
   }
 }

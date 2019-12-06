@@ -95,10 +95,10 @@ export class NavigationComponenet extends Component {
     appSettings.updatenavigation$
       .pipe(
         // filterUndefined$,
-        delay(200),
+        delay(100),
         map(() => {
           const titleOpen = document.querySelector('a.title.open');
-          console.log(titleOpen);
+          // console.log(titleOpen);
 
           if (titleOpen) {
             titleOpen.scrollIntoView();
