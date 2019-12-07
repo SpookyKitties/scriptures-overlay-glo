@@ -129,7 +129,6 @@ export class AppSettings {
     const displayNotes = this.settings.notesMode;
 
     const width = window.outerWidth;
-    console.log(width);
 
     if (displayNotes === 'off' || typeof displayNotes === 'undefined') {
       this.settings.notesMode = 'small';

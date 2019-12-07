@@ -110,8 +110,6 @@ export class NavigationComponenet extends Component {
       .subscribe(o => {
         // this.setState({ navigation: undefined });
         // this.setState({ navigation: o });
-        console.log('huvrcrse');
-
         // setTimeout(() => {}, 100);
       });
   }

@@ -165,6 +165,8 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           return <br />;
         }
         case 'img': {
+          return <></>;
+
           attrs['alt'] = attrs['alt'];
           const src = `/images/${`${attrs['src']}`
             .replace(/\.jpg.*/g, '')
@@ -177,6 +179,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
         }
         case 'video': {
+          return <></>;
           return (
             <VideoComponent
               grp={grp as FormatGroup}
@@ -216,6 +219,12 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case 'u': {
           return <u>{renderFormatGroups(formatGroup.grps)}</u>;
         }
+        case 'dl': {
+          return <dl>{renderFormatGroups(formatGroup.grps)}</dl>;
+        }
+        case 'dd': {
+          return <dd>{renderFormatGroups(formatGroup.grps)}</dd>;
+        }
         case 'cite': {
           return <cite>{renderFormatGroups(formatGroup.grps)}</cite>;
         }
@@ -224,6 +233,11 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         }
         case 'em': {
           return <em>{renderFormatGroups(formatGroup.grps)}</em>;
+        }
+        case 'blockquote': {
+          return (
+            <blockquote>{renderFormatGroups(formatGroup.grps)}</blockquote>
+          );
         }
         case 'nav': {
           return <nav>{renderFormatGroups(formatGroup.grps)}</nav>;
@@ -324,6 +338,7 @@ export class ChapterComponent extends Component {
         map(c => {
           this.setState({ chapter: undefined });
           this.setState({ chapter: c });
+
           return c;
         }),
         delay(100),

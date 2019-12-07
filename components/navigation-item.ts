@@ -23,7 +23,7 @@ export class NavigationItem {
     this.title = title;
     this.shortTitle = shortTitle;
     if (shortTitle.includes('Come Follow')) {
-      console.log(shortTitle);
+      // console.log(shortTitle)/;
     }
 
     if (href && !href.includes('#map')) {

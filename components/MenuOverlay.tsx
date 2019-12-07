@@ -37,8 +37,6 @@ export class MenuOverlay extends Component {
       return (
         <div
           onClick={() => {
-            console.log(this.state);
-
             this.click();
           }}
           style={overlay}
