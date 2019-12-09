@@ -120,7 +120,7 @@ ChapterParent.getInitialProps = async ({ query }) => {
   const params = parseChapterParams(query);
   const data = await axios.get(
     `/scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
-    { proxy: { port: 3000, host: '127.0.0.1' } },
+    { proxy: { port: 35340, host: '127.0.0.1' } },
   );
 
   const chapter = data.data as Chapter;

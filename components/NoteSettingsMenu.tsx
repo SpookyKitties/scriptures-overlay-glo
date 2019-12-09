@@ -74,19 +74,22 @@ export class NoteSettingsMenu extends Component<{
   }
 
   private renderNoteSettings() {
-    return (
-      <div className={`dropdown-content`}>
-        {appSettings.noteSettings.noteSettings
-          .filter(ns => ns.display)
-          .map(noteSetting => {
-            return (
-              <NoteSettingComponent
-                noteSetting={noteSetting}
-              ></NoteSettingComponent>
-            );
-          })}
-      </div>
-    );
+    if (appSettings) {
+      return (
+        <div className={`dropdown-content`}>
+          {appSettings.noteSettings.noteSettings
+            .filter(ns => ns.display)
+            .map(noteSetting => {
+              return (
+                <NoteSettingComponent
+                  noteSetting={noteSetting}
+                ></NoteSettingComponent>
+              );
+            })}
+        </div>
+      );
+    }
+    return <></>;
   }
 
   public render() {
