@@ -5,6 +5,7 @@ import {
   DocType,
   FormatTag,
 } from '../verse-notes/verse-note';
+import { Params } from '../shells/build-shells';
 export class Verse {
   public id: string;
   public text: string;
@@ -81,7 +82,7 @@ export class Chapter extends Doc {
   // public versesFormatGroups:
   public verseNotes?: VerseNote[];
   public verses: Verse[];
-  params: import('c:/users/jared/source/repos/scriptures-overlay/oith-lib/src/shells/build-shells').ChapterParams;
+  params: Params; //import('c:/users/jared/source/repos/scriptures-overlay/oith-lib/src/shells/build-shells').ChapterParams;
   chapterTop: number;
   verseNotesTop: number;
   history: any;
