@@ -40,7 +40,6 @@ export class HeaderComponent extends Component {
     store = new Store();
     formatTagService = new FormatTagService();
 
-    resetNotes$();
     setCurrentNav();
     this.closeMenu$.subscribe(() => {
       this.setState({ displayNoteSettings: false });

@@ -9,6 +9,7 @@ import { NoteSettings } from '../oith-lib/src/processors/NoteSettings';
 import { Settings } from './Settings';
 import { NavigationItem } from './navigation-item';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
+import { resetNotes$ } from './resetNotes';
 
 const flattenPrimaryManifest = (
   navItems: NavigationItem[],
@@ -59,9 +60,10 @@ export class AppSettings {
   ) {
     if (!this[key]) {
       const lang = this.settings.lang;
+
       try {
         const data = await axios.get(
-          `https://files.oneinthinehand.org/so/scripture_files/${lang}-${fileName}.json`,
+          `https://files.oneinthinehand.org/so/scripture_files/${'eng'}-${fileName}.json`,
           {
             responseType: 'json',
           },
@@ -117,13 +119,21 @@ export class AppSettings {
     this.noteCategories = noteCategoriesS
       ? JSON.parse(noteCategoriesS)
       : undefined;
-    forkJoin(
-      of(this.getNoteTypeSettings('noteSettings', 'note-settings')),
-      of(this.getNoteTypeSettings('noteCategories', 'note-categories')),
-      of(this.getNoteTypeSettings('noteTypes', 'note-types')),
-    )
-      .pipe(flatMap(o => o))
-      .subscribe();
+    return (
+      forkJoin(
+        of(this.getNoteTypeSettings('noteSettings', 'note-settings')).pipe(
+          flatMap$,
+        ),
+        of(this.getNoteTypeSettings('noteCategories', 'note-categories')).pipe(
+          flatMap$,
+        ),
+        of(this.getNoteTypeSettings('noteTypes', 'note-types')).pipe(flatMap$),
+      )
+        // .pipe(flatMap(o => o))
+        .subscribe(o => {
+          resetNotes$();
+        })
+    );
   }
   public displayNav() {
     this.settings.displayNav = !this.settings.displayNav;

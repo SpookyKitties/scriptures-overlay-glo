@@ -74,7 +74,7 @@ export class NoteSettingsMenu extends Component<{
   }
 
   private renderNoteSettings() {
-    if (appSettings) {
+    if (appSettings && appSettings.noteSettings) {
       return (
         <div className={`dropdown-content`}>
           {appSettings.noteSettings.noteSettings
