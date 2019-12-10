@@ -278,10 +278,13 @@ function addRefLabel(chapter: Chapter) {
     appSettings
       ? of(appSettings.noteCategories)
       : of(
-          axios.get('/scripture_files/eng-note-categories.json', {
-            responseType: 'json',
-            proxy: { port: port, host: '127.0.0.1' },
-          }),
+          axios.get(
+            'https://files.oneinthinehand.org/so//scripture_files/eng-note-categories.json',
+            {
+              responseType: 'json',
+              // proxy: { port: port, host: '127.0.0.1' },
+            },
+          ),
         ).pipe(
           flatMap$,
           map(res => res.data as NoteCategories),

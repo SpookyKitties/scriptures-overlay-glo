@@ -61,7 +61,7 @@ export class AppSettings {
       const lang = this.settings.lang;
       try {
         const data = await axios.get(
-          `/scripture_files/${lang}-${fileName}.json`,
+          `https://files.oneinthinehand.org/so/scripture_files/${lang}-${fileName}.json`,
           {
             responseType: 'json',
           },
@@ -89,9 +89,12 @@ export class AppSettings {
   }
   private initNav() {
     of(
-      axios.get(`/files/navigation/${this.settings.lang}-navigation.json`, {
-        responseType: 'json',
-      }),
+      axios.get(
+        `https://files.oneinthinehand.org/so//files/navigation/${this.settings.lang}-navigation.json`,
+        {
+          responseType: 'json',
+        },
+      ),
     )
       .pipe(
         flatMap(o => o),
