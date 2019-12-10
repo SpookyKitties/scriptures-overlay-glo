@@ -271,6 +271,8 @@ function prepVideos(chapter: Chapter) {
   );
 }
 
+const port = parseInt(process.env.PORT, 10) || 3000;
+
 function addRefLabel(chapter: Chapter) {
   return of(
     appSettings
@@ -278,7 +280,7 @@ function addRefLabel(chapter: Chapter) {
       : of(
           axios.get('/scripture_files/eng-note-categories.json', {
             responseType: 'json',
-            proxy: { port: 3000, host: '127.0.0.1' },
+            proxy: { port: port, host: '127.0.0.1' },
           }),
         ).pipe(
           flatMap$,
@@ -336,7 +338,10 @@ export interface ChapterParams {
   lang: string;
 }
 
-export function parseChapterParams(params: Params): ChapterParams {
+export function parseChapterParams(
+  params: Params,
+  lang: string,
+): ChapterParams {
   const book = params['book'] as string;
   const chapterSplit = (params['chapter'] as string).split('.');
 
@@ -345,6 +350,6 @@ export function parseChapterParams(params: Params): ChapterParams {
     chapter: chapterSplit[0],
     highlight: chapterSplit[1],
     context: chapterSplit[2],
-    lang: params['lang'] ? params['lang'] : 'eng',
+    lang: lang, // params['lang'] ? params['lang'] : 'eng',
   };
 }

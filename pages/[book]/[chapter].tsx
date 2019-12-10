@@ -16,6 +16,9 @@ import { forkJoin, fromEvent, of } from 'rxjs';
 // import { store } from "../_app";
 import Router from 'next/router';
 import { NavigationComponenet } from '../../components/navigation/navigation.component';
+import { addYears } from 'date-fns';
+import { langReq } from '../../app/langReq';
+
 export type ImgAttr = {
   src: string;
   alt: string;
@@ -41,11 +44,18 @@ function scroll() {
   }
 }
 
-class OithParent extends Component<{ chapter: Chapter }> {
+class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
       this.setState({ displayNav: o });
     });
+    document.cookie = `lang=${this.props.lang}; expires=${addYears(
+      new Date(),
+      1,
+    )}; path=/`;
+    appSettings.settings.lang = this.props.lang;
+    appSettings.save('settings');
+    console.log(this.props.lang);
 
     appSettings.notesMode$.subscribe(o => {
       this.setState({ notesMode: o ? o : 'off' });
@@ -114,11 +124,19 @@ class OithParent extends Component<{ chapter: Chapter }> {
 }
 
 const port = parseInt(process.env.PORT, 10) || 3000;
-const ChapterParent: NextPage<{ chapter: Chapter }> = ({ chapter }) => {
-  return <OithParent chapter={chapter}></OithParent>;
+const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
+  chapter,
+  lang,
+}) => {
+  return <OithParent chapter={chapter} lang={lang}></OithParent>;
 };
-ChapterParent.getInitialProps = async ({ query }) => {
-  const params = parseChapterParams(query);
+
+ChapterParent.getInitialProps = async ({ query, req, res }) => {
+  const lang = langReq(req, query);
+  const params = parseChapterParams(query, lang);
+  // console.log(port);
+  console.log(lang);
+
   const data = await axios.get(
     `/scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
     { proxy: { port: port, host: '127.0.0.1' } },
@@ -149,10 +167,10 @@ ChapterParent.getInitialProps = async ({ query }) => {
     } else {
       store.initChapter$.next(chapter);
     }
-    return { chapter };
+    return { chapter, lang };
 
     return;
-  } else return { chapter };
+  } else return { chapter, lang };
 };
 
 export default ChapterParent;
