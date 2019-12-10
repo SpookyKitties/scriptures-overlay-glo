@@ -13,4 +13,7 @@ export class Settings {
   public displayNotes: boolean;
   public displayNav: boolean;
   public notesMode: 'large' | 'small' | 'off' = 'small';
+  constructor(lang: string) {
+    this.lang = lang;
+  }
 }

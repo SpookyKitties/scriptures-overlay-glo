@@ -42,9 +42,11 @@ export class AppSettings {
     undefined,
   );
   public noteCategories?: NoteCategories;
-  constructor() {
-    const settingsS = localStorage.getItem('scriptures-overlay-settings');
-    this.settings = settingsS ? JSON.parse(settingsS) : new Settings();
+  constructor(lang: string) {
+    const settingsS = localStorage.getItem(
+      `${lang}-scriptures-overlay-settings`,
+    );
+    this.settings = settingsS ? JSON.parse(settingsS) : new Settings(lang);
     this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
     this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
     this.loadNoteSettings();

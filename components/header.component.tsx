@@ -13,6 +13,7 @@ import { NoteSettingsMenu } from './NoteSettingsMenu';
 import { menuOverlay$ } from './MenuOverlay';
 import { FormatTagService } from './FormatTagService';
 import { setCurrentNav } from './nextPage';
+import { parseCookieLang, parseLangFromUrl } from '../app/parseCookieLang';
 
 export let appSettings: AppSettings;
 export let store: Store;
@@ -33,7 +34,9 @@ export class HeaderComponent extends Component {
   public state: { displayNoteSettings: boolean };
   public closeMenu$ = new Subject<boolean>();
   public componentDidMount() {
-    appSettings = new AppSettings();
+    const lang = parseLangFromUrl();
+
+    appSettings = new AppSettings(lang);
     store = new Store();
     formatTagService = new FormatTagService();
 
