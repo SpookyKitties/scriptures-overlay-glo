@@ -44,7 +44,7 @@ function scroll() {
   }
 }
 
-export function reinitChapter() {
+export function reInitChapter() {
   store.chapter
     .pipe(
       take(1),

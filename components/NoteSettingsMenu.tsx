@@ -103,6 +103,7 @@ export class NoteSettingsMenu extends Component<{
           <hr />
           {this.renderNoteSettings()}
           <hr />
+          <div>Export Notes</div>
         </div>
       );
     }

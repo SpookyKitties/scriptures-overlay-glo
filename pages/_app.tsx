@@ -7,6 +7,7 @@ import { Chapter } from '../oith-lib/src/models/Chapter';
 import { filter, map } from 'rxjs/operators';
 import Helmet from 'react-helmet';
 import { NavigationItem } from '../components/navigation-item';
+import { ExportModal } from '../components/note-offsets/export-modal';
 
 export class Store {
   public chapterHistory: Chapter[] = [];
@@ -86,6 +87,7 @@ class MyApp extends App {
           <title>{this.state ? this.state['title'] : 'z'}</title>
         </Helmet>
         <Component {...pageProps} />;
+        <ExportModal />
       </Layout>
     );
   }

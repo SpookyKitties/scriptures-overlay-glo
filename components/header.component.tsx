@@ -14,6 +14,7 @@ import { menuOverlay$ } from './MenuOverlay';
 import { FormatTagService } from './FormatTagService';
 import { setCurrentNav } from './nextPage';
 import { parseCookieLang, parseLangFromUrl } from '../app/parseCookieLang';
+import { openExportModal } from './note-offsets/export-modal';
 
 export let appSettings: AppSettings;
 export let store: Store;
