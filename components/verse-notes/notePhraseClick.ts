@@ -62,10 +62,7 @@ function checkSelection(e: Element, formatTag: FormatTagNoteOffsets) {
         const noteIDSplit = noteID.split('-');
 
         if (verseID && verseID[2] === noteIDSplit[noteIDSplit.length - 3]) {
-          console.log(verseID);
-
           formatTag.offsets = `${formatTag.offsets},${start}-${end}`;
-          // console.log()
 
           return expandOffsets(formatTag).pipe(
             map(() => {
@@ -87,8 +84,6 @@ function checkSelection(e: Element, formatTag: FormatTagNoteOffsets) {
       }
     }
   }
-
-  console.log('oiajsdfioajsdfiojasdf');
 
   return of(true);
 }
