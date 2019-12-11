@@ -114,12 +114,12 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged, offsets: 
     // });
   }
   public render() {
-    console.log(this.props.formatMerged);
 
     return (
       <span
-        className={`${displayStateKey(this.state, 'classList')} ${this.state ? this.state['offset'] : ''}`}
+        className={`${displayStateKey(this.state, 'classList')} `}
         style={this.style}
+        data-offset={`${this.state ? this.state['offset'] : ''}`}
         onClick={() => this.click(this.state.formatMerged)}
       >
         {displayStateKey(this.state, 'text')}

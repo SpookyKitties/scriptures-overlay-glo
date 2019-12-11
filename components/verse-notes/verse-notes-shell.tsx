@@ -4,15 +4,15 @@ import {
   VerseNoteGroup,
   Note,
   NoteRef,
-  FormatTagNoteOffsets,
 } from '../../oith-lib/src/verse-notes/verse-note';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
-import { fromEvent, of } from 'rxjs';
-import { map, filter, delay, find, flatMap } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { useRouter } from 'next/router';
 import { gotoLink } from '../gotoLink';
-import { store, formatTagService } from '../header.component';
+import { store } from '../header.component';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
+import { notePhraseClick } from './notePhraseClick';
 
 type VNProps = {
   chapter?: Chapter;
@@ -30,36 +30,6 @@ function sortNoteRefs(noteRefA: NoteRef, noteRefB: NoteRef) {
   return noteRefA.category - noteRefB.category;
 }
 
-function notePhraseClick(formatTag: FormatTagNoteOffsets) {
-  formatTagService
-    .notePhaseClick(formatTag)
-    .pipe(
-      map(() => {
-        store.updateFTags$.next(true);
-        store.updateNoteVisibility$.next(true);
-      }),
-      delay(100),
-    )
-    .subscribe(() => {
-      of(document.querySelectorAll('.verse'))
-        .pipe(
-          flatMap(o => o),
-          find(o => o.querySelector('.highlight') !== null),
-          map(o => {
-            if (o) {
-              o.scrollIntoView();
-            }
-          }),
-        )
-        .subscribe();
-      // const vng = document.querySelector('.f-t.highlight'); //.scrollIntoView();
-
-      // if (vng) {
-      //   vng.scrollIntoView();
-      // }
-    });
-}
-
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
     <div
@@ -68,8 +38,9 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
       }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
     >
       <span
-        onClick={() => {
-          notePhraseClick(noteGroup.formatTag);
+        onClick={(evt: MouseEvent) => {
+          const ee = evt.target as HTMLElement;
+          notePhraseClick(ee, noteGroup.formatTag);
         }}
         className="note-phrase"
       >
