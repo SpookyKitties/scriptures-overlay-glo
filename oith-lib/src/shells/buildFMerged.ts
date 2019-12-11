@@ -47,10 +47,10 @@ function extractFormatText(
     return of((verse as FormatGroup | Verse).grps as (
       | FormatGroup
       | FormatText)[]).pipe(
-      flatMap$,
-      map(o => extractFormatText(o)),
-      flatMap$,
-    );
+        flatMap$,
+        map(o => extractFormatText(o)),
+        flatMap$,
+      );
   } else if ((verse as FormatText).docType === 5) {
     return of(verse as FormatText);
   }
@@ -81,6 +81,7 @@ function addTextToFormatText(
         new FormatMerged(
           verse.text.slice(parseInt(split[0], 10), parseInt(split[1], 10) + 1),
           [],
+          parseInt(split[0], 10)
         ),
       ]),
     );
@@ -113,7 +114,7 @@ function addTextToFormatText(
         return new FormatMerged(
           verse.text.slice(f.i[0], f.i[f.i.length - 1] + 1),
           f.formatTags,
-        );
+          f.i[0]);
       })),
     );
   }

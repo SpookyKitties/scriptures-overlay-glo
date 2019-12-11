@@ -15,6 +15,7 @@ export function calcClassList(formatMerged: FormatMerged) {
     return [55, 56].includes(f.fType) && f.visible;
   });
 
+
   const all = fts.find(
     ft =>
       ft.offsets === 'all' ||
@@ -33,7 +34,7 @@ export function calcClassList(formatMerged: FormatMerged) {
   return `${all} ${refCount} ${highlight}`;
 }
 
-export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
+export class FormatTag extends Component<{ formatMerged: FormatMerged, offsets: string }> {
   public state: { formatMerged: FormatMerged; classList: string; text: string };
 
   public style: CSSProperties = {
@@ -54,6 +55,7 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
   componentDidMount() {
     this.setState({ text: this.props.formatMerged.text });
     this.setState({ formatMerged: this.props.formatMerged });
+    this.setState({ offset: this.props.formatMerged.offset });
 
     store.updateFTags$
       .pipe(
@@ -112,9 +114,11 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged }> {
     // });
   }
   public render() {
+    console.log(this.props.formatMerged);
+
     return (
       <span
-        className={`${displayStateKey(this.state, 'classList')}`}
+        className={`${displayStateKey(this.state, 'classList')} ${this.state ? this.state['offset'] : ''}`}
         style={this.style}
         onClick={() => this.click(this.state.formatMerged)}
       >
