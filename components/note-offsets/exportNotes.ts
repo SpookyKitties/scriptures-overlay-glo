@@ -4,6 +4,8 @@ import { appSettings, store } from '../header.component';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { Note, NoteRef } from '../../oith-lib/src/verse-notes/verse-note';
 import { NoteType } from '../../oith-lib/src/verse-notes/settings/note-gorup-settings';
+import FileSaver from 'file-saver';
+import { sortBy } from 'lodash';
 
 function noteRefsToString(noteRefs: NoteRef[]) {
   return noteRefs.map(noteRef => {
@@ -48,13 +50,20 @@ export function exportNotes() {
         filter(o => o !== undefined),
         map(chapter => {
           if (chapter.verseNotes) {
-            return chapter.verseNotes
+            const fileTxt = sortBy(chapter.verseNotes, c => c.id)
               .map(verseNote => {
                 return `<verse-note id="${verseNote.id}">${verseNote.notes
                   .map(note => notesToString(note, noteTypes))
                   .join('')}</verse-note>`;
               })
               .join('');
+
+            const blob = new Blob([fileTxt], {
+              type: 'text/html;charset=utf=8',
+            });
+
+            FileSaver.saveAs(blob, 'test.xml');
+            return fileTxt;
           }
           return '';
         }),
