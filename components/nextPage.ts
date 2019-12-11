@@ -25,6 +25,7 @@ export function previousPage() {
     getNav().subscribe(o => {
       const n = o.find(n => n.href === url);
       if (n) {
+        store.history = false;
         const i = o[o.indexOf(n) - 1];
         Router.push('/[book]/[chapter]', `/${i.href}`);
       }
@@ -38,6 +39,8 @@ export function nextPage() {
       const n = o.find(n => n.href === url);
 
       if (n) {
+        store.history = false;
+
         const i = o[o.indexOf(n) + 1];
         Router.push('/[book]/[chapter]', `/${i.href}`);
       }

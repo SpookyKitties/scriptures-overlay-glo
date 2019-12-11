@@ -17,9 +17,10 @@ export function saveChapter() {
     }),
     filter(o => o !== undefined),
     map(async c => {
-      let database: PouchDB.Database<{}> | undefined;
+      let database: PouchDB.Database<{}> = new PouchDB(
+        `v6-${window.location.hostname}-overlay-org`,
+      );
       let rev: string | undefined = undefined;
-      database = new PouchDB(`v6-${window.location.hostname}-overlay-org`);
       try {
         const dbi = await database.get(c.id);
         rev = dbi._rev;
@@ -67,6 +68,9 @@ function checkSelection(e: Element, formatTag: FormatTagNoteOffsets) {
 
           return expandOffsets(formatTag).pipe(
             map(() => {
+              formatTag.notes.map(
+                n => (n.formatTag.offsets = formatTag.offsets),
+              );
               formatTag.offsets = compressRanges(formatTag.uncompressedOffsets)
                 .map(i => i.join('-'))
                 .join(',');
