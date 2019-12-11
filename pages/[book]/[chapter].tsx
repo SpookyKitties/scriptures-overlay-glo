@@ -44,6 +44,25 @@ function scroll() {
   }
 }
 
+export function reinitChapter() {
+  store.chapter
+    .pipe(
+      take(1),
+      filter(o => o !== undefined),
+      map(chapter =>
+        addVersesToBody(chapter).pipe(
+          map(() => buildShell(chapter, chapter.params)),
+          flatMap(o => o),
+          map(() => chapter),
+        ),
+      ),
+      flatMap(o => o),
+    )
+    .subscribe(chapter => {
+      store.chapter.next(chapter);
+    });
+}
+
 class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
@@ -55,7 +74,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     )}; path=/`;
     appSettings.settings.lang = this.props.lang;
     appSettings.save('settings');
-    console.log(this.props.lang);
 
     appSettings.notesMode$.subscribe(o => {
       this.setState({ notesMode: o ? o : 'off' });

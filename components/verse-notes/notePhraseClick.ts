@@ -8,6 +8,7 @@ import {
 } from '../../oith-lib/src/offsets/expandOffsets';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import PouchDB from 'pouchdb';
+import { reinitChapter } from '../../pages/[book]/[chapter]';
 
 export function saveChapter() {
   return store.chapter.pipe(
@@ -77,7 +78,10 @@ function checkSelection(e: Element, formatTag: FormatTagNoteOffsets) {
               return saveChapter();
             }),
             flatMap$,
-            map(() => false),
+            map(() => {
+              reinitChapter();
+              return false;
+            }),
           );
         }
       }
@@ -108,8 +112,6 @@ export function notePhraseClick(
       flatMap(o => o),
     )
     .subscribe(() => {
-      console.log('asdiojasofjaoisfj');
-
       of(document.querySelectorAll('.verse'))
         .pipe(
           flatMap(o => o),
