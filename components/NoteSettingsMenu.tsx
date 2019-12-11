@@ -4,6 +4,7 @@ import {
   NoteSetting,
   NoteSettings,
 } from '../oith-lib/src/processors/NoteSettings';
+import { openExportModal } from './note-offsets/export-modal';
 
 const noteSettingsMenuStyles: CSSProperties = {
   position: 'absolute',
@@ -103,7 +104,13 @@ export class NoteSettingsMenu extends Component<{
           <hr />
           {this.renderNoteSettings()}
           <hr />
-          <div>Export Notes</div>
+          <div
+            onClick={() => {
+              openExportModal.next(true);
+            }}
+          >
+            Export Notes
+          </div>
         </div>
       );
     }
