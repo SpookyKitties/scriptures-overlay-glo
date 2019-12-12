@@ -63,4 +63,16 @@ export class PouchyRx {
     };
     return of(getDBItem()).pipe(flatMap(o => o));
   }
+
+  public allDocs$(
+    options:
+      | PouchDB.Core.AllDocsWithKeyOptions
+      | PouchDB.Core.AllDocsOptions
+      | PouchDB.Core.AllDocsWithKeysOptions
+      | PouchDB.Core.AllDocsWithinRangeOptions = {},
+  ) {
+    return of(this.db.allDocs(options)).pipe(flatMap(o => o));
+  }
+
+  public bulkDocs$<T, T2 extends keyof T>(docs: T[], idAttr: T2) {}
 }

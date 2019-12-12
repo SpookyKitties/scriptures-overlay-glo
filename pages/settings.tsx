@@ -2,10 +2,11 @@
 import Layout from '../components/layout';
 import { ChapterComponent } from '../components/chapter';
 
-const testClick = () => {
-  alert('tesasdft');
-};
-
 export default function About() {
-  return <h1 onClick={testClick}>tesasdft</h1>;
+  return (
+    <div>
+      <input type="file" name="" id="fileUpload" multiple />{' '}
+      <button className={`button`}>Upload</button>
+    </div>
+  );
 }
