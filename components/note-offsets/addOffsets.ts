@@ -23,7 +23,7 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
             range.startContainer.parentElement.getAttribute('data-offset'),
           ) + range.startOffset;
         const end =
-          start + ((selection as unknown) as number).toString().length;
+          start + ((selection as unknown) as number).toString().length - 1;
         const note = Array.from(document.querySelectorAll('.verse-note')).find(
           vng => vng.contains(e),
         );
@@ -32,16 +32,18 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
         'eng-heb-1-1-verse-notes';
         const noteIDSplit = noteID.split('-');
         if (verseID && verseID[2] === noteIDSplit[noteIDSplit.length - 3]) {
-          formatTag.offsets = `${formatTag.offsets},${start}-${end}`;
+          const newOffsets = start !== end ? `${start}-${end}` : `${start}`;
+          console.log(newOffsets);
+
+          formatTag.offsets = `${formatTag.offsets},${newOffsets}`;
           return expandOffsets(formatTag).pipe(
             map(() => {
+              formatTag.offsets = compressRanges(formatTag.uncompressedOffsets)
+                .map(i => (i[0] !== i[1] ? i.join('-') : i[0]))
+                .join(',');
               formatTag.notes.map(n => {
                 n.formatTag.offsets = formatTag.offsets;
               });
-
-              formatTag.offsets = compressRanges(formatTag.uncompressedOffsets)
-                .map(i => i.join('-'))
-                .join(',');
 
               return saveChapter();
             }),

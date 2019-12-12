@@ -41,16 +41,7 @@ export class PouchyRx {
   }
   public get<T>(
     docID: string,
-    options: PouchDB.Core.GetOptions = {
-      attachments: false,
-      binary: false,
-      conflicts: false,
-      fetch: undefined,
-      latest: false,
-      rev: undefined,
-      revs: undefined,
-      revs_info: undefined,
-    },
+    options: PouchDB.Core.GetOptions = {},
   ): Observable<DBItem<T>> {
     const getDBItem = async () => {
       try {

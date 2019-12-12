@@ -23,11 +23,11 @@ export function expandOffsets(offsets: Offset): Observable<number[]> {
     flatMap$,
     distinctUntilChanged(),
     toArray(),
-    map(o => (offsets.uncompressedOffsets = o)),
+    map(o => (offsets.uncompressedOffsets = o.sort((a, b) => a - b))),
   );
 }
-export function compressRanges(array: number[]): [number, number][] {
-  const ranges: [number, number][] = [];
+export function compressRanges(array: number[]): ([number, number])[] {
+  const ranges: ([number, number])[] = [];
   let rstart: number, rend: number;
   const sortedArray = uniq(
     sortBy(array, (u): number => {
