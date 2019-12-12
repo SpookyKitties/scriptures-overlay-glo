@@ -31,9 +31,6 @@ export class PouchyRx {
     return this.getRev(docId).pipe(
       map(_rev => {
         const d: DBItem<T> = { _id: docId, _rev: _rev, doc: doc };
-        console.log(d);
-
-        console.log(_rev);
 
         return of(this.db.put(d, options));
       }),
@@ -57,10 +54,7 @@ export class PouchyRx {
   ): Observable<DBItem<T>> {
     const getDBItem = async () => {
       try {
-        console.log(docID);
-
         const dbItem = await this.db.get(docID, options ? options : undefined);
-        console.log(dbItem);
 
         return dbItem as DBItem<T>;
       } catch (error) {

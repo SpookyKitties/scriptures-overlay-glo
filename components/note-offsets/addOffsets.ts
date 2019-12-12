@@ -35,12 +35,14 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
           formatTag.offsets = `${formatTag.offsets},${start}-${end}`;
           return expandOffsets(formatTag).pipe(
             map(() => {
-              formatTag.notes.map(
-                n => (n.formatTag.offsets = formatTag.offsets),
-              );
+              formatTag.notes.map(n => {
+                n.formatTag.offsets = formatTag.offsets;
+              });
+
               formatTag.offsets = compressRanges(formatTag.uncompressedOffsets)
                 .map(i => i.join('-'))
                 .join(',');
+
               return saveChapter();
             }),
             flatMap$,

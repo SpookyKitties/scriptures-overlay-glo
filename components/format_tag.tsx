@@ -15,7 +15,6 @@ export function calcClassList(formatMerged: FormatMerged) {
     return [55, 56].includes(f.fType) && f.visible;
   });
 
-
   const all = fts.find(
     ft =>
       ft.offsets === 'all' ||
@@ -34,7 +33,10 @@ export function calcClassList(formatMerged: FormatMerged) {
   return `${all} ${refCount} ${highlight}`;
 }
 
-export class FormatTag extends Component<{ formatMerged: FormatMerged, offsets: string }> {
+export class FormatTag extends Component<{
+  formatMerged: FormatMerged;
+  offsets: string;
+}> {
   public state: { formatMerged: FormatMerged; classList: string; text: string };
 
   public style: CSSProperties = {
@@ -114,7 +116,6 @@ export class FormatTag extends Component<{ formatMerged: FormatMerged, offsets: 
     // });
   }
   public render() {
-
     return (
       <span
         className={`${displayStateKey(this.state, 'classList')} `}
