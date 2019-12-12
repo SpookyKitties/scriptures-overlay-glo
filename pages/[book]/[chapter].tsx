@@ -149,6 +149,7 @@ const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
   return <OithParent chapter={chapter} lang={lang}></OithParent>;
 };
 import PouchDB from 'pouchdb';
+import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
   const lang = langReq(req, query);
@@ -183,19 +184,20 @@ ChapterParent.getInitialProps = async ({ query, req, res }) => {
     if (checkHistory && store.history) {
       store.chapter.next(checkHistory);
     } else {
-      try {
-        let database: PouchDB.Database<{}> = new PouchDB(
-          `v6-${window.location.hostname}-overlay-org`,
-        );
-        const i = await database.get(
-          `${params.lang}-${params.book}-${params.chapter}-chapter`,
-        );
+      // try {
+      let database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
+      const i = await database
+        .get<Chapter>(`${params.lang}-${params.book}-${params.chapter}-chapter`)
+        .toPromise();
+      if (i) {
         console.log(i);
-        const c = i['chapter'] as Chapter;
+        const c = i.doc; // as Chapter;
         store.initChapter$.next(c);
+      } else {
         // return { c, lang };
-      } catch (error) {
+        // } catch (error) {
         store.initChapter$.next(chapter);
+        // }}
       }
     }
     store.history = true;

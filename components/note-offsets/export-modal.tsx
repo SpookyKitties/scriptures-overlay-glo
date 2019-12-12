@@ -6,11 +6,16 @@ import { NoteType } from '../../oith-lib/src/verse-notes/settings/note-gorup-set
 import { exportNotes } from './exportNotes';
 
 export let openExportModal: BehaviorSubject<boolean>;
+export let resetCheckboxes: BehaviorSubject<boolean>;
 
 class ExportModalCheckBox extends Component<{ noteType: NoteType }> {
   public state: { enabled: boolean };
   componentDidMount() {
     this.setState({ enabled: false });
+
+    resetCheckboxes.subscribe(() => {
+      this.setState({ enabled: false });
+    });
   }
   public render() {
     if (this.state) {
@@ -40,8 +45,16 @@ export class ExportModal extends Component {
 
   public componentDidMount() {
     openExportModal = new BehaviorSubject(false);
+    resetCheckboxes = new BehaviorSubject(false);
 
-    openExportModal.pipe(map(o => this.setState({ active: o }))).subscribe();
+    openExportModal
+      .pipe(
+        map(o => {
+          resetCheckboxes.next(true);
+          this.setState({ active: o });
+        }),
+      )
+      .subscribe();
 
     this.setState({ noteTypes: appSettings.noteTypes.noteTypes });
   }

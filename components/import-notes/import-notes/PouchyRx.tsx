@@ -1,0 +1,72 @@
+import PouchDB from 'pouchdb';
+import { of, EMPTY, Observable } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
+
+export type DBItem<T> = {
+  _id: string;
+  _rev: string;
+  doc: T;
+};
+
+export class PouchyRx {
+  public db?: PouchDB.Database<{}>;
+
+  public constructor(
+    dbName: string,
+    options?: PouchDB.Configuration.DatabaseConfiguration,
+  ) {
+    this.db = new PouchDB(dbName, options);
+  }
+
+  public getRev(docID: string) {
+    return this.get(docID).pipe(map(doc => (doc ? doc._rev : undefined)));
+  }
+  public put$<T, T2 extends keyof T>(
+    doc: T,
+    id: T2,
+    options: PouchDB.Core.PutOptions = { fetch: undefined, force: undefined },
+  ) {
+    const docId = (doc[id] as unknown) as string;
+
+    return this.getRev(docId).pipe(
+      map(_rev => {
+        const d: DBItem<T> = { _id: docId, _rev: _rev, doc: doc };
+        console.log(d);
+
+        console.log(_rev);
+
+        return of(this.db.put(d, options));
+      }),
+      flatMap(o => o),
+      flatMap(o => o),
+    );
+    //   this.db.put()
+  }
+  public get<T>(
+    docID: string,
+    options: PouchDB.Core.GetOptions = {
+      attachments: false,
+      binary: false,
+      conflicts: false,
+      fetch: undefined,
+      latest: false,
+      rev: undefined,
+      revs: undefined,
+      revs_info: undefined,
+    },
+  ): Observable<DBItem<T>> {
+    const getDBItem = async () => {
+      try {
+        console.log(docID);
+
+        const dbItem = await this.db.get(docID, options ? options : undefined);
+        console.log(dbItem);
+
+        return dbItem as DBItem<T>;
+      } catch (error) {
+        return undefined;
+      }
+    };
+    return of(getDBItem()).pipe(flatMap(o => o));
+  }
+}

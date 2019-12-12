@@ -3,6 +3,8 @@ import { map, filter, take } from 'rxjs/operators';
 import { store } from '../header.component';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import PouchDB from 'pouchdb';
+import { PouchyRx } from '../import-notes/import-notes/PouchyRx';
+import { Chapter } from '../../oith-lib/src/models/Chapter';
 export function saveChapter() {
   return store.chapter.pipe(
     take(1),
@@ -10,18 +12,10 @@ export function saveChapter() {
       return c;
     }),
     filter(o => o !== undefined),
-    map(async c => {
-      let database: PouchDB.Database<{}> = new PouchDB(
-        `v6-${window.location.hostname}-overlay-org`,
-      );
-      let rev: string | undefined = undefined;
-      try {
-        const dbi = await database.get(c.id);
-        rev = dbi._rev;
-      } catch (error) {}
-      return of(database.put({ _id: c.id, _rev: rev, chapter: c })).pipe(
-        flatMap$,
-      );
+    map((c: Chapter) => {
+      let database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
+
+      return database.put$(c, 'id');
     }),
     flatMap$,
   );
