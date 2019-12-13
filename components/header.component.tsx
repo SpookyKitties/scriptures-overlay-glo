@@ -2,7 +2,7 @@ import { Component, CSSProperties } from 'react';
 import { NoteGroupSettings } from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
 import { tap, catchError, map } from 'rxjs/operators';
 import { Chapter } from '../oith-lib/src/models/Chapter';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { settings } from 'cluster';
 import { Store } from '../pages/_app';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
@@ -19,6 +19,8 @@ import { openExportModal } from './note-offsets/export-modal';
 export let appSettings: AppSettings;
 export let store: Store;
 export let formatTagService: FormatTagService;
+export let closeMenu$: Subject<boolean>;
+
 type HProps = {
   chapter: Chapter | undefined;
 };
@@ -33,7 +35,6 @@ const noteSettingsMenuBtn: CSSProperties = {
 
 export class HeaderComponent extends Component {
   public state: { displayNoteSettings: boolean };
-  public closeMenu$ = new Subject<boolean>();
   public componentDidMount() {
     const lang = parseLangFromUrl();
 
@@ -42,7 +43,8 @@ export class HeaderComponent extends Component {
     formatTagService = new FormatTagService();
 
     setCurrentNav();
-    this.closeMenu$.subscribe(() => {
+    closeMenu$ = new BehaviorSubject(false);
+    closeMenu$.subscribe(() => {
       this.setState({ displayNoteSettings: false });
     });
   }
@@ -105,7 +107,7 @@ export class HeaderComponent extends Component {
                 displayNoteSettings: true,
               });
 
-              menuOverlay$.next(this.closeMenu$);
+              menuOverlay$.next(closeMenu$);
             }
           }}
         >

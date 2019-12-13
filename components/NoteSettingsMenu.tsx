@@ -1,5 +1,10 @@
 import { Component, CSSProperties, MouseEvent } from 'react';
-import { appSettings, store, formatTagService } from './header.component';
+import {
+  appSettings,
+  store,
+  formatTagService,
+  closeMenu$,
+} from './header.component';
 import {
   NoteSetting,
   NoteSettings,
@@ -70,6 +75,8 @@ const menubtn: CSSProperties = {
   background: 'inherit',
 };
 
+import Router from 'next/router';
+
 export class DevSettings extends Component {
   public render() {
     return (
@@ -88,10 +95,11 @@ export class DevSettings extends Component {
         <div
           style={menubtn}
           onClick={() => {
-            openExportModal.next(true);
+            Router.push('/settings');
+            closeMenu$.next(true);
           }}
         >
-          Export Notes
+          Settings
         </div>
       </div>
     );
