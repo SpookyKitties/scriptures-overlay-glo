@@ -9,6 +9,9 @@ import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { reInitChapter } from '../../pages/[book]/[chapter]';
 import { saveChapter } from './saveChapter';
 export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
+  if (formatTag.offsets === 'all') {
+    return of(true);
+  }
   const selection = document.getSelection();
   if (selection && selection.rangeCount > 0) {
     const range = selection.getRangeAt(0);
@@ -38,13 +41,18 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
           formatTag.offsets = `${formatTag.offsets},${newOffsets}`;
           return expandOffsets(formatTag).pipe(
             map(() => {
-              formatTag.offsets = compressRanges(formatTag.uncompressedOffsets)
-                .map(i => (i[0] !== i[1] ? i.join('-') : i[0]))
-                .join(',');
+              if (formatTag.uncompressedOffsets.includes(0)) {
+                formatTag.offsets = 'all';
+              } else {
+                formatTag.offsets = compressRanges(
+                  formatTag.uncompressedOffsets,
+                )
+                  .map(i => (i[0] !== i[1] ? i.join('-') : i[0]))
+                  .join(',');
+              }
               formatTag.notes.map(n => {
                 n.formatTag.offsets = formatTag.offsets;
               });
-
               return saveChapter();
             }),
             flatMap$,
