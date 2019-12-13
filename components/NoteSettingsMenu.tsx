@@ -1,14 +1,12 @@
+import Router from 'next/router';
 import { Component, CSSProperties, MouseEvent } from 'react';
+import { NoteSetting } from '../oith-lib/src/processors/NoteSettings';
 import {
   appSettings,
-  store,
-  formatTagService,
   closeMenu$,
+  formatTagService,
+  store,
 } from './header.component';
-import {
-  NoteSetting,
-  NoteSettings,
-} from '../oith-lib/src/processors/NoteSettings';
 import { openExportModal } from './note-offsets/export-modal';
 
 const noteSettingsMenuStyles: CSSProperties = {
@@ -75,8 +73,6 @@ const menubtn: CSSProperties = {
   background: 'inherit',
 };
 
-import Router from 'next/router';
-
 export class DevSettings extends Component {
   public render() {
     return (
@@ -109,14 +105,6 @@ export class DevSettings extends Component {
 export class NoteSettingsMenu extends Component<{
   displayNoteSettings?: boolean;
 }> {
-  private noteSettingClick(event: MouseEvent, noteSetting: NoteSetting) {
-    event.preventDefault();
-
-    noteSetting.enabled = !noteSetting.enabled;
-    appSettings.save('noteSettings');
-    store.resetNotes$.next(true);
-  }
-
   private renderNoteSettings() {
     if (appSettings && appSettings.noteSettings) {
       return (

@@ -6,6 +6,7 @@ import { Note, NoteRef } from '../../oith-lib/src/verse-notes/verse-note';
 import { NoteType } from '../../oith-lib/src/verse-notes/settings/note-gorup-settings';
 import FileSaver from 'file-saver';
 import { sortBy } from 'lodash';
+import { Chapter } from '../../oith-lib/src/models/Chapter';
 
 function noteRefsToString(noteRefs: NoteRef[]) {
   return noteRefs.map(noteRef => {
@@ -31,6 +32,19 @@ function notesToString(note: Note, noteTypes: NoteType[]) {
   }
 }
 
+function verseNotesFromShell(chapter: Chapter) {
+  const verseNotes = chapter.verses
+    .map(verse =>
+      chapter.verseNotes
+        ? chapter.verseNotes.find(vN =>
+            vN.id.includes(`-${verse.id}-verse-notes`),
+          )
+        : undefined,
+    )
+    .filter(vN => vN !== undefined);
+  return verseNotes;
+}
+
 export function exportNotes() {
   return of(document.querySelectorAll('.checked-overlay')).pipe(
     flatMap(o => o),
@@ -50,7 +64,7 @@ export function exportNotes() {
         filter(o => o !== undefined),
         map(chapter => {
           if (chapter.verseNotes) {
-            const fileTxt = sortBy(chapter.verseNotes, c => c.id)
+            const fileTxt = verseNotesFromShell(chapter)
               .map(verseNote => {
                 return `<verse-note id="${verseNote.id}">${verseNote.notes
                   .map(note => notesToString(note, noteTypes))
