@@ -44,7 +44,9 @@ function verseNotesFromShell(chapter: Chapter) {
     .filter(vN => vN !== undefined);
   return verseNotes;
 }
-
+const docstart = (id: string) =>
+  `<?xml version="1.0" encoding="UTF-8"?><html data-content-type="overlay-note" lang="eng"><head><meta charset="UTF-8"/></head><body><chapter id="${id}">`;
+const docend = `</chapter></body></html>`;
 export function exportNotes() {
   return of(document.querySelectorAll('.checked-overlay')).pipe(
     flatMap(o => o),
@@ -64,13 +66,15 @@ export function exportNotes() {
         filter(o => o !== undefined),
         map(chapter => {
           if (chapter.verseNotes) {
-            const fileTxt = verseNotesFromShell(chapter)
+            const fileTxt = `${docstart(chapter.id)}${verseNotesFromShell(
+              chapter,
+            )
               .map(verseNote => {
                 return `<verse-note id="${verseNote.id}">${verseNote.notes
                   .map(note => notesToString(note, noteTypes))
                   .join('')}</verse-note>`;
               })
-              .join('');
+              .join('')}${docend}`;
 
             const blob = new Blob([fileTxt], {
               type: 'text/html;charset=utf=8',
