@@ -62,6 +62,41 @@ class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
     return <></>;
   }
 }
+const menubtn: CSSProperties = {
+  display: 'grid',
+  height: '42px',
+  justifyContent: 'center',
+  alignContent: 'center',
+  background: 'inherit',
+};
+
+export class DevSettings extends Component {
+  public render() {
+    return (
+      <div style={{ backgroundColor: 'inherit' }}>
+        <hr />
+        <div
+          style={menubtn}
+          onClick={() => {
+            openExportModal.next(true);
+          }}
+        >
+          Export Notes
+        </div>
+
+        <hr />
+        <div
+          style={menubtn}
+          onClick={() => {
+            openExportModal.next(true);
+          }}
+        >
+          Export Notes
+        </div>
+      </div>
+    );
+  }
+}
 
 export class NoteSettingsMenu extends Component<{
   displayNoteSettings?: boolean;
@@ -103,14 +138,7 @@ export class NoteSettingsMenu extends Component<{
           <div>Note Sets</div>
           <hr />
           {this.renderNoteSettings()}
-          <hr />
-          <div
-            onClick={() => {
-              openExportModal.next(true);
-            }}
-          >
-            Export Notes
-          </div>
+          <DevSettings />
         </div>
       );
     }

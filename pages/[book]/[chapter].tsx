@@ -192,6 +192,7 @@ ChapterParent.getInitialProps = async ({ query, req, res }) => {
       if (i) {
         console.log(i);
         const c = i.doc; // as Chapter;
+        c.params = params;
         store.initChapter$.next(c);
       } else {
         // return { c, lang };
