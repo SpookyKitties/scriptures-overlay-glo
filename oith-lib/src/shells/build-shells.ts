@@ -197,7 +197,7 @@ function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
         if (vN.notes) {
           return of(vN.notes).pipe(
             flatMap$,
-            groupBy(n => n.phrase),
+            groupBy(n => n.formatTag.offsets),
             mergeMap(o =>
               o.pipe(
                 toArray(),
