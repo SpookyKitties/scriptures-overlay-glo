@@ -1,6 +1,9 @@
-import { FormatTagNoteOffsets } from '../../oith-lib/src/verse-notes/verse-note';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  FormatTagNoteOffsets,
+  VerseNote,
+} from '../../oith-lib/src/verse-notes/verse-note';
+import { of, EMPTY } from 'rxjs';
+import { map, toArray, flatMap, filter } from 'rxjs/operators';
 import {
   expandOffsets,
   compressRanges,
@@ -8,6 +11,36 @@ import {
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { reInitChapter } from '../../pages/[book]/[chapter]';
 import { saveChapter } from './saveChapter';
+import { Verse, FormatText } from '../../oith-lib/src/models/Chapter';
+import {
+  extractFormatText,
+  addTextToFormatText,
+  expandNoteOffsets,
+  resetVerse,
+} from '../../oith-lib/src/shells/buildFMerged';
+import { store } from '../header.component';
+
+export function resetLiveVerse(verseid: string, noteID: string) {
+  return store.chapter.pipe(
+    filter(o => o !== undefined),
+    map(chapter => {
+      const verse = chapter.verses.find(v => v.id === verseid);
+      console.log(verse);
+
+      const verseNote = chapter.verseNotes.find(v => v.id === noteID);
+      if (verse) {
+        return expandNoteOffsets(verseNote).pipe(
+          toArray(),
+          map(formatTags => resetVerse(verse, formatTags)),
+          flatMap$,
+        );
+      }
+      return EMPTY;
+    }),
+    flatMap$,
+  );
+}
+
 export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
   if (formatTag.offsets === 'all') {
     return of(true);
@@ -57,9 +90,16 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
             }),
             flatMap$,
             map(() => {
-              reInitChapter();
-              return false;
+              console.log(verseID);
+              console.log(noteID);
+              return resetLiveVerse(verseID[2], noteID).pipe(
+                map(() => {
+                  store.updateVerses.next(true);
+                  return false;
+                }),
+              );
             }),
+            flatMap$,
           );
         }
       }

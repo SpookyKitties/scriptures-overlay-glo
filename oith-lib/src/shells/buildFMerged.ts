@@ -12,7 +12,7 @@ import { VerseNote, FormatTag, FormatTagType } from '../verse-notes/verse-note';
 import { expandOffsets } from '../offsets/expandOffsets';
 import { isEqual } from 'lodash';
 
-function expandNoteOffsets(verseNote?: VerseNote) {
+export function expandNoteOffsets(verseNote?: VerseNote) {
   if (verseNote && verseNote.notes) {
     const vasdf = verseNote.notes.map(note => {
       return forkJoin(expandOffsets(note.formatTag), of(note.formatTag)).pipe(
@@ -41,7 +41,7 @@ function expandNoteOffsets(verseNote?: VerseNote) {
   return EMPTY;
 }
 
-function extractFormatText(
+export function extractFormatText(
   verse: FormatGroup | Verse | FormatText,
 ): Observable<FormatText> {
   if (Array.isArray((verse as FormatGroup | Verse).grps)) {
@@ -69,7 +69,7 @@ function objectsAreSame(x: any[], y: any[]) {
   return objectsAreSame;
 }
 
-function addTextToFormatText(
+export function addTextToFormatText(
   verse: Verse,
   formatText: FormatText,
   formatTags?: FormatTag[],
@@ -128,7 +128,7 @@ function addTextToFormatText(
   return EMPTY;
 }
 
-function resetVerse(verse: Verse, formatTags?: FormatTag[]) {
+export function resetVerse(verse: Verse, formatTags?: FormatTag[]) {
   return extractFormatText(verse).pipe(
     map((o: FormatText) => {
       return expandOffsets(o).pipe(

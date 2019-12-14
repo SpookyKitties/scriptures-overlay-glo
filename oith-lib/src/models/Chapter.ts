@@ -6,12 +6,14 @@ import {
   FormatTag,
 } from '../verse-notes/verse-note';
 import { Params, ChapterParams } from '../shells/build-shells';
+import { BehaviorSubject } from 'rxjs';
 export class Verse {
   public id: string;
   public text: string;
   public n: string;
   public highlight?: boolean;
   public context?: boolean;
+  public updateVerse?: BehaviorSubject<boolean>;
 
   public grps: FormatGroup[];
   public attrs: {};
@@ -41,11 +43,11 @@ export class FormatMerged {
   public doubleUnderline?: boolean;
   public highlight?: boolean;
   public all?: boolean;
-  public  offset: number
+  public offset: number;
   public constructor(text: string, formatTags: FormatTag[], offset: number) {
     this.text = text;
     this.formatTags = formatTags;
-    this.offset=offset
+    this.offset = offset;
   }
 }
 

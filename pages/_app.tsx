@@ -11,6 +11,7 @@ import { ExportModal } from '../components/note-offsets/export-modal';
 
 export class Store {
   public chapterHistory: Chapter[] = [];
+  public updateVerses = new BehaviorSubject<boolean>(true);
   public chapter = new BehaviorSubject<Chapter>(undefined);
   public updateFTags$ = new BehaviorSubject<boolean>(true);
   public resetNotes$ = new BehaviorSubject(undefined);
