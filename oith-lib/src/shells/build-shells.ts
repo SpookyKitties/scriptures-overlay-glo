@@ -201,7 +201,6 @@ function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
               note.formatTag.offsets === '' ||
               note.formatTag.offsets === undefined
             ) {
-              console.log(note);
               // console.log(note.formatTag.offsets === '');
 
               return note.ref;
