@@ -25,7 +25,6 @@ export function resetLiveVerse(verseid: string, noteID: string) {
     filter(o => o !== undefined),
     map(chapter => {
       const verse = chapter.verses.find(v => v.id === verseid);
-      console.log(verse);
 
       const verseNote = chapter.verseNotes.find(v => v.id === noteID);
       if (verse) {
@@ -69,7 +68,6 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
         const noteIDSplit = noteID.split('-');
         if (verseID && verseID[2] === noteIDSplit[noteIDSplit.length - 3]) {
           const newOffsets = start !== end ? `${start}-${end}` : `${start}`;
-          console.log(newOffsets);
 
           formatTag.offsets = `${formatTag.offsets},${newOffsets}`;
           return expandOffsets(formatTag).pipe(
@@ -90,11 +88,10 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
             }),
             flatMap$,
             map(() => {
-              console.log(verseID);
-              console.log(noteID);
               return resetLiveVerse(verseID[2], noteID).pipe(
                 map(() => {
                   store.updateVerses.next(true);
+                  store.updateNoteVisibility$.next(true);
                   return false;
                 }),
               );

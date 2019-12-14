@@ -154,8 +154,6 @@ import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
   const lang = langReq(req, query);
   const params = parseChapterParams(query, lang);
-  // console.log(port);
-  console.log(lang);
 
   const data = await axios.get(
     `https://files.oneinthinehand.org/so//scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
@@ -190,7 +188,6 @@ ChapterParent.getInitialProps = async ({ query, req, res }) => {
         .get<Chapter>(`${params.lang}-${params.book}-${params.chapter}-chapter`)
         .toPromise();
       if (i) {
-        console.log(i);
         const c = i.doc; // as Chapter;
         c.params = params;
         store.initChapter$.next(c);
