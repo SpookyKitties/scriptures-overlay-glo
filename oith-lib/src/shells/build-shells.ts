@@ -188,6 +188,7 @@ export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
   // return;
   // return of(() => {}).pipe(toArray());
 }
+import { groupBy as _groupBy } from 'lodash';
 
 function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
   if (verseNotea) {
@@ -195,25 +196,51 @@ function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
       flatMap$,
       map(vN => {
         if (vN.notes) {
-          return of(vN.notes).pipe(
-            flatMap$,
-            groupBy(n => n.formatTag.offsets),
-            mergeMap(o =>
-              o.pipe(
-                toArray(),
-                map(
-                  (notes): VerseNoteGroup => {
-                    const n = notes.sort((a, b) => a.noteType - b.noteType);
-                    return new VerseNoteGroup(notes, '');
-                  },
-                ),
-              ),
-            ),
-            toArray(),
-            map(ng => {
-              vN.noteGroups = ng;
-            }),
-          );
+          const sortedNotes = _groupBy(vN.notes, note => {
+            if (
+              note.formatTag.offsets === '' ||
+              note.formatTag.offsets === undefined
+            ) {
+              console.log(note);
+              // console.log(note.formatTag.offsets === '');
+
+              return note.ref;
+            }
+            // console.log(note);
+            return note.formatTag.offsets;
+          });
+          // const n = sortedNotes.sort((a, b) => a.noteType - b.noteType);
+          vN.noteGroups = Array.from(Object.keys(sortedNotes)).map(key => {
+            // console.log(sortedNotes[key][0].phrase);
+            // console.log(sortedNotes[key][0].formatTag.offsets);
+
+            const notes = sortedNotes[key].sort(
+              (a, b) => a.noteType - b.noteType,
+            );
+            return new VerseNoteGroup(notes, '');
+          });
+
+          // console.log(verseNoteGroups);
+
+          // return of(vN.notes).pipe(
+          //   flatMap$,
+          //   groupBy(n => n.formatTag.offsets),
+          //   mergeMap(o =>
+          //     o.pipe(
+          //       toArray(),
+          //       map(
+          //         (notes): VerseNoteGroup => {
+          //           const n = notes.sort((a, b) => a.noteType - b.noteType);
+          //           return new VerseNoteGroup(notes, '');
+          //         },
+          //       ),
+          //     ),
+          //   ),
+          //   toArray(),
+          //   map(ng => {
+          //     vN.noteGroups = ng;
+          //   }),
+          // );
         }
         return EMPTY;
       }),
