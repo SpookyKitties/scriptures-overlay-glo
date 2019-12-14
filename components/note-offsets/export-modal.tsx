@@ -52,14 +52,15 @@ export class ExportModal extends Component {
         map(o => {
           resetCheckboxes.next(true);
           this.setState({ active: o });
+          if (appSettings && appSettings.noteTypes) {
+            this.setState({ noteTypes: appSettings.noteTypes.noteTypes });
+          }
         }),
       )
       .subscribe();
-
-    this.setState({ noteTypes: appSettings.noteTypes.noteTypes });
   }
   public render() {
-    if (this.state) {
+    if (this.state && this.state.noteTypes) {
       return (
         <div className={`modal ${this.state.active ? 'is-active' : ''}`}>
           <div
