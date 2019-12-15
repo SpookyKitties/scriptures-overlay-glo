@@ -148,9 +148,11 @@ export class AppSettings {
     if (displayNotes === 'off' || typeof displayNotes === 'undefined') {
       this.settings.notesMode = 'small';
     } else if (displayNotes === 'small') {
-      if (width >= 768) {
+      if (window.matchMedia('(min-width: 768px)').matches) {
         this.settings.notesMode = 'off';
-      } else this.settings.notesMode = 'large';
+      } else {
+        this.settings.notesMode = 'large';
+      }
     } else {
       this.settings.notesMode = 'off';
     }
