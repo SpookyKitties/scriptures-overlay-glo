@@ -3,7 +3,16 @@ import { ParsedUrlQuery } from 'querystring';
 import { appSettings } from '../components/header.component';
 import { parseCookieLang } from './parseCookieLang';
 
-export const validLangs = ['eng', 'spa', 'por', 'fra', 'zhs', 'zho', 'jpn'];
+export const validLangs = [
+  'eng',
+  'spa',
+  'por',
+  'fra',
+  'zhs',
+  'zho',
+  'jpn',
+  'tha',
+];
 
 export function langReq(req: IncomingMessage, query: ParsedUrlQuery) {
   try {

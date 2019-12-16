@@ -155,6 +155,8 @@ ChapterParent.getInitialProps = async ({ query, req, res }) => {
   const lang = langReq(req, query);
   const params = parseChapterParams(query, lang);
 
+  console.log(`${params.lang}-${params.book}-${params.chapter}-chapter.json`);
+
   const data = await axios.get(
     `https://files.oneinthinehand.org/so//scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
     // { proxy: { port: port, host: '127.0.0.1' } },
