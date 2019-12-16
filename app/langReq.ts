@@ -12,6 +12,7 @@ export const validLangs = [
   'zho',
   'jpn',
   'tha',
+  'pes',
 ];
 
 export function langReq(req: IncomingMessage, query: ParsedUrlQuery) {
