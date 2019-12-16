@@ -161,7 +161,7 @@ export class AppSettings {
   }
   public save<T extends keyof this>(key: T) {
     localStorage.setItem(
-      `scriptures-overlay-${key}`,
+      `${this.settings.lang}-scriptures-overlay-${key}`,
       JSON.stringify(this[key]),
     );
   }

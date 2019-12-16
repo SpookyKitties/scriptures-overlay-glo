@@ -66,6 +66,8 @@ export function reInitChapter() {
 class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
+      console.log(o);
+
       this.setState({ displayNav: o });
     });
     document.cookie = `lang=${this.props.lang}; expires=${addYears(
