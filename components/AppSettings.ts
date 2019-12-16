@@ -107,18 +107,22 @@ export class AppSettings {
       });
   }
   public loadNoteSettings() {
-    const noteSettingsS = localStorage.getItem(
-      'scriptures-overlay-noteSettings',
-    );
-    const noteTypesS = localStorage.getItem('scriptures-overlay-noteTypes');
     const noteCategoriesS = localStorage.getItem(
-      'scriptures-overlay-noteCategories',
+      `eng-scriptures-overlay-noteCategories`,
     );
-    this.noteSettings = noteSettingsS ? JSON.parse(noteSettingsS) : undefined;
-    this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
+
     this.noteCategories = noteCategoriesS
       ? JSON.parse(noteCategoriesS)
       : undefined;
+    const noteSettingsS = localStorage.getItem(
+      `eng-scriptures-overlay-noteSetting`,
+    );
+    const noteTypesS = localStorage.getItem(
+      `eng-scriptures-overlay-noteTypes`,
+    );
+
+    this.noteSettings = noteSettingsS ? JSON.parse(noteSettingsS) : undefined;
+    this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
     return (
       forkJoin(
         of(this.getNoteTypeSettings('noteSettings', 'note-settings')).pipe(

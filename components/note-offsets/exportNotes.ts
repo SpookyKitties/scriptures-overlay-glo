@@ -70,9 +70,9 @@ export function exportNotes() {
               chapter,
             )
               .map(verseNote => {
-                return `<verse-note id="${verseNote.id}">${verseNote.notes
+                return `<verse-notes id="${verseNote.id}">${verseNote.notes
                   .map(note => notesToString(note, noteTypes))
-                  .join('')}</verse-note>`;
+                  .join('')}</verse-notes>`;
               })
               .join('')}${docend}`;
 

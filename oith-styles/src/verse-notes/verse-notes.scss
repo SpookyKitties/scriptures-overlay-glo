@@ -53,6 +53,7 @@ verse-notes,
       margin-left: 20px;
       display: block;
       margin-right: 10px;
+      margin-bottom: 6px;
     }
 
     verse-note-group,
@@ -67,4 +68,13 @@ verse-notes,
 }
 .none {
   display: none !important;
+}
+
+.jst-mode {
+}
+insertion {
+  font-weight: 700;
+}
+deletion {
+  font-style: italic;
 }
