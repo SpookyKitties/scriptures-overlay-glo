@@ -1,5 +1,5 @@
-@import "../oith-styles/src/lib.scss";
-[id*="pes-"] {
+@import '../oith-styles/src/lib.scss';
+[id*='pes-'] {
   text-align: right;
   direction: rtl;
 }
@@ -224,3 +224,7 @@
 //     font-stretch: normal;
 //   }
 // }
+
+.right-to-left {
+  direction: rtl;
+}

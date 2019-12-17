@@ -37,8 +37,10 @@ export class HeaderComponent extends Component {
   public state: { displayNoteSettings: boolean };
   public componentDidMount() {
     const lang = parseLangFromUrl();
-
     appSettings = new AppSettings(lang);
+    if (appSettings.settings.lang === 'pes') {
+      document.body.classList.add('right-to-left');
+    }
     store = new Store();
     formatTagService = new FormatTagService();
 

@@ -424,6 +424,24 @@ body {
 }
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
+.right-to-left {
+  .navigation-child {
+    margin-left: none !important;
+    margin-right: 10px;
+    padding: 0;
+    border-left-width: none !important;
+    border-right-width: 1px;
+    border-left-style: none !important;
+    border-right-style: ridge;
+    list-style: none;
+    // grid-template-columns: auto 24px !important;
+    // margin-bottom: 8px;
+    // margin-left: 20px;
+    // font-family: 'Open Sans' !important;
+    // display: grid;
+  } // direction: rtl;
+}
+
 .navigation-parent {
   .navigation-child {
     margin-left: 10px;
