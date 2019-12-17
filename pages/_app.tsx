@@ -49,9 +49,6 @@ export class Store {
   }
 
   public checkHistory(id: string) {
-    console.log(id);
-    console.log(this.chapterHistory);
-
     if (this.history) {
       return this.chapterHistory.find(c => c.id === id);
     }

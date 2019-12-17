@@ -199,6 +199,7 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
           if (c) {
             return of(c);
           }
+          store.history = false;
 
           let database = new PouchyRx(
             `v6-${window.location.hostname}-overlay-org`,
@@ -241,7 +242,6 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   } else {
     let chapter = await getChapterRemote(id, params);
 
-    store.history = true;
     return { chapter, lang };
   }
 }
