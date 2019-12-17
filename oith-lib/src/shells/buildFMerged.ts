@@ -14,11 +14,6 @@ import { isEqual } from 'lodash';
 
 export function expandNoteOffsets(verseNote?: VerseNote) {
   if (verseNote && verseNote.notes) {
-    const vasdf = verseNote.notes.map(note => {
-      return forkJoin(expandOffsets(note.formatTag), of(note.formatTag)).pipe(
-        map(o => o[1]),
-      );
-    });
     if (verseNote.noteGroups) {
       return of(
         verseNote.noteGroups.map(ng =>
