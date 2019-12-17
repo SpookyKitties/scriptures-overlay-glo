@@ -2,7 +2,7 @@ import React from 'react';
 import App from 'next/app';
 import Layout from '../components/layout';
 import { appSettings, store } from '../components/SettingsComponent';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, of, Observable } from 'rxjs';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { filter, map } from 'rxjs/operators';
 import Helmet from 'react-helmet';
@@ -53,6 +53,13 @@ export class Store {
       return this.chapterHistory.find(c => c.id === id);
     }
     return undefined;
+  }
+
+  public checkHistory$(id: string): Observable<Chapter | undefined> {
+    if (this.history) {
+      return of(this.chapterHistory.find(c => c.id === id));
+    }
+    return of(undefined);
   }
 }
 

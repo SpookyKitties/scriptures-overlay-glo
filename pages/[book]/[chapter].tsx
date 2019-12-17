@@ -9,10 +9,11 @@ import {
   addVersesToBody,
   buildShell,
   parseChapterParams,
+  ChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
 import { Component } from 'react';
 import { appSettings, store } from '../../components/SettingsComponent';
-import { forkJoin, fromEvent, of } from 'rxjs';
+import { forkJoin, fromEvent, of, Observable } from 'rxjs';
 // import { store } from "../_app";
 import Router from 'next/router';
 import { NavigationComponenet } from '../../components/navigation/navigation.component';
@@ -83,6 +84,8 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
 
     store.initChapter$.next(this.props.chapter);
     // store.chapter.next(this.props.chapter);
+    console.log(this.props.chapter);
+
     store.initChapter$
       .pipe(
         filter(o => o !== undefined),
@@ -152,27 +155,37 @@ const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
 };
 import PouchDB from 'pouchdb';
 import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
+import { ParsedUrlQuery } from 'querystring';
+import { IncomingMessage } from 'http';
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
+  return await loadChapter(req, query);
+};
+
+export default ChapterParent;
+
+async function getChapterRemote(id: string, params: ChapterParams) {
+  try {
+    const data = await axios.get(
+      `https://files.oneinthinehand.org/so//scripture_files/${id}.json`,
+      // { proxy: { port: port, host: '127.0.0.1' } },
+    );
+
+    const chapter = data.data as Chapter;
+    chapter.params = params;
+
+    return chapter;
+  } catch (error) {
+    return undefined;
+  }
+  const g = async () => {};
+}
+
+async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   const lang = langReq(req, query);
   const params = parseChapterParams(query, lang);
 
-  console.log(`${params.lang}-${params.book}-${params.chapter}-chapter.json`);
-
-  const data = await axios.get(
-    `https://files.oneinthinehand.org/so//scripture_files/${params.lang}-${params.book}-${params.chapter}-chapter.json`,
-    // { proxy: { port: port, host: '127.0.0.1' } },
-  );
-
-  const chapter = data.data as Chapter;
-  chapter.params = params;
-
-  // const b = await addVersesToBody(chapter)
-  //   .pipe(
-  //     map(() => buildShell(chapter, params)),
-  //     flatMap(o => o),
-  //   )
-  //   .toPromise();
+  const id = `${params.lang}-${params.book}-${params.chapter}-chapter`;
 
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
@@ -180,33 +193,54 @@ ChapterParent.getInitialProps = async ({ query, req, res }) => {
     const checkHistory = store.checkHistory(
       `${params.lang}-${params.book}-${params.chapter}-chapter`,
     );
+    let chapter = await store
+      .checkHistory$(id)
+      .pipe(
+        map(c => {
+          if (c) {
+            return of(c);
+          }
+
+          let database = new PouchyRx(
+            `v6-${window.location.hostname}-overlay-org`,
+          );
+          return database
+            .get<Chapter>(
+              `${params.lang}-${params.book}-${params.chapter}-chapter`,
+            )
+            .pipe(
+              map(dbItem => {
+                if (dbItem) {
+                  return dbItem.doc;
+                }
+                return;
+              }),
+            );
+        }),
+        flatMap(o => o),
+        map(c => {
+          if (c) {
+            return of(c);
+          }
+
+          return getChapterRemote(id, params);
+        }),
+        flatMap(o => o),
+      )
+      .toPromise();
 
     // store.chapter.next(checkHistory ? checkHistory : chapter);
 
-    if (checkHistory && store.history) {
-      store.chapter.next(checkHistory);
+    if (chapter && !store.history) {
+      chapter.params = params;
+      store.initChapter$.next(chapter);
     } else {
-      // try {
-      let database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
-      const i = await database
-        .get<Chapter>(`${params.lang}-${params.book}-${params.chapter}-chapter`)
-        .toPromise();
-      if (i) {
-        const c = i.doc; // as Chapter;
-        c.params = params;
-        store.initChapter$.next(c);
-      } else {
-        // return { c, lang };
-        // } catch (error) {
-        store.initChapter$.next(chapter);
-        // }}
-      }
+      store.chapter.next(chapter);
     }
-    store.history = true;
     return { chapter, lang };
+  } else {
+    let chapter = await getChapterRemote(id, params);
 
-    return;
-  } else return { chapter, lang };
-};
-
-export default ChapterParent;
+    return { chapter, lang };
+  }
+}

@@ -17,7 +17,7 @@ import {
   VersePlaceholder,
 } from '../models/Chapter';
 import { flatMap$ } from '../rx/flatMap$';
-import { VerseNote, VerseNoteGroup } from '../verse-notes/verse-note';
+import { VerseNote, VerseNoteGroup, Note } from '../verse-notes/verse-note';
 import { buildFMerged } from './buildFMerged';
 
 function findFormatGroupsWithVerseIDs(
@@ -286,7 +286,7 @@ function prepVideos(chapter: Chapter) {
         flatMap(o => o),
         find(o => typeof o.src === 'string' && o.container === 'MP4'),
         map(source => {
-          if (source) {
+          if (source && grp.attrs) {
             grp.attrs['src'] = source.src;
           }
         }),
@@ -320,9 +320,9 @@ function addRefLabel(chapter: Chapter) {
     map(noteCategories => {
       return of(chapter.verseNotes).pipe(
         filter(o => o !== undefined),
-        flatMap(o => o),
+        flatMap(o => o as VerseNote[]),
         filter(o => Array.isArray(o.notes)),
-        flatMap(o => o.notes),
+        flatMap(o => o.notes as Note[]),
         filter(o => o !== undefined && Array.isArray(o.ref)),
         map(note => {
           note.ref.map(ref => {
@@ -332,7 +332,9 @@ function addRefLabel(chapter: Chapter) {
                     c => c.category === ref.category,
                   )
                 : { label: 'err' };
-            ref.label = `${cat ? cat.label : 'ERR'}\u00a0`;
+            ref.label = `${
+              cat ? cat.label.replace('â˜º', '🔊').replace('GEO', '🗺') : 'ERR'
+            }\u00a0`;
           });
         }),
       );
