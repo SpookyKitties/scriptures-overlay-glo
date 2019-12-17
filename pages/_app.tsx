@@ -49,6 +49,9 @@ export class Store {
   }
 
   public checkHistory(id: string) {
+    console.log(id);
+    console.log(this.chapterHistory);
+
     if (this.history) {
       return this.chapterHistory.find(c => c.id === id);
     }
@@ -56,6 +59,7 @@ export class Store {
   }
 
   public checkHistory$(id: string): Observable<Chapter | undefined> {
+    return of(this.checkHistory(id));
     if (this.history) {
       return of(this.chapterHistory.find(c => c.id === id));
     }

@@ -84,7 +84,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
 
     store.initChapter$.next(this.props.chapter);
     // store.chapter.next(this.props.chapter);
-    console.log(this.props.chapter);
 
     store.initChapter$
       .pipe(
@@ -190,9 +189,9 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
 
-    const checkHistory = store.checkHistory(
-      `${params.lang}-${params.book}-${params.chapter}-chapter`,
-    );
+    // const checkHistory = store.checkHistory(
+    //   `${params.lang}-${params.book}-${params.chapter}-chapter`,
+    // );
     let chapter = await store
       .checkHistory$(id)
       .pipe(
@@ -237,10 +236,12 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
     } else {
       store.chapter.next(chapter);
     }
+    store.history = true;
     return { chapter, lang };
   } else {
     let chapter = await getChapterRemote(id, params);
 
+    store.history = true;
     return { chapter, lang };
   }
 }
