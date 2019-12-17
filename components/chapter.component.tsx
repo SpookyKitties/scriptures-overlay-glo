@@ -115,6 +115,7 @@ function normalizeAttrs(attrs?: {}) {
     attrs['class'] = undefined;
   }
 }
+import Router from 'next/router';
 
 function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   const docType = (grp as FormatGroup).docType;
@@ -204,13 +205,20 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
               </a>
             );
           }
+          const gotoLink = (href: string) => {
+            store.history = false;
+            Router.push('/[book]/[chapter]', `${href}`);
+          };
 
           return (
-            <Link as={`${href}`} href="/[book]/[chapter]">
-              <a className="valid-href">
-                {renderFormatGroups(formatGroup.grps)}
-              </a>
-            </Link>
+            <a
+              className="valid-href"
+              onClick={() => {
+                gotoLink(href);
+              }}
+            >
+              {renderFormatGroups(formatGroup.grps)}
+            </a>
           );
         }
         case '': {

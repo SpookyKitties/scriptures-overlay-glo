@@ -267,7 +267,7 @@ export function buildShell(chapter: Chapter, params: ChapterParams) {
       flatMap(o => o),
     ),
     addRefLabel(chapter),
-    prepVideos(chapter),
+    // prepVideos(chapter),
     of(highlightVerses(chapter.verses, params)),
   );
 }
