@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { filter, map, take, flatMap, takeLast, first } from 'rxjs/operators';
-import { store } from './header.component';
+import { store } from './SettingsComponent';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 export function scrollIntoView(chapter?: Chapter) {
   const c$ = chapter ? of(chapter) : store.chapter.pipe(first());

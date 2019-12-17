@@ -1,5 +1,5 @@
 import { map, filter, take, flatMap } from 'rxjs/operators';
-import { store, appSettings } from './header.component';
+import { store, appSettings } from './SettingsComponent';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 function resetNotes(

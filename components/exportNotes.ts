@@ -1,4 +1,4 @@
-import { store } from './header.component';
+import { store } from './SettingsComponent';
 import { take, filter } from 'rxjs/operators';
 
 export function exportNotes() {

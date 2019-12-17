@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { ParsedUrlQuery } from 'querystring';
-import { appSettings } from '../components/header.component';
+import { appSettings } from '../components/SettingsComponent';
 import { parseCookieLang } from './parseCookieLang';
 
 export const validLangs = [

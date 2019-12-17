@@ -1,10 +1,10 @@
 import { Component, CSSProperties } from 'react';
 import { FormatMerged } from '../oith-lib/src/models/Chapter';
-import { store, formatTagService } from './header.component';
 import { map, filter, toArray, delay } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
+import { store, formatTagService } from './SettingsComponent';
 
 export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
   return state ? state[key] : '';

@@ -18,7 +18,7 @@ import {
   expandNoteOffsets,
   resetVerse,
 } from '../../oith-lib/src/shells/buildFMerged';
-import { store } from '../header.component';
+import { store } from '../SettingsComponent';
 
 export function resetLiveVerse(verseid: string, noteID: string) {
   return store.chapter.pipe(

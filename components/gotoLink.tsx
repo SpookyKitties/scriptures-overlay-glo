@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 import Router from "next/router";
-import { store } from "./header.component";
+import { store } from "./SettingsComponent";
 
 function gotoExternalLink(href: string) {}
 

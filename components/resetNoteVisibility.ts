@@ -1,4 +1,4 @@
-import { appSettings, store } from './header.component';
+import { appSettings, store } from './SettingsComponent';
 import { of, forkJoin } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';

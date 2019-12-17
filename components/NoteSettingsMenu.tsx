@@ -1,13 +1,9 @@
 import Router from 'next/router';
 import { Component, CSSProperties, MouseEvent } from 'react';
 import { NoteSetting } from '../oith-lib/src/processors/NoteSettings';
-import {
-  appSettings,
-  closeMenu$,
-  formatTagService,
-  store,
-} from './header.component';
+import { appSettings, formatTagService, store } from './SettingsComponent';
 import { openExportModal } from './note-offsets/export-modal';
+import { closeMenu$ } from './header.component';
 
 const noteSettingsMenuStyles: CSSProperties = {
   position: 'absolute',

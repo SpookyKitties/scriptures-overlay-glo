@@ -270,7 +270,7 @@ function findAllGrpsWithName(
 import axios from 'axios';
 import { VideoData } from '../../../components/VideoComponent';
 import { NoteCategories } from '../verse-notes/settings/note-gorup-settings';
-import { store, appSettings } from '../../../components/header.component';
+import { store, appSettings } from '../../../components/SettingsComponent';
 function prepVideos(chapter: Chapter) {
   return findAllGrpsWithName('video', chapter.body).pipe(
     // toArray(),

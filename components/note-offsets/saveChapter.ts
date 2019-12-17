@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { map, filter, take } from 'rxjs/operators';
-import { store } from '../header.component';
+import { store } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import PouchDB from 'pouchdb';
 import { PouchyRx } from '../import-notes/import-notes/PouchyRx';

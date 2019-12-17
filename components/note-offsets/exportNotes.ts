@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 import { filter, map, flatMap, toArray, take } from 'rxjs/operators';
-import { appSettings, store } from '../header.component';
+import { appSettings, store } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { Note, NoteRef } from '../../oith-lib/src/verse-notes/verse-note';
 import { NoteType } from '../../oith-lib/src/verse-notes/settings/note-gorup-settings';

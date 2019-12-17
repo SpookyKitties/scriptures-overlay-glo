@@ -1,7 +1,7 @@
 import React from 'react';
 import App from 'next/app';
 import Layout from '../components/layout';
-import { appSettings, store } from '../components/header.component';
+import { appSettings, store } from '../components/SettingsComponent';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { filter, map } from 'rxjs/operators';

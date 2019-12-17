@@ -13,7 +13,7 @@ import Head from 'next/head';
 import { VerseComponent } from './verse.component';
 import { forkJoin, of, Observable } from 'rxjs';
 import { filter, map, flatMap, delay, toArray } from 'rxjs/operators';
-import { appSettings, store } from './header.component';
+import { appSettings, store } from './SettingsComponent';
 import Link from 'next/link';
 import { scrollIntoView } from './scrollIntoView';
 import { NavigationItem } from './navigation-item';

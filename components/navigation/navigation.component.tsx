@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { NavigationItem } from '../navigation-item';
 import { SearchBoxComponent } from './searchbox.component';
-import { appSettings } from '../header.component';
+import { appSettings } from '../SettingsComponent';
 import Link from 'next/link';
 import { filterUndefined$, initnav } from '../nextPage';
 import { map, take, delay } from 'rxjs/operators';

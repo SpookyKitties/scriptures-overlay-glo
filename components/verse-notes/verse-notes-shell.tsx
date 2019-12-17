@@ -10,7 +10,7 @@ import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { useRouter } from 'next/router';
 import { gotoLink } from '../gotoLink';
-import { store } from '../header.component';
+import { store } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { notePhraseClick } from './notePhraseClick';
 

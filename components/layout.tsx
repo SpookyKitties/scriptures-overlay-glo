@@ -3,7 +3,8 @@ import { NavbarComponents, NavbarProps } from './navbar.component';
 import { CSSProperties } from 'react';
 import Head from 'next/head';
 import '../styles/styles.scss';
-import { HeaderComponent, store } from './header.component';
+import { HeaderComponent } from './header.component';
+import { SettingsComponent } from './SettingsComponent';
 import Helmet from 'react-helmet';
 import { MenuOverlay } from './MenuOverlay';
 // import { oithMain } from "../styles/typed/chapter-layout";
@@ -44,6 +45,7 @@ const Layout: React.FunctionComponent = ({
         />
       </Helmet>
       <div>h</div>
+      <SettingsComponent></SettingsComponent>
       <HeaderComponent></HeaderComponent>
       {children}
       {/* <div className=""></div> */}

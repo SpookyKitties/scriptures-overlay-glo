@@ -11,7 +11,7 @@ import {
   parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
 import { Component } from 'react';
-import { appSettings, store } from '../../components/header.component';
+import { appSettings, store } from '../../components/SettingsComponent';
 import { forkJoin, fromEvent, of } from 'rxjs';
 // import { store } from "../_app";
 import Router from 'next/router';

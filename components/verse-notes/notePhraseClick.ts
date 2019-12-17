@@ -1,7 +1,7 @@
 import { FormatTagNoteOffsets } from '../../oith-lib/src/verse-notes/verse-note';
 import { of } from 'rxjs';
 import { map, delay, find, flatMap, filter } from 'rxjs/operators';
-import { store, formatTagService } from '../header.component';
+import { store, formatTagService } from '../SettingsComponent';
 import { addOffsets } from '../note-offsets/addOffsets';
 
 export function notePhraseClick(

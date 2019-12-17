@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { appSettings } from '../header.component';
+import { appSettings } from '../SettingsComponent';
 import { NoteType } from '../../oith-lib/src/verse-notes/settings/note-gorup-settings';
 import { exportNotes } from './exportNotes';
 

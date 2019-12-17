@@ -1,4 +1,4 @@
-import { store } from './header.component';
+import { store } from './SettingsComponent';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
 import { filter, map, flatMap, toArray, take } from 'rxjs/operators';
 import { FormatMerged } from '../oith-lib/src/models/Chapter';

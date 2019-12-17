@@ -12,13 +12,10 @@ import { AppSettings } from './AppSettings';
 import { NoteSettingsMenu } from './NoteSettingsMenu';
 import { menuOverlay$ } from './MenuOverlay';
 import { FormatTagService } from './FormatTagService';
-import { setCurrentNav } from './nextPage';
-import { parseCookieLang, parseLangFromUrl } from '../app/parseCookieLang';
+import { parseCookieLang } from '../app/parseCookieLang';
 import { openExportModal } from './note-offsets/export-modal';
+import { appSettings } from './SettingsComponent';
 
-export let appSettings: AppSettings;
-export let store: Store;
-export let formatTagService: FormatTagService;
 export let closeMenu$: Subject<boolean>;
 
 type HProps = {
@@ -32,19 +29,9 @@ const headerStyles: CSSProperties = {
 const noteSettingsMenuBtn: CSSProperties = {
   position: 'relative',
 };
-
 export class HeaderComponent extends Component {
   public state: { displayNoteSettings: boolean };
   public componentDidMount() {
-    const lang = parseLangFromUrl();
-    appSettings = new AppSettings(lang);
-    if (appSettings.settings.lang === 'pes') {
-      document.body.classList.add('right-to-left');
-    }
-    store = new Store();
-    formatTagService = new FormatTagService();
-
-    setCurrentNav();
     closeMenu$ = new BehaviorSubject(false);
     closeMenu$.subscribe(() => {
       this.setState({ displayNoteSettings: false });

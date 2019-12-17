@@ -2,7 +2,7 @@ import { Verse } from '../oith-lib/src/models/Chapter';
 import { renderFormatGroups } from './chapter.component';
 import { Component } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { store } from './header.component';
+import { store } from './SettingsComponent';
 
 type VerseProps = {
   verse?: Verse;

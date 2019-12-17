@@ -1,5 +1,5 @@
 import Router from 'next/router';
-import { appSettings, store } from './header.component';
+import { appSettings, store } from './SettingsComponent';
 import { filter, map, flatMap, take, toArray, delay } from 'rxjs/operators';
 import { forkJoin, of, Observable, EMPTY } from 'rxjs';
 // import { filterUndefined$ } from '../oith-lib/src/process';
