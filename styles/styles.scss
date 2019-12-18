@@ -242,3 +242,20 @@
     padding-bottom: 1.25em;
   }
 }
+
+.title {
+  width: 100%;
+
+  .title-text {
+    display: none;
+    @media screen and (min-width: 768px) {
+      display: inline !important;
+    }
+  }
+  .short-title-text {
+    display: none;
+    @media screen and (max-width: 767.98px) {
+      display: inline !important;
+    }
+  }
+}

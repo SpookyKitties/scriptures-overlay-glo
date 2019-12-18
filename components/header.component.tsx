@@ -15,7 +15,7 @@ import { FormatTagService } from './FormatTagService';
 import { parseCookieLang } from '../app/parseCookieLang';
 import { openExportModal } from './note-offsets/export-modal';
 import { appSettings } from './SettingsComponent';
-
+import { TitleComponent } from './TitleComponent';
 export let closeMenu$: Subject<boolean>;
 
 type HProps = {
@@ -60,7 +60,9 @@ export class HeaderComponent extends Component {
             ></path>
           </svg>
         </div>
-        <div></div>
+        <div className={`title`}>
+          <TitleComponent />
+        </div>
         <div className={`"oith-header-item" `} onClick={() => this.showNotes()}>
           <svg
             width="24"

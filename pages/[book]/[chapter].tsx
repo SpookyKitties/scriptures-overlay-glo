@@ -98,6 +98,9 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
         flatMap(o => o),
       )
       .subscribe(chapter => {
+        if (titleService && chapter) {
+          titleService.next([chapter.title, chapter.shortTitle]);
+        }
         store.chapter.next(chapter);
       });
 
@@ -156,6 +159,7 @@ import PouchDB from 'pouchdb';
 import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
 import { ParsedUrlQuery } from 'querystring';
 import { IncomingMessage } from 'http';
+import { titleService } from '../../components/TitleComponent';
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
   return await loadChapter(req, query);
