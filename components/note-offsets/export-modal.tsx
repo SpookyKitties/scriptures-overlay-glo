@@ -65,6 +65,7 @@ export class ExportModal extends Component {
         <div className={`modal ${this.state.active ? 'is-active' : ''}`}>
           <div
             className={`modal-background  `}
+            style={{ backgroundColor: 'unset' }}
             onClick={() => {
               openExportModal.next(false);
             }}
