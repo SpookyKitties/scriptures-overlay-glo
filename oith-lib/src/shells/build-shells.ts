@@ -121,37 +121,28 @@ export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
 import { groupBy as _groupBy } from 'lodash';
 
 function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
-  if (verseNotea) {
-    return of(verseNotea).pipe(
-      flatMap$,
-      map(vN => {
-        if (vN.notes) {
-          const sortedNotes = _groupBy(vN.notes, note => {
-            if (
-              note.formatTag.offsets === '' ||
-              note.formatTag.offsets === undefined
-            ) {
-              return note.id;
-            }
-
-            return note.formatTag.offsets;
-          });
-
-          vN.noteGroups = Array.from(Object.keys(sortedNotes)).map(key => {
-            const notes = sortedNotes[key].sort(
-              (a, b) => a.noteType - b.noteType,
-            );
-            return new VerseNoteGroup(notes, '');
-          });
+  const s = verseNotea?.map(vN => {
+    if (vN.notes) {
+      const sortedNotes = _groupBy(vN.notes, note => {
+        if (
+          note.formatTag.offsets === '' ||
+          note.formatTag.offsets === undefined
+        ) {
+          return note.id;
         }
-        return EMPTY;
-      }),
-      flatMap(o => o),
-      toArray(),
-    );
-  }
 
-  return EMPTY;
+        return note.formatTag.offsets;
+      });
+
+      vN.noteGroups = Array.from(Object.keys(sortedNotes)).map(key => {
+        const notes = sortedNotes[key].sort(
+          (a, b) => a.noteType - b.noteType,
+        );
+        return new VerseNoteGroup(notes, '');
+      });
+    }
+  })
+  return of(s)
 }
 
 function findAllGrpsWithName(
@@ -199,7 +190,7 @@ function prepVideos(chapter: Chapter) {
   );
 }
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const port = parseInt(process?.env?.PORT as string, 10) || 3000;
 
 function addRefLabel(chapter: Chapter) {
   return of(
