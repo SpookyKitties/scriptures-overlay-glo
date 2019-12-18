@@ -98,13 +98,13 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
         flatMap(o => o),
       )
       .subscribe(chapter => {
-        if (titleService && chapter) {
-          titleService.next([chapter.title, chapter.shortTitle]);
-        }
         store.chapter.next(chapter);
       });
 
     store.chapter.pipe(filter(o => o !== undefined)).subscribe(chapter => {
+      if (titleService && chapter) {
+        titleService.next([chapter.title, chapter.shortTitle]);
+      }
       this.setState({ chapter: chapter });
     });
   }

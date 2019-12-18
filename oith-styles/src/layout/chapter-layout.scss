@@ -339,7 +339,7 @@ body {
         grid-template-rows: calc(100vh - 250px) 250px;
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 150px) 150px;
+        grid-template-rows: calc(100vh - 200px) 200px;
       }
       @include mobileNav();
       .verse-notes {
