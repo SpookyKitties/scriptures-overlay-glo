@@ -333,13 +333,6 @@ import { nextPage, previousPage } from './nextPage';
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
   componentDidMount() {
-    // forkJoin(
-    //   of(document.querySelector(".highlight,.context")).pipe(
-    //     filter(o => o !== null),
-    //     map(o => o.scrollIntoView())
-    //   )
-    // ).subscribe(
-
     store.chapter
       .pipe(
         filter(o => o !== undefined),
@@ -356,14 +349,8 @@ export class ChapterComponent extends Component {
       .subscribe(() => {});
   }
   componentDidUpdate() {}
-  /**
-   * render
-   */
+
   public render() {
-    // const verses = this.props.chapter.verses;
-    // if (!this.props.chapter) {
-    //   return <div></div>;
-    // }
     if (this.state && this.state.chapter) {
       return (
         <div
@@ -397,10 +384,6 @@ export class ChapterComponent extends Component {
             className="chapter"
             style={chapterStyles}
           >
-            {/* <header>
-            <span className="title">{this.props.chapter.title}</span>
-            <span className="shortTitle">{this.props.chapter.shortTitle}</span>
-          </header> */}
             {renderFormatGroups(this.state.chapter.body.grps)}
           </div>
           <span
