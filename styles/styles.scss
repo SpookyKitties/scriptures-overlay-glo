@@ -228,3 +228,17 @@
 .right-to-left {
   direction: rtl;
 }
+
+.verse {
+  &[id*='study_intro'] {
+    font-style: italic;
+    font-family: Palatino, 'Palatino Linotype', 'Palatino Italic',
+      Palatino-Italic, Pahoran, 'Pahoran ldsLat', NotoSansMyanmar,
+      SaysetthaldsLao, serif;
+    font-weight: 400;
+    font-style: italic;
+    font-stretch: normal;
+    padding-top: 0.9em;
+    padding-bottom: 1.25em;
+  }
+}

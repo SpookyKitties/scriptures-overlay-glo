@@ -152,11 +152,8 @@ function findAllGrpsWithName(
   if (grp.name && grp.name.toLowerCase() === name) {
     return of(grp);
   } else if (Array.isArray(grp.grps)) {
-    return of(grp.grps).pipe(
-      flatMap$,
-      map(o => findAllGrpsWithName(name, o as FormatGroup)),
-      flatMap$,
-    );
+
+    return of(grp.grps.map(grp => findAllGrpsWithName(name, grp as FormatGroup))).pipe(flatMap(o => o), flatMap$);
   }
 
   return EMPTY;
