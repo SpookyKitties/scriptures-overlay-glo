@@ -8,8 +8,8 @@ function resetNoteCategories() {
     .filter(noteCategory => {
       const off = noteCategory.off
         ? !noteCategory.off
-            .map(off => appSettings.settings.vis[off] !== true)
-            .includes(false)
+          .map(off => appSettings.settings.vis[off] !== true)
+          .includes(false)
         : true;
       const on = !noteCategory.on
         .map(on => appSettings.settings.vis[on] === true)

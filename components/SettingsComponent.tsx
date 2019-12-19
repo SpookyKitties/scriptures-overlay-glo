@@ -4,6 +4,7 @@ import { AppSettings } from './AppSettings';
 import { FormatTagService } from './FormatTagService';
 import { setCurrentNav } from './nextPage';
 import { parseLangFromUrl } from '../app/parseCookieLang';
+import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 export let formatTagService: FormatTagService;
 
 export let appSettings: AppSettings;
@@ -18,6 +19,7 @@ export class SettingsComponent extends Component {
     store = new Store();
     formatTagService = new FormatTagService();
     setCurrentNav();
+    // resetNoteVisibilitySettings().subscribe(o => o);
   }
   public render() {
     return <></>;

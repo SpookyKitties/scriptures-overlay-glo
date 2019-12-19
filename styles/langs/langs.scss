@@ -1,0 +1,15 @@
+[id*='pes'].chapter {
+  [id*='study_summary'] {
+    font-family: initial !important;
+  }
+}
+[lang='eng'] {
+  direction: ltr;
+  display: inline-block;
+}
+
+[id*='title-page'] {
+  .verse {
+    text-align: center;
+  }
+}
