@@ -148,7 +148,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   }
 }
 
-const port = parseInt(process.env.PORT, 10) || 3000;
 const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
   chapter,
   lang,
@@ -167,18 +166,21 @@ ChapterParent.getInitialProps = async ({ query, req, res }) => {
 
 export default ChapterParent;
 
+const port = parseInt(process.env.PORT, 10) || 3000;
+
 async function getChapterRemote(id: string, params: ChapterParams) {
   try {
-    const data = await axios.get(
-      `https://files.oneinthinehand.org/so//scripture_files/${id}.json`,
-      // { proxy: { port: port, host: '127.0.0.1' } },
-    );
+    const data = await axios.get(`/files/scripture_files/${id}.json`, {
+      proxy: { port: port, host: '127.0.0.1' },
+    });
 
     const chapter = data.data as Chapter;
     chapter.params = params;
 
     return chapter;
   } catch (error) {
+    console.log(error);
+
     return undefined;
   }
   const g = async () => {};
