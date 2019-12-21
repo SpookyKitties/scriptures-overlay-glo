@@ -67,8 +67,6 @@ export function reInitChapter() {
 class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
-      console.log(o);
-
       this.setState({ displayNav: o });
     });
     document.cookie = `lang=${this.props.lang}; expires=${addYears(
@@ -82,8 +80,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
       this.setState({ notesMode: o ? o : 'off' });
     });
 
-    console.log('aoisdjoiasdjfioajsdf');
-
     store.initChapter$.next(this.props.chapter);
     // store.chapter.next(this.props.chapter);
 
@@ -91,8 +87,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
       .pipe(
         filter(o => o !== undefined),
         map(chapter => {
-          console.log('oijasdfiojasdfiojasdfioasdio');
-
           return addVersesToBody(chapter).pipe(
             map(() => buildShell(chapter, chapter.params)),
             flatMap(o => o),
@@ -242,8 +236,6 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
       .toPromise();
 
     // store.chapter.next(checkHistory ? checkHistory : chapter);
-
-    console.log(chapter);
 
     if (chapter && !store.history) {
       chapter.params = params;

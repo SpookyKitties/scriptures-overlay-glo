@@ -31,19 +31,17 @@ export function expandNoteOffsets(verseNote?: VerseNote) {
   return EMPTY;
 }
 
-
 export function extractFormatText(
   verse: FormatGroup | Verse | FormatText,
 ): Observable<FormatText> {
   if (Array.isArray((verse as FormatGroup | Verse).grps)) {
-
     return of((verse as FormatGroup | Verse).grps as (
       | FormatGroup
       | FormatText)[]).pipe(
-        flatMap$,
-        map(o => extractFormatText(o)),
-        flatMap$,
-      );
+      flatMap$,
+      map(o => extractFormatText(o)),
+      flatMap$,
+    );
   } else if ((verse as FormatText).docType === 5) {
     return of(verse as FormatText);
   }
@@ -121,7 +119,22 @@ export function addTextToFormatText(
 }
 
 export function resetVerse(verse: Verse, formatTags?: FormatTag[]) {
-
+  // const asdf = async () => {
+  //   const fmtTxts = await extractFormatText(verse)
+  //     .pipe(toArray())
+  //     .toPromise();
+  //   return Promise.all(
+  //     fmtTxts.map(fmtTxt => {
+  //       return expandOffsets(fmtTxt)
+  //         .pipe(
+  //           map(() => addTextToFormatText(verse, fmtTxt, formatTags)),
+  //           flatMap(o => o),
+  //         )
+  //         .toPromise();
+  //     }),
+  //   );
+  // };
+  // return of(asdf()).pipe(flatMap(o => o));
   return extractFormatText(verse).pipe(
     map((o: FormatText) => {
       return expandOffsets(o).pipe(
@@ -140,14 +153,16 @@ export function buildFMerged(chapter: Chapter) {
         vN.id.includes(`-${verse.id}-verse-note`),
       );
 
-      await expandNoteOffsets(verseNote).pipe(
-        toArray(),
-        map(formatTags => resetVerse(verse, formatTags)),
-        flatMap$,
-      ).toPromise();
+      await expandNoteOffsets(verseNote)
+        .pipe(
+          toArray(),
+          map(formatTags => resetVerse(verse, formatTags)),
+          flatMap$,
+        )
+        .toPromise();
     }
-  })
-  return of(Promise.all(t)).pipe(flatMap(o => o))
+  });
+  return of(Promise.all(t)).pipe(flatMap(o => o));
   // return of(chapter.verses).pipe(
   //   flatMap$,
   //   map(async verse => {

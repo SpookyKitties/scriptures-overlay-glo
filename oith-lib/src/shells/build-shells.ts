@@ -38,6 +38,34 @@ function findFormatGroupsWithVerseIDs(
       flatMap$,
     );
 }
+function findFormatGroupsWithVerseIDs2(
+  formatGroup: FormatGroup,
+): VersePlaceholder[] {
+  return flatten((formatGroup.grps as (
+    | FormatGroup
+    | FormatText
+    | VersePlaceholder)[]).map(grp => {
+      if ((grp as VersePlaceholder).v !== undefined) {
+        return [(grp as VersePlaceholder)];
+      }
+      return findFormatGroupsWithVerseIDs2(grp as FormatGroup)
+
+    }))
+  // return of(formatGroup.grps as (
+  //   | FormatGroup
+  //   | FormatText
+  //   | VersePlaceholder)[]).pipe(
+  //     filter(o => o !== undefined),
+  //     flatMap$,
+  //     map(o => {
+  //       if ((o as VersePlaceholder).v !== undefined) {
+  //         return of(o as VersePlaceholder);
+  //       }
+  //       return findFormatGroupsWithVerseIDs(o as FormatGroup);
+  //     }),
+  //     flatMap$,
+  //   );
+}
 
 function findVerse(verses: Verse[], verseID: string) {
   return of(verses.find(v => v.id === verseID));
@@ -62,14 +90,21 @@ export function generateVerseNoteShell(chapter: Chapter) {
 
 export function addVersesToBody(chapter: Chapter) {
   // console.log(flatMapDeep(chapter.body.grps));
+  const addVerses = () => (findFormatGroupsWithVerseIDs2(chapter.body).map(o => {
+    o.verse = chapter.verses.find(v => v.id === o.v);
 
-  return findFormatGroupsWithVerseIDs(chapter.body).pipe(
-    map(o => {
-      o.verse = chapter.verses.find(v => v.id === o.v);
-    }),
+  }));
 
-    toArray(),
-  );
+  return of(addVerses())
+
+
+  // return findFormatGroupsWithVerseIDs(chapter.body).pipe(
+  //   map(o => {
+  //     o.verse = chapter.verses.find(v => v.id === o.v);
+  //   }),
+
+  //   toArray(),
+  // );
 }
 
 function extractFormatText(
@@ -120,7 +155,7 @@ export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
     highlightContext(verses, chapterParams, 'context');
   }
 }
-import { groupBy as _groupBy, flatMapDeep } from 'lodash';
+import { groupBy as _groupBy, flatMapDeep, flatten } from 'lodash';
 
 function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
   const s = verseNotea?.map(vN => {
