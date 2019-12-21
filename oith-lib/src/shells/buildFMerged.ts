@@ -24,22 +24,19 @@ export function expandNoteOffsets(verseNote?: VerseNote) {
       ).pipe(
         flatMap$,
         flatMap$,
-      ); //, toArray());
+      );
     }
-    // return of(vasdf).pipe(
-    //   flatMap(o => o),
-    //   flatMap(o => o),
-    //   toArray(),
-    // );
   }
 
   return EMPTY;
 }
 
+
 export function extractFormatText(
   verse: FormatGroup | Verse | FormatText,
 ): Observable<FormatText> {
   if (Array.isArray((verse as FormatGroup | Verse).grps)) {
+
     return of((verse as FormatGroup | Verse).grps as (
       | FormatGroup
       | FormatText)[]).pipe(
@@ -124,6 +121,7 @@ export function addTextToFormatText(
 }
 
 export function resetVerse(verse: Verse, formatTags?: FormatTag[]) {
+
   return extractFormatText(verse).pipe(
     map((o: FormatText) => {
       return expandOffsets(o).pipe(

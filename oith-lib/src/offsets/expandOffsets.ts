@@ -11,20 +11,41 @@ import {
 } from 'rxjs/operators';
 import { flatMap$ } from '../rx/flatMap$';
 export function expandOffsets(offsets: Offset): Observable<number[]> {
+  // (offsets.offsets )
   return of(offsets.offsets as string).pipe(
     filterUndefinedNull$,
-    flatMap(o => o.replace(/\s/g, '').split(',')),
-    map(o => o.split('-')),
-    map(o =>
-      o.length === 1 || o[0] === o[1]
-        ? [parseInt(o[0])]
-        : range(parseInt(o[0]), parseInt(o[1]) + 1),
-    ),
-    flatMap$,
-    distinctUntilChanged(),
-    toArray(),
-    map(o => (offsets.uncompressedOffsets = o.sort((a, b) => a - b))),
+    map(o => {
+      const off = o
+        .replace(/\s/g, '')
+        .split(',')
+        .map(l => {
+          const n = l.split('-');
+
+          return n.length === 1 || n[0] === o[1]
+            ? [parseInt(n[0])]
+            : range(parseInt(n[0]), parseInt(n[1]) + 1);
+        });
+
+      offsets.uncompressedOffsets = uniq(flatten(flatten(off))).sort(
+        (a, b) => a - b,
+      );
+      return offsets.uncompressedOffsets;
+    }),
   );
+  // return of(offsets.offsets as string).pipe(
+  // filterUndefinedNull$,
+  // flatMap(o => o.replace(/\s/g, '').split(',')),
+  // map(o => o.split('-')),
+  // map(o =>
+  // o.length === 1 || o[0] === o[1]
+  // ? [parseInt(o[0])]
+  // : range(parseInt(o[0]), parseInt(o[1]) + 1),
+  // ),
+  // flatMap$,
+  // distinctUntilChanged(),
+  // toArray(),
+  // map(o => (offsets.uncompressedOffsets = o.sort((a, b) => a - b))),
+  // );
 }
 export function compressRanges(array: number[]): ([number, number])[] {
   const ranges: ([number, number])[] = [];

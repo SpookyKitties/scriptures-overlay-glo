@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { NextPage } from 'next';
-import { flatMap, map, take, filter } from 'rxjs/operators';
+import { flatMap, map, take, filter, debounceTime } from 'rxjs/operators';
 import { ChapterComponent } from '../../components/chapter.component';
 import Layout from '../../components/layout';
 import { VerseNotesShellComponent } from '../../components/verse-notes/verse-notes-shell';
@@ -82,19 +82,23 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
       this.setState({ notesMode: o ? o : 'off' });
     });
 
+    console.log('aoisdjoiasdjfioajsdf');
+
     store.initChapter$.next(this.props.chapter);
     // store.chapter.next(this.props.chapter);
 
     store.initChapter$
       .pipe(
         filter(o => o !== undefined),
-        map(chapter =>
-          addVersesToBody(chapter).pipe(
+        map(chapter => {
+          console.log('oijasdfiojasdfiojasdfioasdio');
+
+          return addVersesToBody(chapter).pipe(
             map(() => buildShell(chapter, chapter.params)),
             flatMap(o => o),
             map(() => chapter),
-          ),
-        ),
+          );
+        }),
         flatMap(o => o),
       )
       .subscribe(chapter => {
@@ -238,6 +242,8 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
       .toPromise();
 
     // store.chapter.next(checkHistory ? checkHistory : chapter);
+
+    console.log(chapter);
 
     if (chapter && !store.history) {
       chapter.params = params;

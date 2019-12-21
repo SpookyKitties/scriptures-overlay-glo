@@ -16,7 +16,9 @@ export class SettingsComponent extends Component {
     if (appSettings.settings.lang === 'pes') {
       document.body.classList.add('right-to-left');
     }
-    store = new Store();
+    if (!store) {
+      store = new Store();
+    }
     formatTagService = new FormatTagService();
     setCurrentNav();
     // resetNoteVisibilitySettings().subscribe(o => o);
