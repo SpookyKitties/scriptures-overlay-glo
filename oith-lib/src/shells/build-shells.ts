@@ -61,6 +61,8 @@ export function generateVerseNoteShell(chapter: Chapter) {
 // export function prepareVerseNotes(verseNotes: VerseNote[]) {}
 
 export function addVersesToBody(chapter: Chapter) {
+  // console.log(flatMapDeep(chapter.body.grps));
+
   return findFormatGroupsWithVerseIDs(chapter.body).pipe(
     map(o => {
       o.verse = chapter.verses.find(v => v.id === o.v);
@@ -118,7 +120,7 @@ export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
     highlightContext(verses, chapterParams, 'context');
   }
 }
-import { groupBy as _groupBy } from 'lodash';
+import { groupBy as _groupBy, flatMapDeep } from 'lodash';
 
 function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
   const s = verseNotea?.map(vN => {

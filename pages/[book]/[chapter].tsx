@@ -170,9 +170,11 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 
 async function getChapterRemote(id: string, params: ChapterParams) {
   try {
-    const data = await axios.get(`/files/scripture_files/${id}.json`, {
-      proxy: { port: port, host: '127.0.0.1' },
-    });
+    const data = await axios.get(
+      `https://oithstorage.blob.core.windows.net/blobtest/${id}.json`,
+    );
+    // `/files/scripture_files/${id}.json`, {
+    // proxy: { port: port, host: '127.0.0.1' },
 
     const chapter = data.data as Chapter;
     chapter.params = params;

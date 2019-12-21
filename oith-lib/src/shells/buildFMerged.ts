@@ -43,10 +43,10 @@ export function extractFormatText(
     return of((verse as FormatGroup | Verse).grps as (
       | FormatGroup
       | FormatText)[]).pipe(
-      flatMap$,
-      map(o => extractFormatText(o)),
-      flatMap$,
-    );
+        flatMap$,
+        map(o => extractFormatText(o)),
+        flatMap$,
+      );
   } else if ((verse as FormatText).docType === 5) {
     return of(verse as FormatText);
   }
@@ -136,24 +136,38 @@ export function resetVerse(verse: Verse, formatTags?: FormatTag[]) {
   );
 }
 export function buildFMerged(chapter: Chapter) {
-  return of(chapter.verses).pipe(
-    flatMap$,
-    map(async verse => {
-      if (chapter.verseNotes) {
-        const verseNote = chapter.verseNotes.find(vN =>
-          vN.id.includes(`-${verse.id}-verse-note`),
-        );
+  const t = chapter.verses.map(async verse => {
+    if (chapter.verseNotes) {
+      const verseNote = chapter.verseNotes.find(vN =>
+        vN.id.includes(`-${verse.id}-verse-note`),
+      );
 
-        return expandNoteOffsets(verseNote).pipe(
-          toArray(),
-          map(formatTags => resetVerse(verse, formatTags)),
-          flatMap$,
-        );
-      }
-      return EMPTY;
-    }),
-    flatMap(o => o),
-    flatMap(o => o),
-    toArray(),
-  );
+      await expandNoteOffsets(verseNote).pipe(
+        toArray(),
+        map(formatTags => resetVerse(verse, formatTags)),
+        flatMap$,
+      ).toPromise();
+    }
+  })
+  return of(Promise.all(t)).pipe(flatMap(o => o))
+  // return of(chapter.verses).pipe(
+  //   flatMap$,
+  //   map(async verse => {
+  //     if (chapter.verseNotes) {
+  //       const verseNote = chapter.verseNotes.find(vN =>
+  //         vN.id.includes(`-${verse.id}-verse-note`),
+  //       );
+
+  //       return expandNoteOffsets(verseNote).pipe(
+  //         toArray(),
+  //         map(formatTags => resetVerse(verse, formatTags)),
+  //         flatMap$,
+  //       );
+  //     }
+  //     return EMPTY;
+  //   }),
+  //   flatMap(o => o),
+  //   flatMap(o => o),
+  //   toArray(),
+  // );
 }
