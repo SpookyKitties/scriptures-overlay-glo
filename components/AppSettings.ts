@@ -56,7 +56,7 @@ export class AppSettings {
   }
   private async getNoteTypeSettings<T extends keyof AppSettings>(
     key: T,
-    fileName: 'note-settings' | 'note-categories' | 'note-types',
+    fileName: 'noteSettings' | 'noteCategories' | 'noteTypes',
   ) {
     if (!this[key]) {
       const lang = this.settings.lang;
@@ -115,7 +115,7 @@ export class AppSettings {
       ? JSON.parse(noteCategoriesS)
       : undefined;
     const noteSettingsS = localStorage.getItem(
-      `eng-scriptures-overlay-noteSetting`,
+      `eng-scriptures-overlay-noteSettings`,
     );
     const noteTypesS = localStorage.getItem(
       `eng-scriptures-overlay-noteTypes`,
@@ -125,13 +125,13 @@ export class AppSettings {
     this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
     return (
       forkJoin(
-        of(this.getNoteTypeSettings('noteSettings', 'note-settings')).pipe(
+        of(this.getNoteTypeSettings('noteSettings', 'noteSettings')).pipe(
           flatMap$,
         ),
-        of(this.getNoteTypeSettings('noteCategories', 'note-categories')).pipe(
+        of(this.getNoteTypeSettings('noteCategories', 'noteCategories')).pipe(
           flatMap$,
         ),
-        of(this.getNoteTypeSettings('noteTypes', 'note-types')).pipe(flatMap$),
+        of(this.getNoteTypeSettings('noteTypes', 'noteTypes')).pipe(flatMap$),
       )
         // .pipe(flatMap(o => o))
         .subscribe(o => {

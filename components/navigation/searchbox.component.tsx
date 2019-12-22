@@ -24,7 +24,6 @@ export class SearchBoxComponent extends Component {
             this.lookUp();
           }}
         />
-        ;
       </div>
     );
   }
