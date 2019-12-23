@@ -45,9 +45,10 @@ function verseNotesFromShell(chapter: Chapter) {
   return verseNotes;
 }
 const docstart = (id: string) =>
-  `<?xml version="1.0" encoding="UTF-8"?><html data-content-type="overlay-note" lang="eng"><head><meta charset="UTF-8"/></head><body><chapter id="${id}">`;
-const docend = `</chapter></body></html>`;
+  `<?xml version="1.0" encoding="UTF-8"?><html data-content-type="overlay-note" lang="eng"><head><meta charset="UTF-8"/></head><body>`;
+const docend = `</body></html>`;
 export function exportNotes() {
+  return newExportNotes();
   return of(document.querySelectorAll('.checked-overlay')).pipe(
     flatMap(o => o),
     map(o => o.className.split(' ')),
@@ -88,5 +89,84 @@ export function exportNotes() {
       );
     }),
     flatMap$,
+  );
+}
+
+function getBooksChapters() {
+  return store.chapter.pipe(
+    take(1),
+    filter(o => o !== undefined),
+    map(chapter => {
+      const getChapters = async () => {
+        const lang = chapter.id.split('-')[0] as string;
+
+        const chapters = await store.database
+          .allDocs$()
+          .pipe(
+            map(o =>
+              o.rows
+                .filter(r =>
+                  r.id.startsWith(`${lang}-${location.pathname.split('/')[1]}`),
+                )
+                .map(c => {
+                  return { id: c.id, rev: c.value.rev };
+                }),
+            ),
+          )
+          .toPromise();
+
+        return (await store.database.bulkGet$({ docs: chapters })) as Chapter[];
+      };
+
+      return of(getChapters()).pipe(flatMap$);
+    }),
+    flatMap$,
+  );
+}
+
+const chapterTxt = (chapter: Chapter, noteTypes: NoteType[]) => {
+  return `<chapter id="${chapter.id}">${verseNotesFromShell(chapter)
+    .map(verseNote => {
+      return `<verse-notes id="${verseNote.id}">${verseNote.notes
+        .map(note => notesToString(note, noteTypes))
+        .join('')}</verse-notes>`;
+    })
+    .join('')}</chapter>`;
+};
+export function newExportNotes() {
+  return of(document.querySelectorAll('.checked-overlay')).pipe(
+    flatMap(o => o),
+    map(o => o.className.split(' ')),
+    flatMap$,
+    filter(o => o.startsWith('overlay')),
+    map(o =>
+      appSettings.noteTypes.noteTypes.find(
+        noteType => noteType.className === o,
+      ),
+    ),
+    filter(o => o !== undefined),
+    toArray(),
+    map(noteTypes => {
+      return getBooksChapters().pipe(
+        map(chapters => {
+          const chaptersTxt = chapters.map(chapter => {
+            if (chapter.verseNotes) {
+              return chapterTxt(chapter, noteTypes);
+            }
+            return '';
+          });
+          console.log(chaptersTxt);
+
+          const fileTxt = `${docstart('id')}${chaptersTxt.join('')}${docend}`;
+          const blob = new Blob([fileTxt], {
+            type: 'text/html;charset=utf=8',
+          });
+
+          FileSaver.saveAs(blob, 'test.xml');
+          return fileTxt;
+        }),
+      );
+    }),
+    flatMap(o => o),
   );
 }

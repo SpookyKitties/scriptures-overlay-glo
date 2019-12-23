@@ -8,6 +8,7 @@ import { filter, map } from 'rxjs/operators';
 import Helmet from 'react-helmet';
 import { NavigationItem } from '../components/navigation-item';
 import { ExportModal } from '../components/note-offsets/export-modal';
+import { PouchyRx } from '../components/import-notes/import-notes/PouchyRx';
 
 export class Store {
   public chapterHistory: Chapter[] = [];
@@ -18,6 +19,8 @@ export class Store {
   public initChapter$ = new BehaviorSubject<Chapter>(undefined);
   public updateNoteVisibility$ = new BehaviorSubject<boolean>(true);
   history: boolean;
+  public database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
+
   public title$ = new BehaviorSubject<string>('Library');
 
   public constructor() {

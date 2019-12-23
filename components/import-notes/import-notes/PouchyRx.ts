@@ -39,6 +39,21 @@ export class PouchyRx {
     );
     //   this.db.put()
   }
+
+  public bulkGet$(options: PouchDB.Core.BulkGetOptions) {
+    const bulkGetDocs = async () => {
+      try {
+        const dbItems = await this.db.bulkGet(options);
+
+        return dbItems.results.map(r => (r.docs[0] as any)['ok']['doc']);
+      } catch (error) {
+        return [];
+      }
+    };
+
+    return bulkGetDocs();
+  }
+
   public get<T>(
     docID: string,
     options: PouchDB.Core.GetOptions = {},
