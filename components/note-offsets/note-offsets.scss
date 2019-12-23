@@ -1,0 +1,11 @@
+.export-modal-content {
+  grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  background: #e9e9ea;
+  color: black;
+  padding: 6px;
+
+  input[type='checkbox'] {
+    margin-right: 5px !important;
+  }
+}

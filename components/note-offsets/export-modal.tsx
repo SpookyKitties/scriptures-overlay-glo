@@ -70,8 +70,8 @@ export class ExportModal extends Component {
               openExportModal.next(false);
             }}
           ></div>
-          <div className={`modal-content`}>
-            <div className={`box`}>
+          <div className={`modal-content `}>
+            <div className={`box export-modal-content`}>
               {this.state.noteTypes.map(noteType => {
                 return <ExportModalCheckBox noteType={noteType} />;
               })}
