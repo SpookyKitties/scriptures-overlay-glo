@@ -63,7 +63,7 @@ export class AppSettings {
 
       try {
         const data = await axios.get(
-          `https://files.oneinthinehand.org/so/scripture_files/${'eng'}-${fileName}.json`,
+          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${fileName}.json`,
           {
             responseType: 'json',
           },
