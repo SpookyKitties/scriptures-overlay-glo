@@ -18,6 +18,7 @@ export class Store {
   public resetNotes$ = new BehaviorSubject(undefined);
   public initChapter$ = new BehaviorSubject<Chapter>(undefined);
   public updateNoteVisibility$ = new BehaviorSubject<boolean>(true);
+  public editMode$ = new BehaviorSubject<boolean>(false);
   history: boolean;
   public database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
 

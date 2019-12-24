@@ -4,6 +4,7 @@ import { NoteSetting } from '../oith-lib/src/processors/NoteSettings';
 import { appSettings, formatTagService, store } from './SettingsComponent';
 import { openExportModal } from './note-offsets/export-modal';
 import { closeMenu$ } from './header.component';
+import { take } from 'rxjs/operators';
 
 const noteSettingsMenuStyles: CSSProperties = {
   position: 'absolute',
@@ -72,6 +73,20 @@ export class DevSettings extends Component {
     return (
       <div style={{ backgroundColor: 'inherit' }}>
         <hr />
+        <div
+          style={menubtn}
+          onClick={() => {
+            if (store) {
+              store.editMode$.pipe(take(1)).subscribe(o => {
+                store.editMode$.next(!o);
+              });
+            }
+          }}
+        >
+          Edit Mode
+        </div>
+        <hr />
+
         <div
           style={menubtn}
           onClick={() => {

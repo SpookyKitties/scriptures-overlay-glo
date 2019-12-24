@@ -30,6 +30,17 @@ function sortNoteRefs(noteRefA: NoteRef, noteRefB: NoteRef) {
   return noteRefA.category - noteRefB.category;
 }
 
+class NoteGroupComponent extends Component {
+  componentDidMount() {
+    store.editMode$.subscribe(o => {
+      this.setState({ editMode: o });
+    });
+  }
+  render() {
+    return '';
+  }
+}
+
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
     <div
