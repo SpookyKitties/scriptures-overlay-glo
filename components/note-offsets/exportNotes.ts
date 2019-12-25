@@ -149,12 +149,14 @@ export function newExportNotes() {
     map(noteTypes => {
       return getBooksChapters().pipe(
         map(chapters => {
-          const chaptersTxt = chapters.map(chapter => {
-            if (chapter.verseNotes) {
-              return chapterTxt(chapter, noteTypes);
-            }
-            return '';
-          });
+          const chaptersTxt = sortBy(chapters, c => c.id.split[1]).map(
+            chapter => {
+              if (chapter.verseNotes) {
+                return chapterTxt(chapter, noteTypes);
+              }
+              return '';
+            },
+          );
           console.log(chaptersTxt);
 
           const fileTxt = `${docstart('id')}${chaptersTxt.join('')}${docend}`;

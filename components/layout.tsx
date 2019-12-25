@@ -23,9 +23,6 @@ const Layout: React.FunctionComponent = ({
 }) => {
   return (
     <div id="oith-main" className={`oith-main`}>
-      {/* <Head>
-        <title>{title}</title>
-      </Head> */}
       <Helmet>
         <html lang="en" />
         {/* <title>{store ? store.title$.toPromise() : "hhh"}</title> */}
@@ -45,7 +42,6 @@ const Layout: React.FunctionComponent = ({
         />
       </Helmet>
       <div>h</div>
-      <SettingsComponent></SettingsComponent>
       <HeaderComponent></HeaderComponent>
       {children}
       {/* <div className=""></div> */}

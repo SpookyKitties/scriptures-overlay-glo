@@ -1,7 +1,11 @@
 import React from 'react';
 import App from 'next/app';
 import Layout from '../components/layout';
-import { appSettings, store } from '../components/SettingsComponent';
+import {
+  appSettings,
+  store,
+  SettingsComponent,
+} from '../components/SettingsComponent';
 import { BehaviorSubject, Subject, of, Observable } from 'rxjs';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { filter, map } from 'rxjs/operators';
@@ -95,6 +99,7 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Layout>
+        <SettingsComponent></SettingsComponent>
         <Helmet>
           <title>{this.state ? this.state['title'] : 'z'}</title>
         </Helmet>

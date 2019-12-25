@@ -228,11 +228,12 @@ const port = parseInt(process?.env?.PORT as string, 10) || 3000;
 
 function addRefLabel(chapter: Chapter) {
   return of(
-    appSettings
+    appSettings && appSettings.noteCategories
       ? of(appSettings.noteCategories)
       : of(
         axios.get(
-          'https://files.oneinthinehand.org/so//scripture_files/eng-note-categories.json',
+          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${'note-categories'}.json`
+          ,
           {
             responseType: 'json',
           },
@@ -253,8 +254,9 @@ function addRefLabel(chapter: Chapter) {
                   c => c.category === ref.category,
                 )
                 : { label: 'err' };
+
             ref.label = `${
-              cat ? cat.label.replace('â˜º', '🔊').replace('GEO', '🌎') : 'ERR'
+              cat ? cat.label.replace('â˜º', '🔊') : 'ERR'
               }\u00a0`;
           });
         })
