@@ -50,9 +50,10 @@ export class AppSettings {
     this.settings = settingsS ? JSON.parse(settingsS) : new Settings(lang);
     this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
     this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
-    this.loadNoteSettings();
-    this.initNav();
-    this.flattenNavigation();
+    this.loadNoteSettings().subscribe(() => {
+      this.initNav();
+      this.flattenNavigation();
+    });
   }
   private async getNoteTypeSettings<T extends keyof AppSettings>(
     key: T,
@@ -117,9 +118,7 @@ export class AppSettings {
     const noteSettingsS = localStorage.getItem(
       `eng-scriptures-overlay-noteSettings`,
     );
-    const noteTypesS = localStorage.getItem(
-      `eng-scriptures-overlay-noteTypes`,
-    );
+    const noteTypesS = localStorage.getItem(`eng-scriptures-overlay-noteTypes`);
 
     this.noteSettings = noteSettingsS ? JSON.parse(noteSettingsS) : undefined;
     this.noteTypes = noteTypesS ? JSON.parse(noteTypesS) : undefined;
@@ -134,9 +133,11 @@ export class AppSettings {
         of(this.getNoteTypeSettings('noteTypes', 'noteTypes')).pipe(flatMap$),
       )
         // .pipe(flatMap(o => o))
-        .subscribe(o => {
-          resetNotes$();
-        })
+        .pipe(
+          map(o => {
+            resetNotes$();
+          }),
+        )
     );
   }
   public displayNav() {
