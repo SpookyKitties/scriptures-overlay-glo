@@ -92,7 +92,7 @@ deletion {
 body {
   &.speaker {
     .speaker {
-      display: initial;
+      display: initial !important;
     }
   }
   .speaker {
