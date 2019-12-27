@@ -8,8 +8,8 @@ function resetNoteCategories() {
     .filter(noteCategory => {
       const off = noteCategory.off
         ? !noteCategory.off
-          .map(off => appSettings.settings.vis[off] !== true)
-          .includes(false)
+            .map(off => appSettings.settings.vis[off] !== true)
+            .includes(false)
         : true;
       const on = !noteCategory.on
         .map(on => appSettings.settings.vis[on] === true)
@@ -33,13 +33,24 @@ function resetNoteTypes() {
 function resetNoteSettings() {
   appSettings.settings.vis = undefined;
   appSettings.settings.vis = {};
-  appSettings.noteSettings.noteSettings
 
+  const showMoreSetting = appSettings.noteSettings.addSettings.find(
+    addSet => addSet.additionalcontent === 'show-more',
+  );
+
+  const showMore = showMoreSetting && showMoreSetting.enabled === true;
+
+  console.log(appSettings.noteSettings.addSettings);
+
+  appSettings.noteSettings.noteSettings
     .filter(g => g.enabled)
     .map(grp => {
-      grp.catOn.concat(grp.overlays).map(o => {
-        appSettings.settings.vis[o] = true;
-      });
+      grp.catOn
+        .concat(grp.overlays)
+        .concat(showMore ? grp.catOnPlus : [])
+        .map(o => {
+          appSettings.settings.vis[o] = true;
+        });
     });
 }
 

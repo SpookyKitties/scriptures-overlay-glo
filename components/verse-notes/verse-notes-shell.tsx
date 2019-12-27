@@ -13,6 +13,7 @@ import { gotoLink } from '../gotoLink';
 import { store } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { notePhraseClick } from './notePhraseClick';
+import { flatten } from 'lodash';
 
 type VNProps = {
   chapter?: Chapter;
@@ -57,7 +58,37 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
       >
         {noteGroup.notes[0].phrase}
       </span>
-      {noteGroup.notes
+
+      <div
+        className={`note`}
+        onClick={event => {
+          gotoLink(event);
+        }}
+      >
+        {flatten(
+          noteGroup.notes
+            .filter(nt => nt.formatTag.visible)
+            .map(nt => nt.ref.filter(ref => ref.vis)),
+        )
+          .sort((a, b) => sortNoteRefs(a, b))
+          .map(ref => {
+            return (
+              <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
+                <span className="ref-label">
+                  {ref.category}
+                  {ref.label}
+                </span>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: ref.text.replace(/\#/g, ''),
+                  }}
+                ></span>
+              </p>
+            );
+          })}
+      </div>
+      {/* {
+      noteGroup.notes
         .sort((a, b) => sortNotes(a, b))
         .map(note => {
           return (
@@ -72,7 +103,10 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
                 .map(ref => {
                   return (
                     <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
-                      <span className="ref-label">{ref.label}</span>
+                      <span className="ref-label">
+                        {ref.category}
+                        {ref.label}
+                      </span>
                       <span
                         dangerouslySetInnerHTML={{
                           __html: ref.text.replace(/\#/g, ''),
@@ -83,7 +117,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
                 })}
             </div>
           );
-        })}
+        })} */}
     </div>
   );
 }

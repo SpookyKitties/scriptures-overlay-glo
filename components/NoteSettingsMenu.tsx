@@ -7,7 +7,7 @@ import { closeMenu$ } from './header.component';
 import { take } from 'rxjs/operators';
 import {
   AdditionalSettingaComponent,
-  NoteSettingComp,
+  NoteSettingComponent,
 } from './notes-settings/add-settings';
 
 const noteSettingsMenuStyles: CSSProperties = {
@@ -21,7 +21,7 @@ const noteSettingsMenuStyles: CSSProperties = {
   left: 'unset',
 };
 
-class NoteSettingComponent extends Component<{ noteSetting: NoteSetting }> {
+class NoteSettingComponentOld extends Component<{ noteSetting: NoteSetting }> {
   public state: { noteSetting: NoteSetting; enabled: boolean };
 
   private noteSettingClick(event: MouseEvent, noteSetting: NoteSetting) {
@@ -125,7 +125,11 @@ export class NoteSettingsMenu extends Component<{
           {appSettings.noteSettings.noteSettings
             .filter(ns => ns.display)
             .map(noteSetting => {
-              return <NoteSettingComp setting={noteSetting}></NoteSettingComp>;
+              return (
+                <NoteSettingComponent
+                  setting={noteSetting}
+                ></NoteSettingComponent>
+              );
             })}
         </div>
       );

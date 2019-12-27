@@ -5,7 +5,7 @@ import {
   NoteSetting,
 } from '../../oith-lib/src/processors/NoteSettings';
 
-export class NoteSettingComp extends Component<{
+export class NoteSettingComponent extends Component<{
   setting: GlobalNoteSettings | NoteSetting;
 }> {
   public state: { checked: boolean };
@@ -70,7 +70,7 @@ export class AdditionalSettingaComponent extends Component {
           {appSettings.noteSettings.addSettings
             .filter(ns => ns.display)
             .map(addSet => {
-              return <NoteSettingComp setting={addSet} />;
+              return <NoteSettingComponent setting={addSet} />;
             })}
         </div>
       );
