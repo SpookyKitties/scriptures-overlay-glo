@@ -75,7 +75,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
             return (
               <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
                 <span className="ref-label">
-                  {ref.category}
+                  {/* {ref.category} */}
                   {ref.label}
                 </span>
                 <span

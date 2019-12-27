@@ -15,6 +15,9 @@ function resetNoteCategories() {
         .map(on => appSettings.settings.vis[on] === true)
         .includes(false);
 
+      // console.log(noteCategory.off);
+      // console.log(off);
+
       return on === true && off === true;
     })
     .map(c => {
@@ -40,7 +43,7 @@ function resetNoteSettings() {
 
   const showMore = showMoreSetting && showMoreSetting.enabled === true;
 
-  console.log(appSettings.noteSettings.addSettings);
+  console.log(showMore);
 
   appSettings.noteSettings.noteSettings
     .filter(g => g.enabled)
