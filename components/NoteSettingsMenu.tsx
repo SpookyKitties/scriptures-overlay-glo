@@ -5,6 +5,10 @@ import { appSettings, formatTagService, store } from './SettingsComponent';
 import { openExportModal } from './note-offsets/export-modal';
 import { closeMenu$ } from './header.component';
 import { take } from 'rxjs/operators';
+import {
+  AdditionalSettingaComponent,
+  NoteSettingComp,
+} from './notes-settings/add-settings';
 
 const noteSettingsMenuStyles: CSSProperties = {
   position: 'absolute',
@@ -121,11 +125,7 @@ export class NoteSettingsMenu extends Component<{
           {appSettings.noteSettings.noteSettings
             .filter(ns => ns.display)
             .map(noteSetting => {
-              return (
-                <NoteSettingComponent
-                  noteSetting={noteSetting}
-                ></NoteSettingComponent>
-              );
+              return <NoteSettingComp setting={noteSetting}></NoteSettingComp>;
             })}
         </div>
       );
@@ -143,6 +143,7 @@ export class NoteSettingsMenu extends Component<{
           <div>Note Sets</div>
           <hr />
           {this.renderNoteSettings()}
+          <AdditionalSettingaComponent />
           <DevSettings />
         </div>
       );
