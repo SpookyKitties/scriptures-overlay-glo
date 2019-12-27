@@ -74,10 +74,7 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
           .map(ref => {
             return (
               <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
-                <span className="ref-label">
-                  {/* {ref.category} */}
-                  {ref.label}
-                </span>
+                <span className="ref-label">{ref.label}</span>
                 <span
                   dangerouslySetInnerHTML={{
                     __html: ref.text.replace(/\#/g, ''),

@@ -72,9 +72,20 @@ verse-notes,
 
 .jst-mode {
 }
-insertion {
-  font-weight: 700;
+.jst-comparison {
+  insertion {
+    font-weight: 700;
+  }
+  deletion {
+    font-style: italic;
+  }
+
+  insertion,
+  deletion {
+    display: initial;
+  }
 }
+insertion,
 deletion {
-  font-style: italic;
+  display: none;
 }
