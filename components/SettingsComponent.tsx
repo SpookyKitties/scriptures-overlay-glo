@@ -37,6 +37,14 @@ export class SettingsComponent extends Component {
             } else {
               document.body.classList.remove('jst-comparison');
             }
+            const proModeSetting = appSettings.noteSettings.addSettings.find(
+              addSetting => addSetting.additionalcontent === 'pronunciation',
+            );
+            if (proModeSetting && proModeSetting.enabled) {
+              document.body.classList.add('speaker');
+            } else {
+              document.body.classList.remove('speaker');
+            }
           }
         }),
       )

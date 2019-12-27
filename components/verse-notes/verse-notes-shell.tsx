@@ -73,7 +73,11 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
           .sort((a, b) => sortNoteRefs(a, b))
           .map(ref => {
             return (
-              <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
+              <p
+                className={`note-reference ${ref.label
+                  .trim()
+                  .replace('🔊', 'speaker')} ${ref.vis ? '' : 'none'}`}
+              >
                 <span className="ref-label">{ref.label}</span>
                 <span
                   dangerouslySetInnerHTML={{

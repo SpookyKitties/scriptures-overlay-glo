@@ -89,3 +89,13 @@ insertion,
 deletion {
   display: none;
 }
+body {
+  &.speaker {
+    .speaker {
+      display: initial;
+    }
+  }
+  .speaker {
+    display: none !important;
+  }
+}
