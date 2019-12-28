@@ -13,7 +13,7 @@ import { gotoLink } from '../gotoLink';
 import { store } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { notePhraseClick } from './notePhraseClick';
-import { flatten } from 'lodash';
+import { flatten, uniqBy } from 'lodash';
 
 type VNProps = {
   chapter?: Chapter;
@@ -42,12 +42,24 @@ class NoteGroupComponent extends Component {
   }
 }
 
+export function refClick(noteGroup: VerseNoteGroup, ref: NoteRef) {
+  if (ref.label.includes('🔊')) {
+
+    const fileName = `https://oithstorage.blob.core.windows.net/blobtest/${(noteGroup?.notes[0]?.phrase.toLowerCase().replace('“', '').replace('”', ''))}.wav`;
+    try {
+      (new Audio(fileName)).play()
+    } catch (error) {
+
+    }
+  }
+}
+
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
     <div
       className={`verse-note-group ${
         noteGroup.formatTag.visible ? '' : 'none'
-      }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
+        }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
     >
       <span
         onClick={(evt: MouseEvent) => {
@@ -65,15 +77,21 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
           gotoLink(event);
         }}
       >
-        {flatten(
-          noteGroup.notes
-            .filter(nt => nt.formatTag.visible)
-            .map(nt => nt.ref.filter(ref => ref.vis)),
+        {uniqBy(
+          flatten(
+            noteGroup.notes
+              .filter(nt => nt.formatTag.visible)
+              .map(nt => nt.ref.filter(ref => ref.vis)),
+          ),
+          b => b.label,
         )
           .sort((a, b) => sortNoteRefs(a, b))
           .map(ref => {
             return (
               <p
+                onClick={() => {
+                  refClick(noteGroup, ref);
+                }}
                 className={`note-reference ${ref.label
                   .trim()
                   .replace('🔊', 'speaker')} ${ref.vis ? '' : 'none'}`}
