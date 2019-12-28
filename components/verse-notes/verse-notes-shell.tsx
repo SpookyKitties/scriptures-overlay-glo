@@ -10,7 +10,7 @@ import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { useRouter } from 'next/router';
 import { gotoLink } from '../gotoLink';
-import { store } from '../SettingsComponent';
+import { store, formatTagService } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { notePhraseClick } from './notePhraseClick';
 import { flatten, uniqBy } from 'lodash';
@@ -40,6 +40,17 @@ class NoteGroupComponent extends Component {
   }
   render() {
     return '';
+  }
+}
+
+function clearOffsets(noteGroup: VerseNoteGroup) {
+  if (noteGroup.notes) {
+    noteGroup.notes.map(note => {
+      note.formatTag.offsets = '';
+    });
+
+    formatTagService.reset();
+    store.resetNotes$.next(true);
   }
 }
 
@@ -98,7 +109,12 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
               </p>
             );
           })}
-        <div className={`edit-mode-offsets`}>
+        <div
+          className={`edit-mode-offsets`}
+          onClick={() => {
+            clearOffsets(noteGroup);
+          }}
+        >
           {noteGroup.notes[0].formatTag.offsets}
         </div>
       </div>
