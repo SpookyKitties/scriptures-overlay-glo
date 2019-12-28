@@ -20,31 +20,49 @@ export function getNav() {
 }
 
 export function previousPage() {
-  const url = parseUrl();
-  if (url) {
-    getNav().subscribe(o => {
-      const n = o.find(n => n.href === url);
-      if (n) {
-        store.history = false;
-        const i = o[o.indexOf(n) - 1];
-        Router.push('/[book]/[chapter]', `/${i.href}`);
-      }
-    });
+  if (store) {
+    store.disableNav$
+      .pipe(
+        take(1),
+        filter(o => o === false),
+      )
+      .subscribe(() => {
+        const url = parseUrl();
+        if (url) {
+          getNav().subscribe(o => {
+            const n = o.find(n => n.href === url);
+            if (n) {
+              store.history = false;
+              const i = o[o.indexOf(n) - 1];
+              Router.push('/[book]/[chapter]', `/${i.href}`);
+            }
+          });
+        }
+      });
   }
 }
 export function nextPage() {
-  const url = parseUrl();
-  if (url) {
-    getNav().subscribe(o => {
-      const n = o.find(n => n.href === url);
+  if (store) {
+    store.disableNav$
+      .pipe(
+        take(1),
+        filter(o => o === false),
+      )
+      .subscribe(() => {
+        const url = parseUrl();
+        if (url) {
+          getNav().subscribe(o => {
+            const n = o.find(n => n.href === url);
 
-      if (n) {
-        store.history = false;
+            if (n) {
+              store.history = false;
 
-        const i = o[o.indexOf(n) + 1];
-        Router.push('/[book]/[chapter]', `/${i.href}`);
-      }
-    });
+              const i = o[o.indexOf(n) + 1];
+              Router.push('/[book]/[chapter]', `/${i.href}`);
+            }
+          });
+        }
+      });
   }
 }
 function parseUrl() {

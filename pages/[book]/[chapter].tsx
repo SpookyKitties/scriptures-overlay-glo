@@ -104,6 +104,7 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
         titleService.next([chapter.title, chapter.shortTitle]);
       }
       this.setState({ chapter: chapter });
+      store.disableNav$.next(false);
     });
   }
 
@@ -198,6 +199,7 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
     // const checkHistory = store.checkHistory(
     //   `${params.lang}-${params.book}-${params.chapter}-chapter`,
     // );
+    store.disableNav$.next(true);
     let chapter = await store
       .checkHistory$(id)
       .pipe(
