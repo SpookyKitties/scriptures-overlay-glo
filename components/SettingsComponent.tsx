@@ -5,7 +5,7 @@ import { FormatTagService } from './FormatTagService';
 import { setCurrentNav } from './nextPage';
 import { parseLangFromUrl } from '../app/parseCookieLang';
 import { resetNoteVisibilitySettings } from './resetNoteVisibility';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 export let formatTagService: FormatTagService;
 
 export let appSettings: AppSettings;
@@ -49,6 +49,13 @@ export class SettingsComponent extends Component {
         }),
       )
       .subscribe();
+    store.editMode$.subscribe(o => {
+      if (o) {
+        document.body.classList.add('edit-mode');
+      } else {
+        document.body.classList.remove('edit-mode');
+      }
+    });
     setCurrentNav();
     // resetNoteVisibilitySettings().subscribe(o => o);
   }

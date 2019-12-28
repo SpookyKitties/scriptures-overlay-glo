@@ -98,6 +98,9 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
               </p>
             );
           })}
+        <div className={`edit-mode-offsets`}>
+          {noteGroup.notes[0].formatTag.offsets}
+        </div>
       </div>
       {/* {
       noteGroup.notes

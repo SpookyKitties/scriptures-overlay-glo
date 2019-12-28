@@ -99,3 +99,11 @@ body {
     display: none !important;
   }
 }
+.edit-mode {
+  .edit-mode-offsets {
+    display: block;
+  }
+}
+.edit-mode-offsets {
+  display: none;
+}

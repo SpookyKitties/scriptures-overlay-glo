@@ -24,6 +24,7 @@ export class Store {
   public updateNoteVisibility$ = new BehaviorSubject<boolean>(true);
   public editMode$ = new BehaviorSubject<boolean>(false);
   public disableNav$ = new BehaviorSubject<boolean>(false);
+
   history: boolean;
   public database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
 

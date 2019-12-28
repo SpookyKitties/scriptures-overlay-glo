@@ -19,50 +19,47 @@ export function getNav() {
   );
 }
 
+function checkDisabled() {
+  return store.disableNav$.pipe(
+    take(1),
+    filter(o => o === false),
+  );
+}
+
 export function previousPage() {
   if (store) {
-    store.disableNav$
-      .pipe(
-        take(1),
-        filter(o => o === false),
-      )
-      .subscribe(() => {
-        const url = parseUrl();
-        if (url) {
-          getNav().subscribe(o => {
-            const n = o.find(n => n.href === url);
-            if (n) {
-              store.history = false;
-              const i = o[o.indexOf(n) - 1];
-              Router.push('/[book]/[chapter]', `/${i.href}`);
-            }
-          });
-        }
-      });
+    checkDisabled().subscribe(() => {
+      const url = parseUrl();
+      if (url) {
+        getNav().subscribe(o => {
+          const n = o.find(n => n.href === url);
+          if (n) {
+            store.history = false;
+            const i = o[o.indexOf(n) - 1];
+            Router.push('/[book]/[chapter]', `/${i.href}`);
+          }
+        });
+      }
+    });
   }
 }
 export function nextPage() {
   if (store) {
-    store.disableNav$
-      .pipe(
-        take(1),
-        filter(o => o === false),
-      )
-      .subscribe(() => {
-        const url = parseUrl();
-        if (url) {
-          getNav().subscribe(o => {
-            const n = o.find(n => n.href === url);
+    checkDisabled().subscribe(() => {
+      const url = parseUrl();
+      if (url) {
+        getNav().subscribe(o => {
+          const n = o.find(n => n.href === url);
 
-            if (n) {
-              store.history = false;
+          if (n) {
+            store.history = false;
 
-              const i = o[o.indexOf(n) + 1];
-              Router.push('/[book]/[chapter]', `/${i.href}`);
-            }
-          });
-        }
-      });
+            const i = o[o.indexOf(n) + 1];
+            Router.push('/[book]/[chapter]', `/${i.href}`);
+          }
+        });
+      }
+    });
   }
 }
 function parseUrl() {
