@@ -12,11 +12,21 @@ function resetNotes(
           appSettings.settings.vis[`nt-${note.noteType}`] === true;
 
         if (note.formatTag.visible) {
-          const refVis = note.ref.map(
-            ref =>
-              (ref.vis =
-                appSettings.settings.vis[`nc-${ref.category}`] === true),
-          );
+          const refVis = note.ref.map(ref => {
+            if (ref.label.includes('🔊')) {
+              const p = appSettings.noteSettings.addSettings.find(
+                ns => ns.additionalcontent === 'pronunciation',
+              );
+              if (p?.enabled) {
+
+                return (ref.vis =
+                  appSettings.settings.vis[`nc-${ref.category}`] === true);
+              }
+              return ref.vis = false
+            }
+            return (ref.vis =
+              appSettings.settings.vis[`nc-${ref.category}`] === true);
+          });
 
           note.formatTag.visible = refVis.includes(true);
         }
