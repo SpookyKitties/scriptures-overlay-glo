@@ -14,6 +14,7 @@ import { store } from '../SettingsComponent';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { notePhraseClick } from './notePhraseClick';
 import { flatten, uniqBy } from 'lodash';
+import { refClick } from './refClick';
 
 type VNProps = {
   chapter?: Chapter;
@@ -42,24 +43,12 @@ class NoteGroupComponent extends Component {
   }
 }
 
-export function refClick(noteGroup: VerseNoteGroup, ref: NoteRef) {
-  if (ref.label.includes('🔊')) {
-
-    const fileName = `https://oithstorage.blob.core.windows.net/blobtest/${(noteGroup?.notes[0]?.phrase.toLowerCase().replace('“', '').replace('”', ''))}.wav`;
-    try {
-      (new Audio(fileName)).play()
-    } catch (error) {
-
-    }
-  }
-}
-
 function renderNoteGroup(noteGroup: VerseNoteGroup) {
   return (
     <div
       className={`verse-note-group ${
         noteGroup.formatTag.visible ? '' : 'none'
-        }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
+      }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
     >
       <span
         onClick={(evt: MouseEvent) => {
@@ -89,8 +78,12 @@ function renderNoteGroup(noteGroup: VerseNoteGroup) {
           .map(ref => {
             return (
               <p
-                onClick={() => {
-                  refClick(noteGroup, ref);
+                onClick={evt => {
+                  if (
+                    (evt.target as HTMLElement).classList.contains('ref-label')
+                  ) {
+                    refClick(noteGroup, ref);
+                  }
                 }}
                 className={`note-reference ${ref.label
                   .trim()

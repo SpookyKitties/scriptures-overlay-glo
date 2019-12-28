@@ -11,12 +11,8 @@ export class NoteSettingComponent extends Component<{
   public state: { checked: boolean };
 
   click(setting: GlobalNoteSettings | NoteSetting, e: HTMLInputElement) {
-    // console.log(setting);
-    // console.log(e['type']);
-
     if (e.type === 'checkbox') {
       setting.enabled = !setting.enabled;
-      console.log(setting);
 
       this.setState({ checked: setting.enabled });
       appSettings.save('noteSettings');
