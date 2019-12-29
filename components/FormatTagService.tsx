@@ -70,6 +70,13 @@ export class FormatTagService {
 
     this.resetUnderline().subscribe();
   }
+  public formatTagReset$() {
+    this.currentFormatMerged = undefined;
+    this.formatMergedNoteOffets = undefined;
+    this.notePhrase = undefined;
+
+    return this.resetUnderline();
+  }
   /**
    * notePhaseClick
    */

@@ -40,7 +40,7 @@ export function resetLiveVerse(verseid: string, noteID: string) {
   );
 }
 
-export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
+export function addOffsets(element: Element, formatTag: FormatTagNoteOffsets) {
   if (formatTag.offsets === 'all') {
     return of(true);
   }
@@ -60,11 +60,10 @@ export function addOffsets(e: Element, formatTag: FormatTagNoteOffsets) {
         const end =
           start + ((selection as unknown) as number).toString().length - 1;
         const note = Array.from(document.querySelectorAll('.verse-note')).find(
-          vng => vng.contains(e),
+          vng => vng.contains(element),
         );
         const verseID = /(^p|^)(.+)/.exec(verse.id);
         const noteID = note.id;
-        'eng-heb-1-1-verse-notes';
         const noteIDSplit = noteID.split('-');
         if (verseID && verseID[2] === noteIDSplit[noteIDSplit.length - 3]) {
           const newOffsets = start !== end ? `${start}-${end}` : `${start}`;

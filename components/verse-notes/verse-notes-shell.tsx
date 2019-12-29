@@ -6,7 +6,7 @@ import {
   NoteRef,
 } from '../../oith-lib/src/verse-notes/verse-note';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
-import { fromEvent } from 'rxjs';
+import { fromEvent, forkJoin } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { useRouter } from 'next/router';
 import { gotoLink } from '../gotoLink';
@@ -15,6 +15,8 @@ import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { notePhraseClick } from './notePhraseClick';
 import { flatten, uniqBy } from 'lodash';
 import { refClick } from './refClick';
+import { saveChapter } from '../note-offsets/saveChapter';
+import { resetLiveVerse } from '../note-offsets/addOffsets';
 
 type VNProps = {
   chapter?: Chapter;
@@ -45,112 +47,90 @@ class NoteGroupComponent extends Component {
 
 function clearOffsets(noteGroup: VerseNoteGroup) {
   if (noteGroup.notes) {
+    noteGroup.formatTag.offsets = '';
     noteGroup.notes.map(note => {
       note.formatTag.offsets = '';
     });
 
-    formatTagService.reset();
     store.resetNotes$.next(true);
+    formatTagService.reset();
+
+    saveChapter().subscribe();
   }
 }
 
-function renderNoteGroup(noteGroup: VerseNoteGroup) {
-  return (
-    <div
-      className={`verse-note-group ${
-        noteGroup.formatTag.visible ? '' : 'none'
-      }   ${noteGroup.formatTag.highlight ? 'highlight' : ''}`}
-    >
-      <span
-        onClick={(evt: MouseEvent) => {
-          const ee = evt.target as HTMLElement;
-          notePhraseClick(ee, noteGroup.formatTag);
-        }}
-        className="note-phrase"
-      >
-        {noteGroup.notes[0].phrase}
-      </span>
-
+export class VerseNoteGroupComponent extends Component<{
+  noteGroup: VerseNoteGroup;
+}> {
+  render() {
+    return (
       <div
-        className={`note`}
-        onClick={event => {
-          gotoLink(event);
-        }}
+        className={`verse-note-group ${
+          this.props.noteGroup.formatTag.visible ? '' : 'none'
+        }   ${this.props.noteGroup.formatTag.highlight ? 'highlight' : ''}`}
       >
-        {uniqBy(
-          flatten(
-            noteGroup.notes
-              .filter(nt => nt.formatTag.visible)
-              .map(nt => nt.ref.filter(ref => ref.vis)),
-          ),
-          b => b.label,
-        )
-          .sort((a, b) => sortNoteRefs(a, b))
-          .map(ref => {
-            return (
-              <p
-                onClick={evt => {
-                  if (
-                    (evt.target as HTMLElement).classList.contains('ref-label')
-                  ) {
-                    refClick(noteGroup, ref);
-                  }
-                }}
-                className={`note-reference ${ref.label
-                  .trim()
-                  .replace('🔊', 'speaker')} ${ref.vis ? '' : 'none'}`}
-              >
-                <span className="ref-label">{ref.label}</span>
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: ref.text.replace(/\#/g, ''),
-                  }}
-                ></span>
-              </p>
-            );
-          })}
+        <span
+          onClick={(evt: MouseEvent) => {
+            const ee = evt.target as HTMLElement;
+            notePhraseClick(ee, this.props.noteGroup.formatTag);
+          }}
+          className="note-phrase"
+        >
+          {this.props.noteGroup.notes[0].phrase}
+        </span>
+
         <div
-          className={`edit-mode-offsets`}
-          onClick={() => {
-            clearOffsets(noteGroup);
+          className={`note`}
+          onClick={event => {
+            gotoLink(event);
           }}
         >
-          {noteGroup.notes[0].formatTag.offsets}
+          {uniqBy(
+            flatten(
+              this.props.noteGroup.notes
+                .filter(nt => nt.formatTag.visible)
+                .map(nt => nt.ref.filter(ref => ref.vis)),
+            ),
+            b => b.label,
+          )
+            .sort((a, b) => sortNoteRefs(a, b))
+            .map(ref => {
+              return (
+                <p
+                  onClick={evt => {
+                    if (
+                      (evt.target as HTMLElement).classList.contains(
+                        'ref-label',
+                      )
+                    ) {
+                      refClick(this.props.noteGroup, ref);
+                    }
+                  }}
+                  className={`note-reference ${ref.label
+                    .trim()
+                    .replace('🔊', 'speaker')} ${ref.vis ? '' : 'none'}`}
+                >
+                  <span className="ref-label">{ref.label}</span>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: ref.text.replace(/\#/g, ''),
+                    }}
+                  ></span>
+                </p>
+              );
+            })}
+          <div
+            className={`edit-mode-offsets`}
+            onClick={() => {
+              clearOffsets(this.props.noteGroup);
+            }}
+          >
+            {this.props.noteGroup.notes[0].formatTag.offsets}
+          </div>
         </div>
       </div>
-      {/* {
-      noteGroup.notes
-        .sort((a, b) => sortNotes(a, b))
-        .map(note => {
-          return (
-            <div
-              className={`note ${note.formatTag.visible ? '' : 'none'}`}
-              onClick={event => {
-                gotoLink(event);
-              }}
-            >
-              {note.ref
-                .sort((a, b) => sortNoteRefs(a, b))
-                .map(ref => {
-                  return (
-                    <p className={`note-reference ${ref.vis ? '' : 'none'}`}>
-                      <span className="ref-label">
-                        {ref.category}
-                        {ref.label}
-                      </span>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: ref.text.replace(/\#/g, ''),
-                        }}
-                      ></span>
-                    </p>
-                  );
-                })}
-            </div>
-          );
-        })} */}
-    </div>
-  );
+    );
+  }
 }
 
 function sortVerseNoteGroups(
@@ -179,7 +159,9 @@ function renderVerseNote(verseNote: VerseNote) {
         <p className="short-title">{generateShortTitle(verseNote)}</p>
         {verseNote.noteGroups
           .sort((a, b) => sortVerseNoteGroups(a, b))
-          .map(noteGroup => renderNoteGroup(noteGroup))}
+          .map(noteGroup => (
+            <VerseNoteGroupComponent noteGroup={noteGroup} />
+          ))}
       </div>
     );
   }
@@ -208,7 +190,9 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
             <p className="short-title">{generateShortTitle(verseNote)}</p>
             {verseNote.noteGroups
               .sort((a, b) => sortVerseNoteGroups(a, b))
-              .map(noteGroup => renderNoteGroup(noteGroup))}
+              .map(noteGroup => (
+                <VerseNoteGroupComponent noteGroup={noteGroup} />
+              ))}
           </div>
         );
       }
