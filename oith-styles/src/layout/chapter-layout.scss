@@ -336,14 +336,15 @@ body {
       display: grid;
       grid-template-rows: calc(100vh) 0px;
       &.large-notes {
-        grid-template-rows: calc(100vh - 250px) 250px;
+        grid-template-rows: calc(100vh - 48px - 300px) 300px;
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 200px) 200px;
+        grid-template-rows: calc(100vh - 48px - 200px) 200px;
       }
       @include mobileNav();
       .verse-notes {
         border-top: solid;
+        border-top-color: #a9b2b2;
       }
     }
     @media screen and (min-width: 768px) and (max-width: 991.98px) {
