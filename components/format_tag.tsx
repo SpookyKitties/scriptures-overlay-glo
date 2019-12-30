@@ -1,10 +1,10 @@
 import { Component, CSSProperties } from 'react';
 import { FormatMerged } from '../oith-lib/src/models/Chapter';
-import { map, filter, toArray, delay } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { map, filter, toArray, delay, take } from 'rxjs/operators';
+import { of, forkJoin } from 'rxjs';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
-import { store, formatTagService } from './SettingsComponent';
+import { store, formatTagService, appSettings } from './SettingsComponent';
 
 export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
   return state ? state[key] : '';
@@ -72,27 +72,56 @@ export class FormatTag extends Component<{
 
   public click(fm: FormatMerged) {
     // this.style = { backgroundColor: "black" };
-
-    of(fm)
-      .pipe(
-        filter(
-          o => o.formatTags && o.formatTags.filter(o => o.visible).length > 0,
-        ),
-        map(o => formatTagService.fMergedClick(o)),
-        flatMap$,
-        map(() => {
-          store.updateFTags$.next(true);
-          store.updateNoteVisibility$.next(true);
+    const setNotesMode = () => {
+      return appSettings.notesMode$.pipe(
+        take(1),
+        map(o => {
+          if (o === 'off') {
+            appSettings.notesMode$.next('small');
+          }
         }),
-        delay(100),
-      )
-      .subscribe(() => {
-        const vng = document.querySelector('.verse-note-group.highlight'); //.scrollIntoView();
+      );
+    };
+    const fm$ = of(fm).pipe(
+      filter(
+        o => o.formatTags && o.formatTags.filter(o => o.visible).length > 0,
+      ),
+      map(o => formatTagService.fMergedClick(o)),
+      flatMap$,
+      map(() => {
+        store.updateFTags$.next(true);
+        store.updateNoteVisibility$.next(true);
+      }),
+      delay(100),
+    );
 
-        if (vng) {
-          vng.scrollIntoView();
-        }
-      });
+    forkJoin(setNotesMode(), fm$).subscribe(() => {
+      const vng = document.querySelector('.verse-note-group.highlight'); //.scrollIntoView();
+
+      if (vng) {
+        vng.scrollIntoView();
+      }
+    });
+    // of(fm)
+    //   .pipe(
+    //     filter(
+    //       o => o.formatTags && o.formatTags.filter(o => o.visible).length > 0,
+    //     ),
+    //     map(o => formatTagService.fMergedClick(o)),
+    //     flatMap$,
+    //     map(() => {
+    //       store.updateFTags$.next(true);
+    //       store.updateNoteVisibility$.next(true);
+    //     }),
+    //     delay(100),
+    //   )
+    //   .subscribe(() => {
+    //     const vng = document.querySelector('.verse-note-group.highlight'); //.scrollIntoView();
+
+    //     if (vng) {
+    //       vng.scrollIntoView();
+    //     }
+    //   });
 
     // of(fm.formatTags as FormatTagNoteOffsets[])
     //   .pipe(
