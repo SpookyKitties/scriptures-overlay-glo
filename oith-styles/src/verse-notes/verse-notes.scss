@@ -94,9 +94,13 @@ body {
     .speaker {
       display: initial !important;
     }
+    .ftag-speaker::before {
+      content: '🔊';
+    }
   }
+
   .speaker {
-    display: none !important;
+    // display: none !important;
   }
 }
 .edit-mode {

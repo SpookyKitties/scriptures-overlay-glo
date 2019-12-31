@@ -17,12 +17,11 @@ function resetNotes(
               const p = appSettings.noteSettings.addSettings.find(
                 ns => ns.additionalcontent === 'pronunciation',
               );
-              if (p?.enabled) {
-
+              if (p && p.enabled === false) {
                 return (ref.vis =
                   appSettings.settings.vis[`nc-${ref.category}`] === true);
               }
-              return ref.vis = false
+              return (ref.vis = false);
             }
             return (ref.vis =
               appSettings.settings.vis[`nc-${ref.category}`] === true);

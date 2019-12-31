@@ -5,6 +5,7 @@ import { of, forkJoin } from 'rxjs';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
 import { store, formatTagService, appSettings } from './SettingsComponent';
+import { flatten } from 'lodash';
 
 export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
   return state ? state[key] : '';
@@ -144,6 +145,56 @@ export class FormatTag extends Component<{
     //
     // });
   }
+  public renderSpeaker() {
+    if (this.state) {
+      const flatNotes = flatten(
+        (this.state.formatMerged.formatTags as FormatTagNoteOffsets[])
+          .filter(n => Array.isArray(n.notes))
+          .filter(
+            n =>
+              n.notes.filter(note =>
+                note.ref.find(ref => ref.label.includes(`🔊`)),
+              ).length > 0,
+          ),
+      );
+      const hasPronunciation = () => {
+        return flatten(
+          flatten(
+            (this.state.formatMerged.formatTags as FormatTagNoteOffsets[])
+              .filter(n => Array.isArray(n.notes))
+              .map(n => n.notes),
+          ).map(n => n.ref),
+        ).find(ref => ref.label.includes(`🔊`));
+      };
+      const ref = hasPronunciation();
+      if (this.state.formatMerged && ref) {
+        if (
+          flatNotes[0].uncompressedOffsets[0] === this.state.formatMerged.offset
+        ) {
+          return (
+            <span
+              className={`ftag-speaker`}
+              onClick={() => {
+                try {
+                  const fileName = `https://oithstorage.blob.core.windows.net/blobtest/${flatten(
+                    (this.state.formatMerged
+                      .formatTags as FormatTagNoteOffsets[])
+                      .filter(n => Array.isArray(n.notes))
+                      .map(n => n.notes),
+                  )[0]
+                    .phrase.toLowerCase()
+                    .replace('“', '')
+                    .replace('”', '')}.wav`;
+                  new Audio(fileName).play();
+                } catch (error) {}
+              }}
+            ></span>
+          );
+        }
+      }
+    }
+    return <></>;
+  }
   public render() {
     return (
       <span
@@ -152,6 +203,7 @@ export class FormatTag extends Component<{
         data-offset={`${this.state ? this.state['offset'] : ''}`}
         onClick={() => this.click(this.state.formatMerged)}
       >
+        {this.renderSpeaker()}
         {displayStateKey(this.state, 'text')}
       </span>
     );
