@@ -120,12 +120,21 @@ export class VerseNoteGroupComponent extends Component<{
               );
             })}
           <div
-            className={`edit-mode-offsets`}
-            onClick={() => {
-              clearOffsets(this.props.noteGroup);
-            }}
+            className={`edit-mode-offsets ${
+              this.props.noteGroup.notes[0].formatTag.offsets.length === 0
+                ? 'none'
+                : ''
+            }`}
           >
-            {this.props.noteGroup.notes[0].formatTag.offsets}
+            <a className={`tag is-info is-small`}>
+              {this.props.noteGroup.notes[0].formatTag.offsets}
+              <a
+                onClick={() => {
+                  clearOffsets(this.props.noteGroup);
+                }}
+                className={'delete'}
+              ></a>
+            </a>
           </div>
         </div>
       </div>
