@@ -19,6 +19,8 @@ const noteSettingsMenuStyles: CSSProperties = {
   zIndex: 20,
   backgroundColor: 'white',
   left: 'unset',
+  maxHeight: 'calc(100vh - 48px)',
+  overflowY: 'scroll',
 };
 
 class NoteSettingComponentOld extends Component<{ noteSetting: NoteSetting }> {
