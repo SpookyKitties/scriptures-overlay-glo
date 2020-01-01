@@ -256,7 +256,7 @@ function addRefLabel(chapter: Chapter) {
                 : { label: 'err' };
 
             ref.label = `${
-              cat ? cat.label.replace('â˜º', '🔊') : 'ERR'
+              cat ? cat.label.replace('â˜º', '🔊').replace('DCT', '🔍') : 'ERR'
               }\u00a0`;
           });
         })
