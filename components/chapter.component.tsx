@@ -227,6 +227,9 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case 'u': {
           return <u>{renderFormatGroups(formatGroup.grps)}</u>;
         }
+        case 'ol': {
+          return <ol>{renderFormatGroups(formatGroup.grps)}</ol>;
+        }
         case 'dl': {
           return <dl>{renderFormatGroups(formatGroup.grps)}</dl>;
         }
