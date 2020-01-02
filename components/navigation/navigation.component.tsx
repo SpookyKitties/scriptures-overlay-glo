@@ -102,6 +102,11 @@ export class NavigationComponenet extends Component {
 
           if (titleOpen) {
             titleOpen.scrollIntoView();
+
+            try {
+              document.querySelector('.nav-items-holder').scrollTop =
+                document.querySelector('.nav-items-holder').scrollTop - 24;
+            } catch (error) {}
           }
 
           // console.log(document.querySelector('.nav-items-holder').scrollHeight);

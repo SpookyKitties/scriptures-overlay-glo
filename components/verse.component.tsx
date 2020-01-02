@@ -79,6 +79,13 @@ export class VerseComponent extends Component<VerseProps> {
               </h4>
             );
           }
+          case 'dt': {
+            return (
+              <dt {...verse.attrs} id={verse.id} className={classList}>
+                {renderFormatGroups(verse.grps)}
+              </dt>
+            );
+          }
           default:
             return <div>Missing verse element {verse.n}</div>;
             break;
