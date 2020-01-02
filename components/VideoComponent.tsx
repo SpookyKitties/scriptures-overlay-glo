@@ -1,15 +1,48 @@
-import { Component } from "react";
-import { FormatGroup } from "../oith-lib/src/models/Chapter";
-import axios from "axios";
-import { of } from "rxjs";
-import { flatMap, map, find } from "rxjs/operators";
+import { Component } from 'react';
+import { FormatGroup } from '../oith-lib/src/models/Chapter';
+import axios from 'axios';
+import { of } from 'rxjs';
+import { flatMap, map, find } from 'rxjs/operators';
 export class VideoComponent extends Component<{
   grp: FormatGroup;
   attrs: {};
 }> {
   //   public state: { src: string } = { src: "" };
-  public componentWillMount() {
-    this.props.attrs["src"];
+  public async componentDidMount() {
+    this.props.attrs['src'];
+    console.log(`localhost:4000/video?url=${this.props.attrs['src']}`);
+    const u = `https://oith-function-test.azurewebsites.net/api/HttpTrigger?code=OaVlNwE4G3X/CMyIX77sL8fOtj2UyNlh/q8W2Ha79FlctEMb2F0dEQ==&url=${this.props.attrs['src']}`;
+    console.log(u);
+
+    try {
+      console.log(u);
+
+      await of(
+        axios.get(u, {
+          responseType: 'json',
+        }),
+      )
+        .pipe(
+          flatMap(o => o),
+          map(o => {
+            //
+            // console.log(o.data);
+
+            return (o.data as VideoData.RootObject).renditions;
+          }),
+          flatMap(o => o),
+          find(o => typeof o.src === 'string' && o.container === 'MP4'),
+          map(o => {
+            if (o) {
+              this.setState({ src: o.src });
+            }
+          }),
+        )
+        .toPromise();
+      // console.log(`localhost:4000/video?url=${this.props.attrs['src']}`);
+    } catch (error) {
+      console.log(error);
+    }
     // of(axios.get(this.props.attrs["src"] as string, { responseType: "json" }))
     //   .pipe(
     //     flatMap(o => o),
@@ -29,7 +62,13 @@ export class VideoComponent extends Component<{
   }
 
   public render() {
-    return <video controls={true} {...this.props.attrs}></video>;
+    return (
+      <video
+        controls={true}
+        {...this.props.attrs}
+        src={`${this.state ? this.state['src'] : ''}`}
+      ></video>
+    );
   }
 }
 export declare module VideoData {

@@ -180,7 +180,6 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           );
         }
         case 'video': {
-          return <></>;
           return (
             <VideoComponent
               grp={grp as FormatGroup}
