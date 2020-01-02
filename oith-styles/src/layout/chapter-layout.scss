@@ -244,6 +244,9 @@ body {
   display: grid;
 
   grid-template-columns: 0 calc(100vw) 0;
+  &.nav-off.off-notes {
+    grid-template-columns: calc(100vw) !important;
+  }
   &.nav {
     grid-template-columns: 250px calc(100vw - 250px) 0;
   }
