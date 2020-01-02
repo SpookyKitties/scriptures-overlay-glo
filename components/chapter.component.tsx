@@ -229,6 +229,24 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case 'ol': {
           return <ol>{renderFormatGroups(formatGroup.grps)}</ol>;
         }
+        case 'table': {
+          return <table>{renderFormatGroups(formatGroup.grps)}</table>;
+        }
+        case 'thead': {
+          return <thead>{renderFormatGroups(formatGroup.grps)}</thead>;
+        }
+        case 'tbody': {
+          return <tbody>{renderFormatGroups(formatGroup.grps)}</tbody>;
+        }
+        case 'tr': {
+          return <tr>{renderFormatGroups(formatGroup.grps)}</tr>;
+        }
+        case 'td': {
+          return <td>{renderFormatGroups(formatGroup.grps)}</td>;
+        }
+        case 'th': {
+          return <th>{renderFormatGroups(formatGroup.grps)}</th>;
+        }
         case 'dl': {
           return <dl>{renderFormatGroups(formatGroup.grps)}</dl>;
         }
