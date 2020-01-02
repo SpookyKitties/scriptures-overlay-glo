@@ -271,7 +271,11 @@ body {
     grid-template-columns: 0 calc(100vw - #{$notesWidth} + 100px) calc(
         #{$notesWidth} - 100px
       );
-
+    &.nav-off {
+      grid-template-columns: calc(100vw - #{$notesWidth} + 100px) calc(
+          #{$notesWidth} - 100px
+        );
+    }
     &.nav {
       grid-template-columns:
         $navWidth calc(100vw - #{$notesWidth} - #{$navWidth} + 100px)
@@ -495,6 +499,6 @@ body {
 .oith-navigation {
   z-index: 100;
   .nav-off & {
-    display: none;
+    display: none !important;
   }
 }
