@@ -148,11 +148,15 @@ const bookNames = [
 ];
 
 import Router from 'next/router';
+import Fuse from 'fuse.js';
+import { store, appSettings } from '../SettingsComponent';
+import { take, map } from 'rxjs/operators';
+import { clone, cloneDeep } from 'lodash';
 
 export class SearchBoxComponent extends Component {
   public lookUp(txt: string) {
-    const textBox = document.getElementById('searchBox');
-    console.log(txt);
+    // const textBox = document.getElementById('searchBox');
+    // console.log(txt);
 
     const regex = /^((\d(\s|\-).+?\s)|([a-zA-z].+?\s))(.+)$/g.exec(txt);
     console.log(regex);
@@ -163,9 +167,41 @@ export class SearchBoxComponent extends Component {
         console.log(`${asdf[asdf.length - 1]}/${regex[regex.length - 1]}`);
         Router.push(
           '/[book]/[chapter]',
-          `/${asdf[asdf.length - 1]}/${regex[regex.length - 1]}`,
+          `/${asdf[asdf.length - 1]}/${regex[regex.length - 1].replace(
+            ':',
+            '.',
+          )}`,
         );
+        return;
       }
+    }
+    if (appSettings) {
+      appSettings.flatNavigation$
+        .pipe(
+          take(1),
+          map(ni => {
+            const hg = cloneDeep(ni);
+            const fuse = new Fuse(
+              hg.map(n => {
+                n.title = n.title.toLowerCase();
+                n.shortTitle = n.shortTitle.toLowerCase();
+                return n;
+              }),
+              {
+                keys: ['title', 'shortTitle', 'href'],
+                threshold: 0.35,
+                includeScore: true,
+                caseSensitive: false,
+                tokenize: true,
+              },
+            );
+            Router.push(
+              '/[book]/[chapter]',
+              `/${fuse.search(txt.toLowerCase())[0].item.href}`,
+            );
+          }),
+        )
+        .subscribe();
     }
     // console.log(regex);
   }
