@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { NextPage } from 'next';
 import Layout from '../components/layout';
+import { SearchBoxComponent } from '../components/navigation/searchbox.component';
 // import { fetch } from "http";
 function Testat() {
   return <h1>Test</h1>;
@@ -28,6 +29,7 @@ const Index: NextPage<{}> = ({}) => (
     {/* <h1>Batman TV Shows</h1> */}
     {/* <ul>{a}</ul> */}
     {/* <ChapterComponent chapter={chapter} /> */}
+    <SearchBoxComponent />
   </div>
 );
 

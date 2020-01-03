@@ -162,12 +162,12 @@ export class SearchBoxComponent extends Component {
     console.log(regex);
 
     if (regex) {
-      const asdf = bookNames.find(bNs => bNs.find(b => b === regex[1].trim()));
-      if (asdf) {
-        console.log(`${asdf[asdf.length - 1]}/${regex[regex.length - 1]}`);
+      const book = bookNames.find(bNs => bNs.find(b => b === regex[1].trim()));
+      if (book) {
+        console.log(`${book[book.length - 1]}/${regex[regex.length - 1]}`);
         Router.push(
           '/[book]/[chapter]',
-          `/${asdf[asdf.length - 1]}/${regex[regex.length - 1].replace(
+          `/${book[book.length - 1]}/${regex[regex.length - 1].replace(
             ':',
             '.',
           )}`,
