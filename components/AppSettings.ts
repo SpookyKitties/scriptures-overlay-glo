@@ -30,6 +30,8 @@ const flattenPrimaryManifest = (
     toArray(),
   );
 };
+import Fuse from 'fuse.js';
+import { cloneDeep } from 'lodash';
 export class AppSettings {
   public settings: Settings;
   public noteSettings?: NoteSettings;
@@ -42,6 +44,9 @@ export class AppSettings {
   public flatNavigationParents$ = new BehaviorSubject<NavigationItem[]>(
     undefined,
   );
+
+  public fuse$: BehaviorSubject<any>;
+
   public noteCategories?: NoteCategories;
   constructor(lang: string) {
     const settingsS = localStorage.getItem(
@@ -83,7 +88,28 @@ export class AppSettings {
         filter(o => o !== undefined),
         map(navigation =>
           flattenPrimaryManifest(navigation.navigationItems).pipe(
-            map(o => this.flatNavigation$.next(o)),
+            map(o => {
+              this.flatNavigation$.next(o);
+              const hg = cloneDeep(o);
+
+              const fuse = new Fuse(
+                hg.map(n => {
+                  n.title = n.title.toLowerCase();
+                  n.shortTitle = n.shortTitle.toLowerCase();
+                  return n;
+                }),
+                {
+                  keys: ['title', 'shortTitle', 'href'],
+                  threshold: 0.35,
+                  includeScore: true,
+                  caseSensitive: false,
+                  tokenize: true,
+                  location: 0,
+                },
+              );
+
+              this.fuse$ = new BehaviorSubject(fuse);
+            }),
           ),
         ),
         flatMap$,

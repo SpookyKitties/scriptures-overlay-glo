@@ -176,25 +176,9 @@ export class SearchBoxComponent extends Component {
       }
     }
     if (appSettings) {
-      appSettings.flatNavigation$
+      appSettings.fuse$
         .pipe(
-          take(1),
-          map(ni => {
-            const hg = cloneDeep(ni);
-            const fuse = new Fuse(
-              hg.map(n => {
-                n.title = n.title.toLowerCase();
-                n.shortTitle = n.shortTitle.toLowerCase();
-                return n;
-              }),
-              {
-                keys: ['title', 'shortTitle', 'href'],
-                threshold: 0.35,
-                includeScore: true,
-                caseSensitive: false,
-                tokenize: true,
-              },
-            );
+          map(fuse => {
             Router.push(
               '/[book]/[chapter]',
               `/${fuse.search(txt.toLowerCase())[0].item.href}`,
@@ -202,6 +186,33 @@ export class SearchBoxComponent extends Component {
           }),
         )
         .subscribe();
+      // appSettings.flatNavigation$
+      //   .pipe(
+      //     take(1),
+      //     map(ni => {
+      //       const hg = cloneDeep(ni);
+      //       const fuse = new Fuse(
+      //         hg.map(n => {
+      //           n.title = n.title.toLowerCase();
+      //           n.shortTitle = n.shortTitle.toLowerCase();
+      //           return n;
+      //         }),
+      //         {
+      //           keys: ['title', 'shortTitle', 'href'],
+      //           threshold: 0.35,
+      //           includeScore: true,
+      //           caseSensitive: false,
+      //           tokenize: true,
+      //           location: 0,
+      //         },
+      //       );
+      //       Router.push(
+      //         '/[book]/[chapter]',
+      //         `/${fuse.search(txt.toLowerCase())[0].item.href}`,
+      //       );
+      //     }),
+      //   )
+      //   .subscribe();
     }
     // console.log(regex);
   }
