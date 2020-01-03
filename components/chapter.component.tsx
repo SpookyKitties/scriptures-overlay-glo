@@ -166,25 +166,30 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           return <br />;
         }
         case 'img': {
-          return <></>;
+          // return <></>;
 
           attrs['alt'] = attrs['alt'];
-          const src = `/images/${`${attrs['src']}`
+          const src = `${`${attrs['src']}`
             .replace(/\.jpg.*/g, '')
             .replace(/\/images.*images\//g, '')}.jpg`;
           attrs['src'] === undefined;
           return (
             <div className="img-container">
-              <img {...attrs} src={src} />
+              <img
+                {...attrs}
+                src={`https://oithstorage.blob.core.windows.net/blobtest/${src}`}
+              />
             </div>
           );
         }
         case 'video': {
           return (
-            <VideoComponent
-              grp={grp as FormatGroup}
-              attrs={attrs}
-            ></VideoComponent>
+            <div className={`media-container`}>
+              <VideoComponent
+                grp={grp as FormatGroup}
+                attrs={attrs}
+              ></VideoComponent>
+            </div>
           );
           // return <video {...attrs} />;
         }

@@ -505,3 +505,13 @@ body {
     display: none !important;
   }
 }
+
+.media-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+  video {
+    width: 70%;
+  }
+}
