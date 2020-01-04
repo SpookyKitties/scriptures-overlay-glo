@@ -11,10 +11,12 @@ export class VideoComponent extends Component<{
   public async componentDidMount() {
     this.props.attrs['src'];
     console.log(`localhost:4000/video?url=${this.props.attrs['src']}`);
-    const u = `https://oith-function-test.azurewebsites.net/api/HttpTrigger?code=OaVlNwE4G3X/CMyIX77sL8fOtj2UyNlh/q8W2Ha79FlctEMb2F0dEQ==&url=${this.props.attrs['src']}`;
-    console.log(u);
 
     try {
+      const src = this.props.attrs['src'].replace('churchofjesuschrist', 'lds');
+      // const src = o.src.replace('churchofjesuschrist', 'lds');
+
+      const u = `https://oith-function-test.azurewebsites.net/api/HttpTrigger?code=OaVlNwE4G3X/CMyIX77sL8fOtj2UyNlh/q8W2Ha79FlctEMb2F0dEQ==&url=${src}`;
       console.log(u);
 
       await of(
@@ -34,6 +36,13 @@ export class VideoComponent extends Component<{
           find(o => typeof o.src === 'string' && o.container === 'MP4'),
           map(o => {
             if (o) {
+              //https://mediasrv.churchofjesuschrist.org/media-services/GA/details/6066346662001
+              //                'https://mediasrv.churchofjesuschrist.org/media-services/GA/details/',
+              //              'https://mediasrv.lds.org/media-services/GA/details/',
+
+              // const src = o.src.replace('churchofjesuschrist', 'lds');
+              // console.log(src);
+
               this.setState({ src: o.src });
             }
           }),
