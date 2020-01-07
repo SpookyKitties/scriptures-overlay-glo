@@ -1,9 +1,11 @@
 import { Component } from 'react';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { appSettings } from '../SettingsComponent';
+import { BehaviorSubject, EMPTY } from 'rxjs';
+import { map, take, flatMap, filter } from 'rxjs/operators';
+import { appSettings, store } from '../SettingsComponent';
 import { NoteType } from '../../oith-lib/src/verse-notes/settings/note-gorup-settings';
 import { exportNotes } from './exportNotes';
+import { PouchyRx } from '../import-notes/import-notes/PouchyRx';
+import { Chapter } from '../../oith-lib/src/models/Chapter';
 
 export let openExportModal: BehaviorSubject<boolean>;
 export let resetCheckboxes: BehaviorSubject<boolean>;
@@ -40,6 +42,30 @@ class ExportModalCheckBox extends Component<{ noteType: NoteType }> {
   }
 }
 
+function addToDatabaseIfNotIn() {
+  let database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
+  console.log('oiasejdfoiasjdfoijasdf');
+
+  return store.chapter.pipe(
+    take(1),
+    filter(chapter => chapter !== undefined),
+    map(chapter => {
+      console.log(chapter);
+
+      return database.get<Chapter>(chapter.id).pipe(
+        map(val => {
+          if (!val) {
+            return database.put$(chapter, 'id');
+          }
+          return EMPTY;
+        }),
+      );
+    }),
+    flatMap(o => o),
+    flatMap(o => o),
+  );
+}
+
 export class ExportModal extends Component {
   public state: { active: boolean; noteTypes: NoteType[] };
 
@@ -51,11 +77,16 @@ export class ExportModal extends Component {
       .pipe(
         map(o => {
           resetCheckboxes.next(true);
+
           this.setState({ active: o });
           if (appSettings && appSettings.noteTypes) {
             this.setState({ noteTypes: appSettings.noteTypes.noteTypes });
           }
+          console.log(o);
+
+          return addToDatabaseIfNotIn();
         }),
+        flatMap(o => o),
       )
       .subscribe();
   }

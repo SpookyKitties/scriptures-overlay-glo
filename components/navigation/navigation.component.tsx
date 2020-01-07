@@ -29,8 +29,6 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
   componentDidMount() {
     const title = /([A-Za-z]+)(\d+)/g.exec(this.props.navItem.title);
 
-    console.log(title);
-
     this.setState({
       navItem: this.props.navItem,
       open: this.props.navItem.open,
