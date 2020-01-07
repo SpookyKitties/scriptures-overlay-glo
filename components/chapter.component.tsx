@@ -234,6 +234,9 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
         case 'ol': {
           return <ol>{renderFormatGroups(formatGroup.grps)}</ol>;
         }
+        case 'sup': {
+          return <sup>{renderFormatGroups(formatGroup.grps)}</sup>;
+        }
         case 'table': {
           return <table>{renderFormatGroups(formatGroup.grps)}</table>;
         }

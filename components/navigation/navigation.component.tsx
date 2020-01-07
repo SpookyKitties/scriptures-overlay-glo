@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { filterUndefined$, initnav } from '../nextPage';
 import { map, take, delay } from 'rxjs/operators';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
+import { stat } from 'fs';
 
 export class OithLink extends Component<{ href: string; active: boolean }> {
   public render() {
@@ -24,11 +25,18 @@ const isOpen = (open: boolean) => {
   return open ? 'open' : '';
 };
 class NavItem extends Component<{ navItem: NavigationItem }> {
-  public state: { navItem: NavigationItem; open: boolean };
+  public state: { navItem: NavigationItem; open: boolean; title: string };
   componentDidMount() {
+    const title = /([A-Za-z]+)(\d+)/g.exec(this.props.navItem.title);
+
+    console.log(title);
+
     this.setState({
       navItem: this.props.navItem,
       open: this.props.navItem.open,
+      title: title
+        ? `${title[1]}<sup>${title[2]}</sup>`
+        : this.props.navItem.title,
     });
 
     appSettings.updatenavigation$.pipe(filterUndefined$).subscribe(o => {
@@ -55,7 +63,10 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
                 this.open(ni);
               }}
             >
-              <span className={`title ${isOpen(ni.open)}`}>{ni.title}</span>
+              <span
+                className={`title ${isOpen(ni.open)}`}
+                dangerouslySetInnerHTML={{ __html: this.state.title }}
+              ></span>
               {/* <span className={`short-title`}>{ni.title}</span> */}
             </span>
             <div className={`navigation-child`}>
@@ -73,7 +84,9 @@ class NavItem extends Component<{ navItem: NavigationItem }> {
           <OithLink href={ni.href} active={false}>
             <a className={`title  ${isOpen(ni.open)}`}>
               {ni.open}
-              {ni.title}
+              <span
+                dangerouslySetInnerHTML={{ __html: this.state.title }}
+              ></span>
             </a>
           </OithLink>{' '}
         </div>
