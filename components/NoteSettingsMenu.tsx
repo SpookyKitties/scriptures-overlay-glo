@@ -106,6 +106,16 @@ export class DevSettings extends Component {
         <div
           style={menubtn}
           onClick={() => {
+            appSettings.displayUnderline();
+          }}
+        >
+          Hide Underlining
+        </div>
+
+        <hr />
+        <div
+          style={menubtn}
+          onClick={() => {
             Router.push('/settings');
             closeMenu$.next(true);
           }}
