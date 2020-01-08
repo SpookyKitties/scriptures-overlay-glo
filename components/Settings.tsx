@@ -8,6 +8,7 @@ export class Settings {
   public noteCatList: Params = {};
   public oithHeaderTop = 0;
   public contentTop = 48;
+  public displayUnderline: boolean;
   public lang = 'eng';
   public vis = {};
   public displayNotes: boolean;
@@ -15,5 +16,11 @@ export class Settings {
   public notesMode: 'large' | 'small' | 'off' = 'small';
   constructor(lang: string) {
     this.lang = lang;
+
+    if (window && window.matchMedia('(min-width: 700.01px)').matches) {
+      this.displayNav = true;
+    } else {
+      this.displayNav = false;
+    }
   }
 }

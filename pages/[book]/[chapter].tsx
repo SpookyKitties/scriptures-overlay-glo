@@ -69,6 +69,10 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     appSettings.displayNav$.subscribe(o => {
       this.setState({ displayNav: o });
     });
+
+    appSettings.displayUnderline$.subscribe(o => {
+      this.setState({ displayUnderline: o });
+    });
     document.cookie = `lang=${this.props.lang}; expires=${addYears(
       new Date(),
       1,
@@ -108,6 +112,16 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     });
   }
 
+  private getClasses() {
+    if (this.state) {
+      return `${this.state['displayNav'] ? 'nav' : 'nav-off'} ${
+        this.state['displayUnderline'] === false ? 'hide-underline' : ''
+      } ${this.state['notesMode']}-notes`;
+    }
+
+    return `nav-off`;
+  }
+
   render() {
     // const chapter = this.props.chapter;
 
@@ -117,11 +131,7 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     //   this.setState({ chapter: chapter });
     // }
     return (
-      <div
-        className={`oith-content-parent ${
-          this.state && this.state['displayNav'] ? 'nav' : 'nav-off'
-        } ${this.state ? `${this.state['notesMode']}-notes` : ''}`}
-      >
+      <div className={`oith-content-parent ${this.getClasses()}`}>
         <nav className={`oith-navigation`}>
           <NavigationComponenet />
           <div

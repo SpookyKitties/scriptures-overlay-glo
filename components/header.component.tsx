@@ -32,6 +32,7 @@ export class HeaderComponent extends Component {
 
   public displayNavClick() {
     appSettings.displayNav();
+    appSettings.displayUnderline();
   }
   public render() {
     return (

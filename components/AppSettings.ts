@@ -37,10 +37,12 @@ export class AppSettings {
   public noteSettings?: NoteSettings;
   public noteTypes?: NoteTypes;
   public displayNav$: BehaviorSubject<boolean>; //(false);
+  public displayUnderline$: BehaviorSubject<boolean>; //(false);
   public notesMode$: BehaviorSubject<string>;
   public navigation$ = new BehaviorSubject<NavigationItem>(undefined);
   public updatenavigation$ = new BehaviorSubject<boolean>(undefined);
   public flatNavigation$ = new BehaviorSubject<NavigationItem[]>(undefined);
+  '';
   public flatNavigationParents$ = new BehaviorSubject<NavigationItem[]>(
     undefined,
   );
@@ -54,6 +56,9 @@ export class AppSettings {
     );
     this.settings = settingsS ? JSON.parse(settingsS) : new Settings(lang);
     this.displayNav$ = new BehaviorSubject(this.settings.displayNav);
+    this.displayUnderline$ = new BehaviorSubject(
+      this.settings.displayUnderline !== false,
+    );
     this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
     this.loadNoteSettings().subscribe(() => {
       this.initNav();
@@ -169,6 +174,15 @@ export class AppSettings {
   public displayNav() {
     this.settings.displayNav = !this.settings.displayNav;
     this.displayNav$.next(this.settings.displayNav);
+    this.save('settings');
+  }
+  public displayUnderline() {
+    if (this.settings.displayUnderline !== false) {
+      this.settings.displayUnderline = false;
+    } else {
+      this.settings.displayUnderline = true;
+    }
+    this.displayUnderline$.next(this.settings.displayUnderline);
     this.save('settings');
   }
   public displayNotes() {
