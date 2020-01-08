@@ -26,11 +26,11 @@ const Layout: React.FunctionComponent = ({
       <Helmet>
         <html lang="en" />
         {/* <title>{store ? store.title$.toPromise() : "hhh"}</title> */}
-        <script
+        {/* <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${'UA-153000658-1'}`}
-        />
-        <script
+        /> */}
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
             window.dataLayer = window.dataLayer || [];
@@ -39,7 +39,7 @@ const Layout: React.FunctionComponent = ({
             gtag('config', '${'UA-153000658-1'}');
           `,
           }}
-        />
+        /> */}
       </Helmet>
       <div>h</div>
       <HeaderComponent></HeaderComponent>

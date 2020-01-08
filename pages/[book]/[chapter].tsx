@@ -5,6 +5,7 @@ import { ChapterComponent } from '../../components/chapter.component';
 import Layout from '../../components/layout';
 import { VerseNotesShellComponent } from '../../components/verse-notes/verse-notes-shell';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
+import ReactGA from 'react-ga';
 import {
   addVersesToBody,
   buildShell,
@@ -108,6 +109,10 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
         titleService.next([chapter.title, chapter.shortTitle]);
       }
       this.setState({ chapter: chapter });
+      setTimeout(() => {
+        ReactGA.pageview(window.location.pathname + window.location.search);
+      }, 200);
+
       store.disableNav$.next(false);
     });
   }

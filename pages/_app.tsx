@@ -73,6 +73,7 @@ export class Store {
     return of(undefined);
   }
 }
+import ReactGA from 'react-ga';
 
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -92,10 +93,17 @@ class MyApp extends App {
         this.setState({ title: title });
       });
     }
+
     // store = new Store();
     // store.chapter.subscribe(c => {
     //   console.log(c);
     // });
+  }
+
+  componentWillMount() {
+    console.log(
+      ReactGA.initialize([{ trackingId: 'UA-153000658-1', debug: true }]),
+    );
   }
 
   render() {
