@@ -12,7 +12,16 @@ export class TitleComponent extends Component {
     titleService
       .pipe(
         map(([title, shortTitle]) => {
-          this.setState({ title: title, shortTitle: shortTitle });
+          const titleRegex = /([A-Za-z]+)(\d+)/g.exec(title);
+          const shortTitleRegex = /([A-Za-z]+)(\d+)/g.exec(shortTitle);
+          this.setState({
+            title: titleRegex
+              ? `${titleRegex[1]}<sup>${titleRegex[2]}</sup>`
+              : title,
+            shortTitle: shortTitleRegex
+              ? `${shortTitleRegex[1]}<sup>${shortTitleRegex[2]}</sup>`
+              : shortTitle,
+          });
         }),
       )
       .subscribe();
@@ -20,12 +29,18 @@ export class TitleComponent extends Component {
   render() {
     return (
       <Fragment>
-        <span className={`title-text`}>
-          {this.state ? this.state.title : ''}
-        </span>
-        <span className={`short-title-text`}>
-          {this.state ? this.state.shortTitle : ''}
-        </span>
+        <span
+          className={`title-text`}
+          dangerouslySetInnerHTML={{
+            __html: this.state ? this.state.title : '',
+          }}
+        ></span>
+        <span
+          className={`short-title-text`}
+          dangerouslySetInnerHTML={{
+            __html: this.state ? this.state.shortTitle : '',
+          }}
+        ></span>
       </Fragment>
     );
   }
