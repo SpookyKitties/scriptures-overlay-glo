@@ -7,7 +7,7 @@ import {
 } from '../../oith-lib/src/verse-notes/verse-note';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
 import { fromEvent, forkJoin } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { useRouter } from 'next/router';
 import { gotoLink } from '../gotoLink';
 import { store, formatTagService } from '../SettingsComponent';
@@ -210,6 +210,7 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
   }
 }
 
+import { testNotes } from './1-ne-annotations.json';
 export class VerseNotesShellComponent extends Component<VNProps> {
   public state: { chapter: Chapter };
 
@@ -219,6 +220,33 @@ export class VerseNotesShellComponent extends Component<VNProps> {
     //     filter(o => o !== undefined),
     //     map(chapter => {
     //       this.setState({ chapter: chapter });
+    //     }),
+    //   )
+    //   .subscribe();
+    // store.chapter
+    //   .pipe(
+    //     filter(o => o !== undefined),
+    //     filter(o => o.id.includes('-1-ne-')),
+    //     map(chapter => {
+    //       testNotes
+    //         .filter(o => o.highlight.content.length > 0)
+    //         .map(testNote => {
+    //           testNote.highlight.content.map(content => {
+    //             const split = content.uri.split('.');
+    //             try {
+    //               const verseIDReg = /(^p|^)(.+)/.exec(split[split.length - 1]);
+    //               if (verseIDReg) {
+    //                 const verseNote = chapter.verseNotes.find(v =>
+    //                   v.id.includes(`-${verseIDReg[2]}-`),
+    //                 );
+    //                 if(verseNote)
+    //                 {
+    //                   const note = new Note(testNote.id)
+    //                 }
+    //               }
+    //             } catch (error) {}
+    //           });
+    //         });
     //     }),
     //   )
     //   .subscribe();

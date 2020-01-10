@@ -1,0 +1,411 @@
+{
+  "testNotes": [
+    {
+      "id": "e3071a8e-e36c-492c-8e96-1e6ffc8cc4ac",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "64",
+            "color": "yellow",
+            "endOffset": "-1",
+            "uri": "/scriptures/bofm/1-ne/1.p1",
+            "pid": "128342700"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:06:35.522-07:00",
+      "created": "2020-01-10T03:06:30.524-07:00"
+    },
+    {
+      "id": "a2975ea6-e4b0-4b5c-a236-3e2df841f8a7",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "28",
+            "color": "yellow",
+            "endOffset": "51",
+            "uri": "/scriptures/bofm/1-ne/1.p1",
+            "pid": "128342700"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "title": "Test",
+        "content": "Andi it came to pass"
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:06:21.516-07:00",
+      "created": "2020-01-10T03:06:03.401-07:00"
+    },
+    {
+      "id": "3c695532-ab3b-4944-a81a-d5664a6588fe",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "124",
+            "color": "yellow",
+            "endOffset": "137",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:04:05.066-07:00",
+      "created": "2020-01-10T03:04:02.286-07:00"
+    },
+    {
+      "id": "e6a61786-0e50-4a2b-ad5e-ec8836f7abfd",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "140",
+            "color": "yellow",
+            "endOffset": "140",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:03:50.822-07:00",
+      "created": "2020-01-10T03:03:48.023-07:00"
+    },
+    {
+      "id": "f984cfdf-0672-4171-b6b9-4af8a83279db",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "120",
+            "color": "yellow",
+            "endOffset": "122",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:03:12.557-07:00",
+      "created": "2020-01-10T03:03:14.036-07:00"
+    },
+    {
+      "id": "2ac4f2be-5895-413e-befb-130c25323c3e",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "81",
+            "color": "yellow",
+            "endOffset": "81",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:01:29.059-07:00",
+      "created": "2020-01-10T03:01:29.059-07:00"
+    },
+    {
+      "id": "5a9f5d7e-3ffc-4563-97fe-3730ce72af4a",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "90",
+            "color": "yellow",
+            "endOffset": "91",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:01:17.348-07:00",
+      "created": "2020-01-10T03:01:17.348-07:00"
+    },
+    {
+      "id": "c2f448ab-12d1-499f-93f5-8550e391b04e",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "2",
+            "color": "yellow",
+            "endOffset": "10",
+            "uri": "/scriptures/bofm/1-ne/1.p1",
+            "pid": "128342700"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T03:00:26.837-07:00",
+      "created": "2020-01-10T03:00:25.684-07:00"
+    },
+    {
+      "id": "3e180f6c-6606-4234-b754-e89c211e2153",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "47",
+            "color": "yellow",
+            "endOffset": "59",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T02:59:56.837-07:00",
+      "created": "2020-01-10T02:59:54.544-07:00"
+    },
+    {
+      "id": "050b9eb1-03ae-47c8-b28d-ffb5f51086ff",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "28",
+            "color": "yellow",
+            "endOffset": "36",
+            "uri": "/scriptures/bofm/1-ne/1.p17",
+            "pid": "128342716"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T02:58:11.818-07:00",
+      "created": "2020-01-10T02:58:11.818-07:00"
+    },
+    {
+      "id": "25f8cebf-5da9-4ba5-ad2d-76993d2eda9d",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "22",
+            "color": "yellow",
+            "endOffset": "25",
+            "uri": "/scriptures/bofm/1-ne/1.p6",
+            "pid": "128342705"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T02:58:04.451-07:00",
+      "created": "2020-01-10T02:58:04.451-07:00"
+    },
+    {
+      "id": "185ffc58-23f0-4c3c-87c4-c1f40758986b",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "36",
+            "color": "yellow",
+            "endOffset": "38",
+            "uri": "/scriptures/bofm/1-ne/1.p4",
+            "pid": "128342703"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T02:58:00.881-07:00",
+      "created": "2020-01-10T02:58:00.881-07:00"
+    },
+    {
+      "id": "7cb514ec-8de1-4739-b5c8-94946fd57b30",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "4",
+            "color": "yellow",
+            "endOffset": "6",
+            "uri": "/scriptures/bofm/1-ne/1.p8",
+            "pid": "128342707"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T02:57:59.354-07:00",
+      "created": "2020-01-10T02:57:59.354-07:00"
+    },
+    {
+      "id": "0225f9a6-5276-4f8b-ba31-c3c226e76ad8",
+      "contentVersion": "5",
+      "docId": "128342694",
+      "locale": "eng",
+      "uri": "/scriptures/bofm/1-ne/1",
+      "personId": "3774095859136444",
+      "type": "highlight",
+      "highlight": {
+        "content": [
+          {
+            "startOffset": "2",
+            "color": "yellow",
+            "endOffset": "15",
+            "uri": "/scriptures/bofm/1-ne/1.intro1",
+            "pid": "128342697"
+          }
+        ]
+      },
+      "source": "https://www.churchofjesuschrist.org/study",
+      "device": "web",
+      "tags": [],
+      "note": {
+        "content": ""
+      },
+      "folders": [],
+      "lastUpdated": "2020-01-10T02:57:34.515-07:00",
+      "created": "2020-01-10T02:57:34.515-07:00"
+    }
+  ]
+}
