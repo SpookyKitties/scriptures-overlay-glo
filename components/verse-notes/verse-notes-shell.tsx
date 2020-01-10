@@ -210,6 +210,7 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
   }
 }
 
+import { testNotes } from './1-ne-annotations.json';
 export class VerseNotesShellComponent extends Component<VNProps> {
   public state: { chapter: Chapter };
 
