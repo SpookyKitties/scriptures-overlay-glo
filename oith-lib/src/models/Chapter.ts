@@ -17,6 +17,7 @@ export class Verse {
 
   public grps: FormatGroup[];
   public attrs: {};
+  public verseNote?: VerseNote;
   public constructor(
     id: string,
     text: string,

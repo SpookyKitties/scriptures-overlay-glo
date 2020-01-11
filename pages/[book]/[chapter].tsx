@@ -92,16 +92,17 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
       .pipe(
         filter(o => o !== undefined),
         map(chapter => {
-          return addVersesToBody(chapter).pipe(
+          const addVToB = addVersesToBody(chapter).pipe(
             map(() => buildShell(chapter, chapter.params)),
             flatMap(o => o),
             map(() => chapter),
           );
+          return forkJoin(addVToB, addNotesToVerses$(chapter));
         }),
         flatMap(o => o),
       )
       .subscribe(chapter => {
-        store.chapter.next(chapter);
+        store.chapter.next(chapter[0]);
       });
 
     store.chapter.pipe(filter(o => o !== undefined)).subscribe(chapter => {
@@ -173,8 +174,11 @@ import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
 import { ParsedUrlQuery } from 'querystring';
 import { IncomingMessage } from 'http';
 import { titleService } from '../../components/TitleComponent';
+import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
+  console.log(query);
+
   return await loadChapter(req, query);
 };
 
@@ -207,7 +211,6 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   const params = parseChapterParams(query, lang);
 
   const id = `${params.lang}-${params.book}-${params.chapter}-chapter`;
-
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
 
@@ -264,6 +267,7 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
     return { chapter, lang };
   } else {
     let chapter = await getChapterRemote(id, params);
+    console.log(chapter);
 
     return { chapter, lang };
   }

@@ -121,6 +121,7 @@ export class VerseNoteGroupComponent extends Component<{
             })}
           <div
             className={`edit-mode-offsets ${
+              this.props.noteGroup.notes[0].formatTag.offsets &&
               this.props.noteGroup.notes[0].formatTag.offsets.length === 0
                 ? 'none'
                 : ''
