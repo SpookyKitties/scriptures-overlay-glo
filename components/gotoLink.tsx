@@ -26,7 +26,7 @@ export function gotoLink(event: MouseEvent, href?: string) {
 
     ReactGa.event({
       category: 'cross-ref',
-      action: `${window.location.href}`,
+      action: `${window.location.pathname}`,
       label: url[2],
     });
     Router.push('/[book]/[chapter]', url[2]);
