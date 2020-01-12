@@ -7,7 +7,7 @@ import { filterUndefined$, initnav } from '../nextPage';
 import { map, take, delay } from 'rxjs/operators';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { stat } from 'fs';
-
+import Router from 'next/router';
 export class OithLink extends Component<{ href: string; active: boolean }> {
   public render() {
     if (this.props.href.includes('churchofjesuschrist.')) {
@@ -24,7 +24,7 @@ export class OithLink extends Component<{ href: string; active: boolean }> {
 const isOpen = (open: boolean) => {
   return open ? 'open' : '';
 };
-class NavItem extends Component<{ navItem: NavigationItem }> {
+export class NavItem extends Component<{ navItem: NavigationItem }> {
   public state: { navItem: NavigationItem; open: boolean; title: string };
   componentDidMount() {
     const title = /([A-Za-z]+)(\d+)/g.exec(this.props.navItem.title);
@@ -129,6 +129,9 @@ export class NavigationComponenet extends Component {
         // setTimeout(() => {}, 100);
       });
   }
+  public goHome() {
+    Router.push('/');
+  }
   public render() {
     if (this.state && this.state.navigation) {
       const n = this.state.navigation;
@@ -137,7 +140,12 @@ export class NavigationComponenet extends Component {
         <div className={`navigation`}>
           <SearchBoxComponent />
           <hr />
-          <div id="library">
+          <div
+            id="library"
+            onClick={() => {
+              this.goHome();
+            }}
+          >
             <span>{this.state.navigation.title}</span>
           </div>
           <hr />
