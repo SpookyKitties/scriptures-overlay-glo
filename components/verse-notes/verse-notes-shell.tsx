@@ -85,13 +85,10 @@ export class VerseNoteGroupComponent extends Component<{
             gotoLink(event);
           }}
         >
-          {uniqBy(
-            flatten(
-              this.props.noteGroup.notes
-                .filter(nt => nt.formatTag.visible)
-                .map(nt => nt.ref.filter(ref => ref.vis)),
-            ),
-            b => b.label,
+          {flatten(
+            this.props.noteGroup.notes
+              .filter(nt => nt.formatTag.visible)
+              .map(nt => nt.ref.filter(ref => ref.vis)),
           )
             .sort((a, b) => sortNoteRefs(a, b))
             .map(ref => {
