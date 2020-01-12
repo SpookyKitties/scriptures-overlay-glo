@@ -12,7 +12,7 @@ import { NavigationItem } from '../components/navigation-item';
 import { filterUndefined$, initnav } from '../components/nextPage';
 import { appSettings } from '../components/SettingsComponent';
 import { delay, map } from 'rxjs/operators';
-import { NavItem } from '../components/navigation/navigation.component';
+import { NavItem } from '../components/navigation/NavItem';
 // import { fetch } from "http";
 function Testat() {
   return <h1>Test</h1>;
@@ -37,6 +37,7 @@ class Index extends Component {
       this.setState({ navigation: o });
       initnav();
     });
+    titleService.next(['Library', 'Library']);
   }
   render() {
     if (this.state && this.state.navigation) {
@@ -48,7 +49,7 @@ class Index extends Component {
           <hr />
           <div className={`nav-items-holder`}>
             {this.state.navigation.navigationItems.map(ni => {
-              return <NavItem navItem={ni} />;
+              return <NavItem card={true} navItem={ni} />;
             })}
             <div className={`white-space`}></div>
           </div>

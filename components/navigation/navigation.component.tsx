@@ -3,11 +3,12 @@ import { NavigationItem } from '../navigation-item';
 import { SearchBoxComponent } from './searchbox.component';
 import { appSettings } from '../SettingsComponent';
 import Link from 'next/link';
-import { filterUndefined$, initnav } from '../nextPage';
+import { initnav } from '../nextPage';
 import { map, take, delay } from 'rxjs/operators';
 import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
 import { stat } from 'fs';
 import Router from 'next/router';
+import { NavItem } from './NavItem';
 export class OithLink extends Component<{ href: string; active: boolean }> {
   public render() {
     if (this.props.href.includes('churchofjesuschrist.')) {
@@ -21,79 +22,9 @@ export class OithLink extends Component<{ href: string; active: boolean }> {
   }
 }
 
-const isOpen = (open: boolean) => {
+export const isOpen = (open: boolean) => {
   return open ? 'open' : '';
 };
-export class NavItem extends Component<{ navItem: NavigationItem }> {
-  public state: { navItem: NavigationItem; open: boolean; title: string };
-  componentDidMount() {
-    const title = /([A-Za-z]+)(\d+)/g.exec(this.props.navItem.title);
-
-    this.setState({
-      navItem: this.props.navItem,
-      open: this.props.navItem.open,
-      title: title
-        ? `${title[1]}<sup>${title[2]}</sup>`
-        : this.props.navItem.title,
-    });
-
-    appSettings.updatenavigation$.pipe(filterUndefined$).subscribe(o => {
-      this.setState({
-        open: this.props.navItem.open,
-      });
-    });
-  }
-
-  open(navItem: NavigationItem) {
-    navItem.open = !navItem.open;
-    this.setState({ open: navItem.open });
-  }
-
-  render() {
-    if (this.state && this.state.navItem) {
-      const ni = this.state.navItem;
-
-      if (ni.navigationItems) {
-        return (
-          <div className={`navigation-parent`}>
-            <span
-              onClick={() => {
-                this.open(ni);
-              }}
-            >
-              <span
-                className={`title ${isOpen(ni.open)}`}
-                dangerouslySetInnerHTML={{ __html: this.state.title }}
-              ></span>
-              {/* <span className={`short-title`}>{ni.title}</span> */}
-            </span>
-            <div className={`navigation-child`}>
-              {this.state.open ? (
-                ni.navigationItems.map(n => <NavItem navItem={n} />)
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
-        );
-      }
-      return (
-        <div>
-          <OithLink href={ni.href} active={false}>
-            <a className={`title  ${isOpen(ni.open)}`}>
-              {ni.open}
-              <span
-                dangerouslySetInnerHTML={{ __html: this.state.title }}
-              ></span>
-            </a>
-          </OithLink>{' '}
-        </div>
-      );
-    }
-    return <></>;
-  }
-}
-
 export class NavigationComponenet extends Component {
   public state: { navigation: NavigationItem };
 
