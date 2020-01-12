@@ -6,14 +6,17 @@ import { setCurrentNav } from './nextPage';
 import { parseLangFromUrl } from '../app/parseCookieLang';
 import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 import { map, filter } from 'rxjs/operators';
+import { AnalyticsService } from './analyticsService';
 export let formatTagService: FormatTagService;
 
 export let appSettings: AppSettings;
+export let analyticsService: AnalyticsService;
 export let store: Store;
 export class SettingsComponent extends Component {
   public componentDidMount() {
     const lang = parseLangFromUrl();
     appSettings = new AppSettings(lang);
+    analyticsService = new AnalyticsService();
     if (appSettings.settings.lang === 'pes') {
       document.body.classList.add('right-to-left');
     }
