@@ -51,6 +51,21 @@ class Index extends Component {
             {this.state.navigation.navigationItems.map(ni => {
               return <NavItem card={true} navItem={ni} />;
             })}
+            <div
+              style={{
+                display: 'grid',
+                justifyContent: 'center',
+                textAlign: 'center',
+              }}
+            >
+              <h4>Site Changes</h4>
+              <p style={{ maxWidth: '500px' }}>
+                Now that the November 2019 New Note Concepts Test is complete,
+                we are moving this site back to development mode. You are
+                welcome to continue to use it, though the site may be unstable
+                at times. The 2020 Come, Follow Me manuals are now available.
+              </p>
+            </div>
             <div className={`white-space`}></div>
           </div>
         </div>
