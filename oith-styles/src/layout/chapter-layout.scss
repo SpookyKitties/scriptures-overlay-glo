@@ -112,12 +112,13 @@ body {
         text-indent: 0;
       }
       .verse-number {
-        font-size: 0.9em;
+        // font-size: 0.9em;
         font-weight: 700;
         font-style: normal;
         font-stretch: normal;
         .all {
           color: rgb(68, 114, 196);
+          font-weight: 700;
         }
       }
       .body-block {
