@@ -33,9 +33,7 @@ const parseNoteCategoryMap = map((noteCategoryElement: Element) => {
 function parseSubdomain() {
   const subDomain = location.hostname.split('.').shift();
   if (subDomain) {
-    if (['localhost', 'port'].includes(subDomain.toLowerCase())) {
-      console.log('asoidjfaoisdjfoaijdsfoiasj890324zm,xncbviosduafgiuhy');
-
+    if (['localhost', 'port', 'dev'].includes(subDomain.toLowerCase())) {
       return '';
     }
     return subDomain;
