@@ -1,15 +1,17 @@
-import {
-  NoteTypes,
-  NoteCategories,
-} from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
-import { flatMap, map, filter, toArray } from 'rxjs/operators';
-import { BehaviorSubject, of, forkJoin, Observable } from 'rxjs';
 import axios from 'axios';
+import Fuse from 'fuse.js';
+import { cloneDeep } from 'lodash';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { filter, flatMap, map, toArray } from 'rxjs/operators';
 import { NoteSettings } from '../oith-lib/src/processors/NoteSettings';
-import { Settings } from './Settings';
-import { NavigationItem } from './navigation-item';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
+import {
+  NoteCategories,
+  NoteTypes,
+} from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
+import { NavigationItem } from './navigation-item';
 import { resetNotes$ } from './resetNotes';
+import { Settings } from './Settings';
 
 const flattenPrimaryManifest = (
   navItems: NavigationItem[],
@@ -30,8 +32,23 @@ const flattenPrimaryManifest = (
     toArray(),
   );
 };
-import Fuse from 'fuse.js';
-import { cloneDeep } from 'lodash';
+
+function parseSubdomain() {
+  const subDomain = location.hostname.split('.').shift();
+  if (subDomain) {
+    if (['localhosat', 'port'].includes(subDomain.toLowerCase())) {
+      return '';
+    }
+    if (subDomain.toLowerCase() === 'localhost') {
+      console.log(subDomain);
+
+      return 'a';
+    }
+    return subDomain;
+  }
+  return '';
+}
+
 export class AppSettings {
   public settings: Settings;
   public noteSettings?: NoteSettings;
@@ -65,6 +82,7 @@ export class AppSettings {
       this.flattenNavigation();
     });
   }
+
   private async getNoteTypeSettings<T extends keyof AppSettings>(
     key: T,
     fileName: 'noteSettings' | 'noteCategories' | 'noteTypes',
@@ -74,7 +92,7 @@ export class AppSettings {
 
       try {
         const data = await axios.get(
-          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${fileName}.json`,
+          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${parseSubdomain()}-${fileName}.json`,
           {
             responseType: 'json',
           },

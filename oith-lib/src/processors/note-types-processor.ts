@@ -30,6 +30,19 @@ const parseNoteCategoryMap = map((noteCategoryElement: Element) => {
     );
 });
 
+function parseSubdomain() {
+  const subDomain = location.hostname.split('.').shift();
+  if (subDomain) {
+    if (['localhost', 'port'].includes(subDomain.toLowerCase())) {
+      console.log('asoidjfaoisdjfoaijdsfoiasj890324zm,xncbviosduafgiuhy');
+
+      return '';
+    }
+    return subDomain;
+  }
+  return '';
+}
+
 export function noteTypeProcessor(docuemnt: Document) {
   return forkJoin(
     of('eng'),
@@ -42,7 +55,10 @@ export function noteTypeProcessor(docuemnt: Document) {
   ).pipe(
     map(
       ([lang, noteCategories]): NoteTypes => {
-        return new NoteTypes(`${lang}-note-types`, noteCategories);
+        return new NoteTypes(
+          `${lang}-${parseSubdomain()}-note-types`,
+          noteCategories,
+        );
       },
     ),
   );
