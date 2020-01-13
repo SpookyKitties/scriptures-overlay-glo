@@ -75,9 +75,12 @@ export class AppSettings {
     if (!this[key]) {
       const lang = this.settings.lang;
 
+      const subDomain = parseSubdomain();
       try {
         const data = await axios.get(
-          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${parseSubdomain()}-${fileName}.json`,
+          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${
+            subDomain !== '' ? `${subDomain}-` : ''
+          }${fileName}.json`,
           {
             responseType: 'json',
           },
