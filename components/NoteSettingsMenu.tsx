@@ -9,6 +9,7 @@ import {
   AdditionalSettingaComponent,
   NoteSettingComponent,
 } from './notes-settings/add-settings';
+import { parseSubdomain } from './parseSubdomain';
 
 const noteSettingsMenuStyles: CSSProperties = {
   position: 'absolute',
@@ -76,54 +77,56 @@ const menubtn: CSSProperties = {
 
 export class DevSettings extends Component {
   public render() {
-    return (
-      <div style={{ backgroundColor: 'inherit' }}>
-        <hr />
-        <div
-          style={menubtn}
-          onClick={() => {
-            if (store) {
-              store.editMode$.pipe(take(1)).subscribe(o => {
-                store.editMode$.next(!o);
-              });
-            }
-          }}
-        >
-          Edit Mode
-        </div>
-        <hr />
+    if (parseSubdomain() === '') {
+      return (
+        <div style={{ backgroundColor: 'inherit' }}>
+          <hr />
+          <div
+            style={menubtn}
+            onClick={() => {
+              if (store) {
+                store.editMode$.pipe(take(1)).subscribe(o => {
+                  store.editMode$.next(!o);
+                });
+              }
+            }}
+          >
+            Edit Mode
+          </div>
+          <hr />
 
-        <div
-          style={menubtn}
-          onClick={() => {
-            openExportModal.next(true);
-          }}
-        >
-          Export Notes
-        </div>
+          <div
+            style={menubtn}
+            onClick={() => {
+              openExportModal.next(true);
+            }}
+          >
+            Export Notes
+          </div>
 
-        <hr />
-        <div
-          style={menubtn}
-          onClick={() => {
-            appSettings.displayUnderline();
-          }}
-        >
-          Hide Underlining
-        </div>
+          <hr />
+          <div
+            style={menubtn}
+            onClick={() => {
+              appSettings.displayUnderline();
+            }}
+          >
+            Hide Underlining
+          </div>
 
-        <hr />
-        <div
-          style={menubtn}
-          onClick={() => {
-            Router.push('/settings');
-            closeMenu$.next(true);
-          }}
-        >
-          Settings
+          <hr />
+          <div
+            style={menubtn}
+            onClick={() => {
+              Router.push('/settings');
+              closeMenu$.next(true);
+            }}
+          >
+            Settings
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

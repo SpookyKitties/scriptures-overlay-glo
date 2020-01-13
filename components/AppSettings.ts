@@ -12,6 +12,7 @@ import {
 import { NavigationItem } from './navigation-item';
 import { resetNotes$ } from './resetNotes';
 import { Settings } from './Settings';
+import { parseSubdomain } from './parseSubdomain';
 
 const flattenPrimaryManifest = (
   navItems: NavigationItem[],
@@ -32,22 +33,6 @@ const flattenPrimaryManifest = (
     toArray(),
   );
 };
-
-function parseSubdomain() {
-  const subDomain = location.hostname.split('.').shift();
-  if (subDomain) {
-    if (['localhosat', 'port'].includes(subDomain.toLowerCase())) {
-      return '';
-    }
-    if (subDomain.toLowerCase() === 'localhost') {
-      console.log(subDomain);
-
-      return 'a';
-    }
-    return subDomain;
-  }
-  return '';
-}
 
 export class AppSettings {
   public settings: Settings;
