@@ -1,12 +1,13 @@
 import { NextPage } from 'next';
 import { NavbarComponents, NavbarProps } from './navbar.component';
-import { CSSProperties } from 'react';
+import { CSSProperties, Component } from 'react';
 import Head from 'next/head';
 import '../styles/styles.scss';
 import { HeaderComponent } from './header.component';
 import { SettingsComponent } from './SettingsComponent';
 import Helmet from 'react-helmet';
 import { MenuOverlay } from './MenuOverlay';
+import { parseSubdomain } from './parseSubdomain';
 // import { oithMain } from "../styles/typed/chapter-layout";
 const oithContentStyles: CSSProperties = {
   height: 'calc(100vh - 48px)',
@@ -15,6 +16,50 @@ const oithContentStyles: CSSProperties = {
   position: 'fixed',
   top: '48px',
 };
+
+export class DisclaimerComponent extends Component {
+  public state: { msg: string };
+
+  componentDidMount() {
+    const subdomain = parseSubdomain();
+
+    if (subdomain !== '') {
+      switch (subdomain) {
+        case 'a':
+        case 'b': {
+          this.setState({ msg: 'This site is for evaluation purposes only.' });
+          break;
+        }
+        default: {
+          this.setState({
+            msg: 'These are draft notes that have not yet been reviewed.',
+          });
+        }
+      }
+    }
+  }
+
+  render() {
+    if (this.state && this.state.msg) {
+      return (
+        <div
+          style={{
+            position: 'fixed',
+            bottom: 0,
+            width: '100vw',
+            textAlign: 'center',
+            paddingTop: '3px',
+            paddingBottom: '3px',
+            backgroundColor: 'white',
+          }}
+        >
+          {this.state.msg}
+        </div>
+      );
+    }
+    return <></>;
+  }
+}
 
 const Layout: React.FunctionComponent = ({
   children,
@@ -46,6 +91,7 @@ const Layout: React.FunctionComponent = ({
       {children}
       {/* <div className=""></div> */}
       <MenuOverlay />
+      <DisclaimerComponent />
     </div>
   );
 };
