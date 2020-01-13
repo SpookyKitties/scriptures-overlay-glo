@@ -127,6 +127,7 @@ export class DevSettings extends Component {
         </div>
       );
     }
+    return <></>;
   }
 }
 
