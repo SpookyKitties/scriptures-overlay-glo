@@ -201,7 +201,12 @@ export class FormatTag extends Component<{
         className={`${displayStateKey(this.state, 'classList')} `}
         style={this.style}
         data-offset={`${this.state ? this.state['offset'] : ''}`}
-        onClick={() => this.click(this.state.formatMerged)}
+        onClick={evt => {
+          const elem = evt.target as HTMLElement;
+          if (elem && !elem.classList.contains('ftag-speaker')) {
+            this.click(this.state.formatMerged);
+          }
+        }}
       >
         {this.renderSpeaker()}
         {displayStateKey(this.state, 'text')}

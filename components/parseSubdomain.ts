@@ -5,7 +5,7 @@ export function parseSubdomain() {
       return '';
     }
     if (subDomain.toLowerCase() === 'localhost') {
-      return 'a';
+      return '';
     }
     return subDomain;
   }
