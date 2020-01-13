@@ -379,6 +379,7 @@ export class ChapterComponent extends Component {
       )
       .subscribe(() => {});
   }
+
   componentDidUpdate() {}
 
   public render() {

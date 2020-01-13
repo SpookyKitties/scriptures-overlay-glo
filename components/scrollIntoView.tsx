@@ -17,14 +17,16 @@ export function scrollIntoView(chapter?: Chapter) {
 
       const vns = (sel: string, top: number) => {
         const e = document.querySelector(sel);
+        console.log(top);
+
         if (e) {
           e.scrollTop = top;
         }
       };
 
       return forkJoin(
-        of(vns('.verse-notes', store.history ? c.chapterTop : 0)),
-        of(vns('.chapter-loader', store.history ? c.verseNotesTop : 0)),
+        of(vns('.verse-notes', store.history ? c.verseNotesTop : 0)),
+        of(vns('.chapter-loader', store.history ? c.chapterTop : 0)),
       );
       return of(document.querySelector('.chapter-loader')).pipe(
         filter(o => o !== null),
