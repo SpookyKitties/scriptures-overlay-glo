@@ -111,3 +111,9 @@ body {
 .edit-mode-offsets {
   display: none;
 }
+
+.chapternotes ~ .chapternotes {
+  .short-title {
+    display: none;
+  }
+}

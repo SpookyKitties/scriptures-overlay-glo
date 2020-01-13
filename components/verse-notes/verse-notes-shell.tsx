@@ -189,12 +189,15 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
     if (this.state && this.state.verseNote) {
       const verseNote = this.state.verseNote;
       if (verseNote.noteGroups) {
+        const shortTitle = generateShortTitle(verseNote);
         return (
           <div
-            className={`verse-note ${verseNote.vis ? '' : 'none'}`}
+            className={`verse-note ${shortTitle
+              .replace(/\s/g, '')
+              .toLowerCase()} ${verseNote.vis ? '' : 'none'}`}
             id={verseNote.id}
           >
-            <p className="short-title">{generateShortTitle(verseNote)}</p>
+            <p className="short-title">{shortTitle}</p>
             {verseNote.noteGroups
               .sort((a, b) => sortVerseNoteGroups(a, b))
               .map(noteGroup => (
@@ -290,11 +293,15 @@ export class VerseNotesShellComponent extends Component<VNProps> {
 
 function generateShortTitle(verseNote: VerseNote) {
   if (verseNote) {
-    if (doesntInclude(['title1', 'closing1'], verseNote.id)) {
+    if (doesntInclude(['title1', 'closing1', 'intro1'], verseNote.id)) {
       const idSplit = verseNote.id.split('-');
 
       return `Verse ${idSplit[idSplit.length - 3]} Notes`;
-    } else if (verseNote.id.includes('title1')) {
+    } else if (
+      verseNote.id.includes('title1') ||
+      verseNote.id.includes('intro1') ||
+      verseNote.id.includes('title_number')
+    ) {
       return 'Chapter Notes';
     } else if (verseNote.id.includes('closing')) {
       return 'Footer Notes';
