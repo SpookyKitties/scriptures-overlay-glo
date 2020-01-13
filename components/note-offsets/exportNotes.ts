@@ -157,7 +157,6 @@ export function newExportNotes() {
               return '';
             },
           );
-          console.log(chaptersTxt);
 
           const fileTxt = `${docstart('id')}${chaptersTxt.join('')}${docend}`;
           const blob = new Blob([fileTxt], {

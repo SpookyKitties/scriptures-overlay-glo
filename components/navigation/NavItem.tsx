@@ -22,6 +22,10 @@ function flattenCFMNav(navItem: NavigationItem): NavigationItem[] {
 }
 
 export function gotoComeFollowMe(navItem: NavigationItem) {
+  console.log(startOfToday());
+
+  console.log(flattenCFMNav(navItem));
+
   const lesson = flattenCFMNav(navItem)
     .filter(nI => nI.dateEnd !== undefined && nI.dateState !== undefined)
     .map((nI): [NavigationItem, Date, Date] => [
@@ -31,9 +35,11 @@ export function gotoComeFollowMe(navItem: NavigationItem) {
     ])
     .find(
       nI =>
-        isAfter(startOfToday(), nI[1]) &&
+        (isAfter(startOfToday(), nI[1]) || isSameDay(startOfToday(), nI[1])) &&
         (isBefore(startOfToday(), nI[2]) || isSameDay(startOfToday(), nI[2])),
     );
+  console.log(lesson);
+
   if (lesson) {
     Router.push('/[book]/[chapter]', `/${lesson[0].href}`);
   }

@@ -17,7 +17,6 @@ export class VideoComponent extends Component<{
       // const src = o.src.replace('churchofjesuschrist', 'lds');
 
       const u = `https://oith-function-test.azurewebsites.net/api/HttpTrigger?code=OaVlNwE4G3X/CMyIX77sL8fOtj2UyNlh/q8W2Ha79FlctEMb2F0dEQ==&url=${src}`;
-      console.log(u);
 
       await of(
         axios.get(u, {

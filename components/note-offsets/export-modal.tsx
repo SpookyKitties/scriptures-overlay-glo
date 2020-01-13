@@ -44,14 +44,11 @@ class ExportModalCheckBox extends Component<{ noteType: NoteType }> {
 
 function addToDatabaseIfNotIn() {
   let database = new PouchyRx(`v6-${window.location.hostname}-overlay-org`);
-  console.log('oiasejdfoiasjdfoijasdf');
 
   return store.chapter.pipe(
     take(1),
     filter(chapter => chapter !== undefined),
     map(chapter => {
-      console.log(chapter);
-
       return database.get<Chapter>(chapter.id).pipe(
         map(val => {
           if (!val) {

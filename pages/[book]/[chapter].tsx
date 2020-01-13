@@ -267,7 +267,6 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
     return { chapter, lang };
   } else {
     let chapter = await getChapterRemote(id, params);
-    console.log(chapter);
 
     return { chapter, lang };
   }
