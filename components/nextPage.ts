@@ -45,6 +45,9 @@ export function previousPage() {
 }
 export function nextPage() {
   if (store) {
+    const chapterLoadElement = document.querySelector('.verse-notes');
+    console.log(chapterLoadElement.scrollTop);
+
     checkDisabled().subscribe(() => {
       const url = parseUrl();
       if (url) {

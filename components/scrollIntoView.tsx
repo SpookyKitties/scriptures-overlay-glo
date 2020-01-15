@@ -1,5 +1,13 @@
 import { of, forkJoin } from 'rxjs';
-import { filter, map, take, flatMap, takeLast, first } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  take,
+  flatMap,
+  takeLast,
+  first,
+  delay,
+} from 'rxjs/operators';
 import { store } from './SettingsComponent';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 export function scrollIntoView(chapter?: Chapter) {
@@ -15,17 +23,20 @@ export function scrollIntoView(chapter?: Chapter) {
         );
       }
 
-      const vns = (sel: string, top: number) => {
+      const vns = (sel: string, top: number, delay?: number) => {
         const e = document.querySelector(sel);
-        console.log(top);
 
         if (e) {
           e.scrollTop = top;
         }
       };
+      return of(vns('.chapter-loader', store.history ? c.chapterTop : 0)).pipe(
+        delay(200),
+        map(() => vns('.verse-notes', store.history ? c.verseNotesTop : 0)),
+      );
 
       return forkJoin(
-        of(vns('.verse-notes', store.history ? c.verseNotesTop : 0)),
+        of(vns('.verse-notes', store.history ? c.verseNotesTop : 0, 1000)),
         of(vns('.chapter-loader', store.history ? c.chapterTop : 0)),
       );
       return of(document.querySelector('.chapter-loader')).pipe(

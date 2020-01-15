@@ -52,6 +52,7 @@ export class Store {
       chapter.history = true;
       chapter.chapterTop = this.getScrollTop('.chapter-loader');
       chapter.verseNotesTop = this.getScrollTop('.verse-notes');
+
       this.chapterHistory = this.chapterHistory
         .filter(o => o.id !== chapter.id)
         .concat([chapter]);
@@ -101,9 +102,7 @@ class MyApp extends App {
   }
 
   componentWillMount() {
-    console.log(
-      ReactGA.initialize([{ trackingId: 'UA-153000658-1', debug: true }]),
-    );
+    console.log(ReactGA.initialize([{ trackingId: 'UA-153000658-1' }]));
   }
 
   render() {
