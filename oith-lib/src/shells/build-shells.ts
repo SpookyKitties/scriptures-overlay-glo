@@ -199,6 +199,7 @@ import axios from 'axios';
 import { VideoData } from '../../../components/VideoComponent';
 import { NoteCategories } from '../verse-notes/settings/note-gorup-settings';
 import { store, appSettings } from '../../../components/SettingsComponent';
+import { parseStorage } from '../../../components/parseSubdomain';
 function prepVideos(chapter: Chapter) {
   return findAllGrpsWithName('video', chapter.body).pipe(
     map(grp => {
@@ -232,7 +233,7 @@ function addRefLabel(chapter: Chapter) {
       ? of(appSettings.noteCategories)
       : of(
         axios.get(
-          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${'note-categories'}.json`
+          `https://oithstorage.blob.core.windows.net/${parseStorage()}/${'eng'}-${'note-categories'}.json`
           ,
           {
             responseType: 'json',

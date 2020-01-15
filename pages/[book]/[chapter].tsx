@@ -175,6 +175,7 @@ import { ParsedUrlQuery } from 'querystring';
 import { IncomingMessage } from 'http';
 import { titleService } from '../../components/TitleComponent';
 import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
+import { parseStorage } from '../../components/parseSubdomain';
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
   console.log(query);
@@ -189,7 +190,7 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 async function getChapterRemote(id: string, params: ChapterParams) {
   try {
     const data = await axios.get(
-      `https://oithstorage.blob.core.windows.net/blobtest/${id}.json`,
+      `https://oithstorage.blob.core.windows.net/${parseStorage()}/${id}.json`,
     );
     // `/files/scripture_files/${id}.json`, {
     // proxy: { port: port, host: '127.0.0.1' },

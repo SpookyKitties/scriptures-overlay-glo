@@ -12,7 +12,7 @@ import {
 import { NavigationItem } from './navigation-item';
 import { resetNotes$ } from './resetNotes';
 import { Settings } from './Settings';
-import { parseSubdomain } from './parseSubdomain';
+import { parseSubdomain, parseStorage } from './parseSubdomain';
 
 const flattenPrimaryManifest = (
   navItems: NavigationItem[],
@@ -78,7 +78,7 @@ export class AppSettings {
       const subDomain = parseSubdomain();
       try {
         const data = await axios.get(
-          `https://oithstorage.blob.core.windows.net/blobtest/${'eng'}-${
+          `https://oithstorage.blob.core.windows.net/${parseStorage()}/${'eng'}-${
             subDomain !== '' ? `${subDomain}-` : ''
           }${fileName}.json`,
           {

@@ -11,3 +11,14 @@ export function parseSubdomain() {
   }
   return '';
 }
+
+export function parseStorage() {
+  const subDomain = parseSubdomain();
+
+  if (subDomain === '') {
+    return 'blobtest';
+  }
+  if (['a', 'b'].includes(subDomain)) {
+    return 'novembertest';
+  }
+}

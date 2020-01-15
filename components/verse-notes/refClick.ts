@@ -2,6 +2,7 @@ import {
   VerseNoteGroup,
   NoteRef,
 } from '../../oith-lib/src/verse-notes/verse-note';
+import { parseStorage } from '../parseSubdomain';
 export function refClick(noteGroup: VerseNoteGroup, ref: NoteRef) {
   if (
     ref.label.includes('🔊') &&
@@ -13,7 +14,7 @@ export function refClick(noteGroup: VerseNoteGroup, ref: NoteRef) {
       .toLowerCase()
       .replace('“', '')
       .replace('”', '');
-    const fileName = `https://oithstorage.blob.core.windows.net/blobtest/${phrase}.wav`;
+    const fileName = `https://oithstorage.blob.core.windows.net/${parseStorage()}/${phrase}.wav`;
     try {
       new Audio(fileName).play();
     } catch (error) {}

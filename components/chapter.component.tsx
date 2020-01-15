@@ -177,7 +177,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
             <div className="img-container">
               <img
                 {...attrs}
-                src={`https://oithstorage.blob.core.windows.net/blobtest/${src}`}
+                src={`https://oithstorage.blob.core.windows.net/${parseStorage()}/${src}`}
               />
             </div>
           );
@@ -360,6 +360,7 @@ const flattenPrimaryManifest = (
 };
 
 import { nextPage, previousPage } from './nextPage';
+import { parseStorage } from './parseSubdomain';
 
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
