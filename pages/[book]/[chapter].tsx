@@ -201,6 +201,7 @@ async function getChapterRemote(id: string, params: ChapterParams) {
     return chapter;
   } catch (error) {
     console.log(error);
+    console.log('a190');
 
     return undefined;
   }
@@ -209,6 +210,10 @@ async function getChapterRemote(id: string, params: ChapterParams) {
 
 async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   const lang = langReq(req, query);
+  const host = req && req.headers ? req.headers.host : location.host;
+  console.log(host);
+
+
   const params = parseChapterParams(query, lang);
 
   const id = `${params.lang}-${params.book}-${params.chapter}-chapter`;

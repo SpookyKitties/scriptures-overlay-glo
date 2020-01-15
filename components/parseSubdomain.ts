@@ -1,19 +1,24 @@
 export function parseSubdomain() {
-  const subDomain = location.hostname.split('.').shift();
-  if (subDomain) {
-    if (['localhosat', 'port', 'dev'].includes(subDomain.toLowerCase())) {
-      return '';
+  try {
+    const subDomain = location.hostname.split('.').shift();
+    if (subDomain) {
+      if (['localhosat', 'port', 'dev'].includes(subDomain.toLowerCase())) {
+        return '';
+      }
+      if (subDomain.toLowerCase() === 'localhost') {
+        return '';
+      }
+      return subDomain;
     }
-    if (subDomain.toLowerCase() === 'localhost') {
-      return '';
-    }
-    return subDomain;
+    return '';
+  } catch (error) {
+    return '';
   }
-  return '';
 }
 
 export function parseStorage() {
   const subDomain = parseSubdomain();
+  console.log(subDomain === '');
 
   if (subDomain === '') {
     return 'blobtest';
