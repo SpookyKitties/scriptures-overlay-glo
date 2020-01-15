@@ -190,7 +190,9 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 async function getChapterRemote(id: string, params: ChapterParams) {
   try {
     const data = await axios.get(
-      `https://oithstorage.blob.core.windows.net/${parseStorage()}/${id}.json`,
+      `https://oithstorage.blob.core.windows.net/${parseStorage(
+        params.host,
+      )}/${id}.json`,
     );
     // `/files/scripture_files/${id}.json`, {
     // proxy: { port: port, host: '127.0.0.1' },
@@ -211,10 +213,8 @@ async function getChapterRemote(id: string, params: ChapterParams) {
 async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   const lang = langReq(req, query);
   const host = req && req.headers ? req.headers.host : location.host;
-  console.log(host);
 
-
-  const params = parseChapterParams(query, lang);
+  const params = parseChapterParams(query, lang, host);
 
   const id = `${params.lang}-${params.book}-${params.chapter}-chapter`;
   if (store) {

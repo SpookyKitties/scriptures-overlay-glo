@@ -310,11 +310,13 @@ export interface ChapterParams {
   highlight?: string;
   context?: string;
   lang: string;
+  host: string
 }
 
 export function parseChapterParams(
   params: Params,
   lang: string,
+  host: string
 ): ChapterParams {
   const book = params['book'] as string;
   const chapterSplit = (params['chapter'] as string).split('.');
@@ -325,5 +327,6 @@ export function parseChapterParams(
     highlight: chapterSplit[1],
     context: chapterSplit[2],
     lang: lang,
+    host: host
   };
 }

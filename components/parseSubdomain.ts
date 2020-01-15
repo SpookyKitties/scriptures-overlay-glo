@@ -1,4 +1,4 @@
-export function parseSubdomain() {
+export function parseSubdomain(host?: string) {
   try {
     const subDomain = location.hostname.split('.').shift();
     if (subDomain) {
@@ -16,8 +16,8 @@ export function parseSubdomain() {
   }
 }
 
-export function parseStorage() {
-  const subDomain = parseSubdomain();
+export function parseStorage(host?: string) {
+  const subDomain = parseSubdomain(host);
   console.log(subDomain === '');
 
   if (subDomain === '') {
