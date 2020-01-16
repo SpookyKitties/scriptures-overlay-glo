@@ -15,7 +15,6 @@ import {
 import { Component } from 'react';
 import { appSettings, store } from '../../components/SettingsComponent';
 import { forkJoin, fromEvent, of, Observable } from 'rxjs';
-// import { store } from "../_app";
 import Router from 'next/router';
 import { NavigationComponenet } from '../../components/navigation/navigation.component';
 import { addYears } from 'date-fns';
@@ -86,7 +85,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     });
 
     store.initChapter$.next(this.props.chapter);
-    // store.chapter.next(this.props.chapter);
 
     store.initChapter$
       .pipe(
@@ -129,13 +127,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   }
 
   render() {
-    // const chapter = this.props.chapter;
-
-    // if (store) {
-    //   // store.chapter.next(this.props.chapter);
-    // } else {
-    //   this.setState({ chapter: chapter });
-    // }
     return (
       <div className={`oith-content-parent ${this.getClasses()}`}>
         <nav className={`oith-navigation`}>
@@ -194,8 +185,6 @@ async function getChapterRemote(id: string, params: ChapterParams) {
         params.host,
       )}/${id}.json`,
     );
-    // `/files/scripture_files/${id}.json`, {
-    // proxy: { port: port, host: '127.0.0.1' },
 
     const chapter = data.data as Chapter;
     chapter.params = params;
@@ -220,9 +209,6 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
   if (store) {
     store.addToHistory(await store.chapter.pipe(take(1)).toPromise());
 
-    // const checkHistory = store.checkHistory(
-    //   `${params.lang}-${params.book}-${params.chapter}-chapter`,
-    // );
     store.disableNav$.next(true);
     let chapter = await store
       .checkHistory$(id)
@@ -260,8 +246,6 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
         flatMap(o => o),
       )
       .toPromise();
-
-    // store.chapter.next(checkHistory ? checkHistory : chapter);
 
     if (chapter && !store.history) {
       chapter.params = params;

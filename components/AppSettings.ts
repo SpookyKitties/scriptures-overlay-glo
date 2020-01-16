@@ -199,7 +199,7 @@ export class AppSettings {
     if (displayNotes === 'off' || typeof displayNotes === 'undefined') {
       this.settings.notesMode = 'small';
     } else if (displayNotes === 'small') {
-      if (window.matchMedia('(min-width: 700.01px)').matches) {
+      if (window.matchMedia('(min-width: 500.01px)').matches) {
         this.settings.notesMode = 'off';
       } else {
         this.settings.notesMode = 'large';

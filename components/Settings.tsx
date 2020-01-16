@@ -17,7 +17,7 @@ export class Settings {
   constructor(lang: string) {
     this.lang = lang;
 
-    if (window && window.matchMedia('(min-width: 700.01px)').matches) {
+    if (window && window.matchMedia('(min-width: 5k00.01px)').matches) {
       this.displayNav = true;
     } else {
       this.displayNav = false;
