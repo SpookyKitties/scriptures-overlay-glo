@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Fuse from 'fuse.js';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, flatten } from 'lodash';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { filter, flatMap, map, toArray } from 'rxjs/operators';
 import { NoteSettings } from '../oith-lib/src/processors/NoteSettings';
@@ -14,9 +14,26 @@ import { resetNotes$ } from './resetNotes';
 import { Settings } from './Settings';
 import { parseSubdomain, parseStorage } from './parseSubdomain';
 
+const newFlattenPrimaryManifest = (
+  navItems: NavigationItem[],
+): NavigationItem[] => {
+  const flattenNav = (navItem: NavigationItem) => {
+    if (Array.isArray(navItem.navigationItems)) {
+      return newFlattenPrimaryManifest(navItem.navigationItems).concat(navItem);
+    }
+    return [navItem];
+  };
+  return flatten(
+    navItems.map(navItem => {
+      return flattenNav(navItem);
+    }),
+  );
+};
+
 const flattenPrimaryManifest = (
   navItems: NavigationItem[],
 ): Observable<NavigationItem[]> => {
+  // return of(newFlattenPrimaryManifest(navItems));
   return of(navItems).pipe(
     flatMap$,
     map(navItem => {
