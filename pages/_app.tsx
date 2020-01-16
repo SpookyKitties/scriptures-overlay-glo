@@ -89,6 +89,8 @@ class MyApp extends App {
   //   return { ...appProps }
   // }
   componentDidMount() {
+    console.log(ReactGA.initialize([{ trackingId: 'UA-153000658-1' }]));
+
     if (store) {
       store.title$.subscribe(title => {
         this.setState({ title: title });
@@ -99,10 +101,6 @@ class MyApp extends App {
     // store.chapter.subscribe(c => {
     //   console.log(c);
     // });
-  }
-
-  componentWillMount() {
-    console.log(ReactGA.initialize([{ trackingId: 'UA-153000658-1' }]));
   }
 
   render() {

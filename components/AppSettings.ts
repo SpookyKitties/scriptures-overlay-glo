@@ -14,41 +14,16 @@ import { resetNotes$ } from './resetNotes';
 import { Settings } from './Settings';
 import { parseSubdomain, parseStorage } from './parseSubdomain';
 
-const newFlattenPrimaryManifest = (
-  navItems: NavigationItem[],
-): NavigationItem[] => {
-  const flattenNav = (navItem: NavigationItem) => {
-    if (Array.isArray(navItem.navigationItems)) {
-      return newFlattenPrimaryManifest(navItem.navigationItems).concat(navItem);
-    }
-    return [navItem];
-  };
-  return flatten(
-    navItems.map(navItem => {
-      return flattenNav(navItem);
-    }),
-  );
-};
+const flattenPrimaryManifest = (navItem: NavigationItem): NavigationItem[] => {
+  if (Array.isArray(navItem.navigationItems)) {
+    return flatten(
+      navItem.navigationItems
+        .map(nI => flattenPrimaryManifest(nI))
+        .concat([navItem]),
+    );
+  }
 
-const flattenPrimaryManifest = (
-  navItems: NavigationItem[],
-): Observable<NavigationItem[]> => {
-  // return of(newFlattenPrimaryManifest(navItems));
-  return of(navItems).pipe(
-    flatMap$,
-    map(navItem => {
-      if (navItem.navigationItems && navItem.navigationItems.length > 0) {
-        return flattenPrimaryManifest(navItem.navigationItems).pipe(
-          map(o => o.concat([navItem])),
-          flatMap$,
-        );
-      }
-
-      return of(navItem);
-    }),
-    flatMap$,
-    toArray(),
-  );
+  return [navItem];
 };
 
 export class AppSettings {
@@ -114,33 +89,55 @@ export class AppSettings {
     this.navigation$
       .pipe(
         filter(o => o !== undefined),
-        map(navigation =>
-          flattenPrimaryManifest(navigation.navigationItems).pipe(
-            map(o => {
-              this.flatNavigation$.next(o);
-              const hg = cloneDeep(o);
+        map(navigation => {
+          const o = flattenPrimaryManifest(navigation);
 
-              const fuse = new Fuse(
-                hg.map(n => {
-                  n.title = n.title.toLowerCase();
-                  n.shortTitle = n.shortTitle.toLowerCase();
-                  return n;
-                }),
-                {
-                  keys: ['title', 'shortTitle', 'href'],
-                  threshold: 0.35,
-                  includeScore: true,
-                  caseSensitive: false,
-                  tokenize: true,
-                  location: 0,
-                },
-              );
+          this.flatNavigation$.next(o);
+          const hg = cloneDeep(o);
 
-              this.fuse$ = new BehaviorSubject(fuse);
+          const fuse = new Fuse(
+            hg.map(n => {
+              n.title = n.title.toLowerCase();
+              n.shortTitle = n.shortTitle.toLowerCase();
+              return n;
             }),
-          ),
-        ),
-        flatMap$,
+            {
+              keys: ['title', 'shortTitle', 'href'],
+              threshold: 0.35,
+              includeScore: true,
+              caseSensitive: false,
+              tokenize: true,
+              location: 0,
+            },
+          );
+
+          this.fuse$ = new BehaviorSubject(fuse);
+          // return of(flattenPrimaryManifest(navigation)).pipe(
+          //   map(o => {
+          //     this.flatNavigation$.next(o);
+          //     const hg = cloneDeep(o);
+
+          //     const fuse = new Fuse(
+          //       hg.map(n => {
+          //         n.title = n.title.toLowerCase();
+          //         n.shortTitle = n.shortTitle.toLowerCase();
+          //         return n;
+          //       }),
+          //       {
+          //         keys: ['title', 'shortTitle', 'href'],
+          //         threshold: 0.35,
+          //         includeScore: true,
+          //         caseSensitive: false,
+          //         tokenize: true,
+          //         location: 0,
+          //       },
+          //     );
+
+          //     this.fuse$ = new BehaviorSubject(fuse);
+          //   }),
+          // );
+        }),
+        // flatMap$,
       )
       .subscribe();
   }

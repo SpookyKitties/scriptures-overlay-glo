@@ -31,6 +31,7 @@ export class NoteSettingComponent extends Component<{
       return (
         <div
           className={`dropdown-item`}
+          key={this.props.setting.label}
           onClick={evt => {
             // evt.preventDefault();
             this.click(this.props.setting, evt.target as HTMLInputElement);
