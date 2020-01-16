@@ -144,7 +144,7 @@ export class AppSettings {
   private initNav() {
     of(
       axios.get(
-        `https://files.oneinthinehand.org/so//files/navigation/${this.settings.lang}-navigation.json`,
+        `https://oithstorage.blob.core.windows.net/blobtest/${this.settings.lang}-navigation.json`,
         {
           responseType: 'json',
         },
