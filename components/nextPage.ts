@@ -136,22 +136,20 @@ export function setCurrentNav() {
     });
 }
 export function resetNav(): Observable<Observable<NavigationItem[]>> {
+  const resetFlatNav = () => {
+    return appSettings.flatNavigation$.pipe(
+      take(1),
+      map(nav => {
+        return nav.map(n => (n.open = false));
+      }),
+    );
+  };
   return forkJoin(
     appSettings.navigation$.pipe(
       take(1),
       filter(o => o !== undefined),
     ),
-    appSettings.flatNavigation$.pipe(
-      take(1),
-      filterUndefined$,
-      map(nav => {
-        return (
-          nav
-            // .filter(n => n.navigationItems !== undefined)
-            .map(n => (n.open = false))
-        );
-      }),
-    ),
+    resetFlatNav(),
   ).pipe(map(o => navUPdate(o[0], `/${parseUrl()}`)));
 }
 
