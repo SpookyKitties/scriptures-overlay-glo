@@ -22,6 +22,8 @@ const inlineNotes: CSSProperties = {
   justifyItems: 'center',
   padding: '5px 5px 5px 10px',
   marginBottom: '10px',
+  // width: '80%',
+  justifySelf: 'center',
 };
 
 export class VerseComponent extends Component<VerseProps> {
@@ -102,14 +104,16 @@ export class VerseComponent extends Component<VerseProps> {
                   <></>
                 )} */}
                 {verse.verseNote && parseSubdomain() === 'future' ? (
-                  <div style={inlineNotes}>
-                    {verse.verseNote && parseSubdomain() === 'future' ? (
-                      verse.verseNote.noteGroups.map(vNG => (
-                        <VerseNoteGroupComponent noteGroup={vNG} />
-                      ))
-                    ) : (
-                      <></>
-                    )}
+                  <div style={{ display: 'grid' }}>
+                    <div style={inlineNotes}>
+                      {verse.verseNote && parseSubdomain() === 'future' ? (
+                        verse.verseNote.noteGroups.map(vNG => (
+                          <VerseNoteGroupComponent noteGroup={vNG} />
+                        ))
+                      ) : (
+                        <></>
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <></>
