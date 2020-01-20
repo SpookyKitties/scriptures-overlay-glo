@@ -23,7 +23,10 @@ export function parseStorage(host?: string) {
   if (subDomain === '') {
     return 'blobtest';
   }
-  if (['a', 'b', 'june'].includes(subDomain)) {
+  if (['june', 'b'].includes(subDomain)) {
+    return 'junetest';
+  }
+  if (['a'].includes(subDomain)) {
     return 'blobtest';
   }
 }
