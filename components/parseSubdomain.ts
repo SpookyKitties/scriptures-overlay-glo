@@ -20,6 +20,10 @@ export function parseStorage(host?: string) {
   const subDomain = parseSubdomain(host);
   console.log(subDomain === '');
 
+  if (subDomain === 'future') {
+    return 'blobtest';
+  }
+
   if (subDomain === '') {
     return 'blobtest';
   }

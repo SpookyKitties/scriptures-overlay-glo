@@ -1,8 +1,10 @@
 import { Verse } from '../oith-lib/src/models/Chapter';
 import { renderFormatGroups } from './chapter.component';
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import { store } from './SettingsComponent';
+import { VerseNoteGroupComponent } from './verse-notes/verse-notes-shell';
+import { parseSubdomain } from './parseSubdomain';
 
 type VerseProps = {
   verse?: Verse;
@@ -25,6 +27,7 @@ export class VerseComponent extends Component<VerseProps> {
     super(props);
   }
   public render() {
+    let elem: JSX.Element = <></>;
     if (this.state) {
       const verse = this.state.verse;
 
@@ -38,60 +41,76 @@ export class VerseComponent extends Component<VerseProps> {
         verse.attrs['class'] = undefined;
         switch (elementName) {
           case 'p': {
-            return (
-              <p id={verse.id} className={classList} {...verse.attrs}>
-                {renderFormatGroups(verse.grps)}
-              </p>
+            elem = (
+              <Fragment>
+                <p id={verse.id} className={classList} {...verse.attrs}>
+                  {renderFormatGroups(verse.grps)}
+                </p>
+                {verse.verseNote && parseSubdomain() === 'future' ? (
+                  verse.verseNote.noteGroups.map(vNG => (
+                    <VerseNoteGroupComponent noteGroup={vNG} />
+                  ))
+                ) : (
+                  <></>
+                )}
+              </Fragment>
             );
+            break;
           }
           case 'figure': {
-            return (
+            elem = (
               <figure {...verse.attrs} id={verse.id} className={classList}>
                 {renderFormatGroups(verse.grps)}
               </figure>
             );
+            break;
           }
           case 'h1': {
-            return (
+            elem = (
               <h1 {...verse.attrs} id={verse.id} className={classList}>
                 {renderFormatGroups(verse.grps)}
               </h1>
             );
+            break;
           }
           case 'h2': {
-            return (
+            elem = (
               <h2 {...verse.attrs} id={verse.id} className={classList}>
                 {renderFormatGroups(verse.grps)}
               </h2>
             );
+            break;
           }
           case 'h3': {
-            return (
+            elem = (
               <h3 {...verse.attrs} id={verse.id} className={classList}>
                 {renderFormatGroups(verse.grps)}
               </h3>
             );
+            break;
           }
           case 'h4': {
-            return (
+            elem = (
               <h4 {...verse.attrs} id={verse.id} className={classList}>
                 {renderFormatGroups(verse.grps)}
               </h4>
             );
+            break;
           }
           case 'dt': {
-            return (
+            elem = (
               <dt {...verse.attrs} id={verse.id} className={classList}>
                 {renderFormatGroups(verse.grps)}
               </dt>
             );
+            break;
           }
           default:
-            return <div>Missing verse element {verse.n}</div>;
+            elem = <div>Missing verse element {verse.n}</div>;
             break;
         }
       }
     }
-    return '';
+    return elem;
   }
 }
