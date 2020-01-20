@@ -22,7 +22,7 @@ const inlineNotes: CSSProperties = {
   justifyItems: 'center',
   padding: '5px 5px 5px 10px',
   marginBottom: '10px',
-  // width: '80%',
+  width: '100%',
   justifySelf: 'center',
 };
 
