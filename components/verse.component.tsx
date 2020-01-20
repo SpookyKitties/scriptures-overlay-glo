@@ -18,7 +18,7 @@ const inlineNotes: CSSProperties = {
   /* padding-left: 20px, */
   fontSize: '1rem',
   /* position: absolute, */
-  display: 'grid',
+  paddingLeft: '10px',
   justifyItems: 'center',
 };
 
