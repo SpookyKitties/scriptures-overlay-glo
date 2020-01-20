@@ -29,4 +29,6 @@ export function parseStorage(host?: string) {
   if (['a'].includes(subDomain)) {
     return 'blobtest';
   }
+
+  return 'blobtest';
 }
