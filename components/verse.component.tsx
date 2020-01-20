@@ -99,15 +99,19 @@ export class VerseComponent extends Component<VerseProps> {
                 ) : (
                   <></>
                 )} */}
-                <div style={inlineNotes}>
-                  {verse.verseNote && parseSubdomain() === 'future' ? (
-                    verse.verseNote.noteGroups.map(vNG => (
-                      <VerseNoteGroupComponent noteGroup={vNG} />
-                    ))
-                  ) : (
-                    <></>
-                  )}
-                </div>
+                {verse.verseNote && parseSubdomain() === 'future' ? (
+                  <div style={inlineNotes}>
+                    {verse.verseNote && parseSubdomain() === 'future' ? (
+                      verse.verseNote.noteGroups.map(vNG => (
+                        <VerseNoteGroupComponent noteGroup={vNG} />
+                      ))
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                ) : (
+                  <></>
+                )}
               </Fragment>
             );
             break;
