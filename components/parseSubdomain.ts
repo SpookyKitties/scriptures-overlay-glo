@@ -2,12 +2,16 @@ export function parseSubdomain(host?: string) {
   try {
     const subDomain = location.hostname.split('.').shift();
     if (subDomain) {
+      if (['localhost'].includes(subDomain.toLowerCase())) {
+        return 'future';
+      }
       if (['localhosat', 'port', 'dev'].includes(subDomain.toLowerCase())) {
         return '';
       }
       if (subDomain.toLowerCase() === 'localhost') {
         return '';
       }
+
       return subDomain;
     }
     return '';

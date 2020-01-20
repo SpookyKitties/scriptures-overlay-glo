@@ -1,6 +1,6 @@
 import { Verse } from '../oith-lib/src/models/Chapter';
 import { renderFormatGroups } from './chapter.component';
-import { Component, Fragment } from 'react';
+import { Component, Fragment, CSSProperties } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import { store } from './SettingsComponent';
 import { VerseNoteGroupComponent } from './verse-notes/verse-notes-shell';
@@ -8,6 +8,18 @@ import { parseSubdomain } from './parseSubdomain';
 
 type VerseProps = {
   verse?: Verse;
+};
+
+const inlineNotes: CSSProperties = {
+  overflowY: 'scroll',
+  height: '6rem',
+  /* width: 88%, */
+  backgroundColor: '#f3f3f3',
+  /* padding-left: 20px, */
+  fontSize: '1rem',
+  /* position: absolute, */
+  display: 'grid',
+  justifyItems: 'center',
 };
 
 export class VerseComponent extends Component<VerseProps> {
@@ -46,13 +58,56 @@ export class VerseComponent extends Component<VerseProps> {
                 <p id={verse.id} className={classList} {...verse.attrs}>
                   {renderFormatGroups(verse.grps)}
                 </p>
-                {verse.verseNote && parseSubdomain() === 'future' ? (
-                  verse.verseNote.noteGroups.map(vNG => (
-                    <VerseNoteGroupComponent noteGroup={vNG} />
-                  ))
+                {/* {verse.verseNote && parseSubdomain() === 'future' ? (
+                  <div className={`verse-note-cards`}>
+                    {verse.verseNote.noteGroups
+                      .filter(ng => ng.formatTag.visible)
+                      .map(vNG => {
+                        return (
+                          <div className={`card`}>
+                            <div className={'card'}>
+                              <header className={'card-header'}>
+                                <p className={'card-header-title'}>Component</p>
+                                <a
+                                  href="#"
+                                  className={'card-header-icon'}
+                                  aria-label="more options"
+                                >
+                                  <span className={'icon'}>
+                                    <i
+                                      className={'fas fa-angle-down'}
+                                      aria-hidden="true"
+                                    ></i>
+                                  </span>
+                                </a>
+                              </header>
+
+                              <div className={'card-content'}>
+                                <div className={'content'}>
+                                  Lorem ipsum dolor sit amet, consectetur
+                                  adipiscing elit. Phasellus nec iaculis mauris.
+                                  <a href="#">@bulmaio</a>. <a href="#">#css</a>{' '}
+                                  <a href="#">#responsive</a>
+                                  <br />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
                 ) : (
                   <></>
-                )}
+                )} */}
+                <div style={inlineNotes}>
+                  {verse.verseNote && parseSubdomain() === 'future' ? (
+                    verse.verseNote.noteGroups.map(vNG => (
+                      <VerseNoteGroupComponent noteGroup={vNG} />
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </Fragment>
             );
             break;
