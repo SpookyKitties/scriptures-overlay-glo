@@ -12,14 +12,16 @@ type VerseProps = {
 
 const inlineNotes: CSSProperties = {
   overflowY: 'scroll',
-  height: '6rem',
+  maxHeight: '9.5rem',
   /* width: 88%, */
   backgroundColor: '#f3f3f3',
   /* padding-left: 20px, */
   fontSize: '1rem',
   /* position: absolute, */
-  paddingLeft: '10px',
+  paddingLeft: '10px !important',
   justifyItems: 'center',
+  padding: '5px 5px 5px 10px',
+  marginBottom: '10px',
 };
 
 export class VerseComponent extends Component<VerseProps> {
