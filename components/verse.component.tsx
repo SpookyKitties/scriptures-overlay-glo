@@ -24,6 +24,7 @@ const inlineNotes: CSSProperties = {
   marginBottom: '10px',
   width: '100%',
   justifySelf: 'center',
+  scrollbarWidth: 'thin',
 };
 
 export class VerseComponent extends Component<VerseProps> {
@@ -104,7 +105,7 @@ export class VerseComponent extends Component<VerseProps> {
                   <></>
                 )} */}
                 {verse.verseNote && parseSubdomain() === 'future' ? (
-                  <div style={{ display: 'grid' }}>
+                  <div style={{ display: 'grid' }} className={`inline-notes`}>
                     <div style={inlineNotes}>
                       {verse.verseNote && parseSubdomain() === 'future' ? (
                         verse.verseNote.noteGroups.map(vNG => (
