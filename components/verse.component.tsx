@@ -114,6 +114,7 @@ export class VerseComponent extends Component<VerseProps> {
                       ) : (
                         <></>
                       )}
+                      <div className={`note-whitespace`}></div>
                     </div>
                   </div>
                 ) : (
