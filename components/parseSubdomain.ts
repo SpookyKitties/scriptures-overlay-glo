@@ -12,7 +12,7 @@ export function parseSubdomain(host?: string) {
         return '';
       }
       if (subDomain.toLowerCase() === 'b') {
-        return 'junetest';
+        return 'june';
       }
 
       return subDomain;
