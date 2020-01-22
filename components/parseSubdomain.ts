@@ -11,6 +11,9 @@ export function parseSubdomain(host?: string) {
       if (subDomain.toLowerCase() === 'localhost') {
         return '';
       }
+      if (subDomain.toLowerCase() === 'b') {
+        return 'future';
+      }
 
       return subDomain;
     }
