@@ -9,7 +9,7 @@ import {
   AdditionalSettingaComponent,
   NoteSettingComponent,
 } from './notes-settings/add-settings';
-import { parseSubdomain } from './parseSubdomain';
+import { parseSubdomain2 } from './parseSubdomain';
 
 const noteSettingsMenuStyles: CSSProperties = {
   position: 'absolute',
@@ -77,7 +77,7 @@ const menubtn: CSSProperties = {
 
 export class DevSettings extends Component {
   public render() {
-    if (['', 'june'].includes(parseSubdomain())) {
+    if (['', 'june'].includes(parseSubdomain2().settings)) {
       return (
         <div style={{ backgroundColor: 'inherit' }}>
           <hr />

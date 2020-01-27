@@ -1,24 +1,22 @@
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { Component, CSSProperties, Fragment } from 'react';
+import { Observable, of } from 'rxjs';
+import { delay, filter, flatMap, map, toArray } from 'rxjs/operators';
 import {
   Chapter,
   FormatGroup,
-  VersePlaceholder,
   FormatText,
-  Verse,
+  VersePlaceholder,
 } from '../oith-lib/src/models/Chapter';
-import { FormatTag } from './format_tag';
-import { VideoComponent } from './VideoComponent';
-import Head from 'next/head';
-import { VerseComponent } from './verse.component';
-import { forkJoin, of, Observable } from 'rxjs';
-import { filter, map, flatMap, delay, toArray } from 'rxjs/operators';
-import { appSettings, store } from './SettingsComponent';
-import Link from 'next/link';
-import { scrollIntoView } from './scrollIntoView';
-import { NavigationItem } from './navigation-item';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
-import { gotoLink } from './gotoLink';
+import { FormatTag } from './format_tag';
+import { NavigationItem } from './navigation-item';
+import { nextPage, previousPage } from './nextPage';
+import { parseSubdomain2 } from './parseSubdomain';
+import { scrollIntoView } from './scrollIntoView';
+import { store } from './SettingsComponent';
+import { VerseComponent } from './verse.component';
+import { VideoComponent } from './VideoComponent';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -71,7 +69,6 @@ function normalizeAttrs(attrs?: {}) {
     attrs['class'] = undefined;
   }
 }
-import Router from 'next/router';
 
 function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   const docType = (grp as FormatGroup).docType;
@@ -131,10 +128,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           attrs['src'] === undefined;
           return (
             <div className="img-container">
-              <img
-                {...attrs}
-                src={`https://oithstorage.blob.core.windows.net/${parseStorage()}/${src}`}
-              />
+              <img {...attrs} src={`${parseSubdomain2().storageURL}${src}`} />
             </div>
           );
         }
@@ -314,9 +308,6 @@ const flattenPrimaryManifest = (
     toArray(),
   );
 };
-
-import { nextPage, previousPage } from './nextPage';
-import { parseStorage } from './parseSubdomain';
 
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };

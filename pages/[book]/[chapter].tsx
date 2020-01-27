@@ -1,24 +1,28 @@
 import axios from 'axios';
+import { addYears } from 'date-fns';
+import { IncomingMessage } from 'http';
 import { NextPage } from 'next';
-import { flatMap, map, take, filter, debounceTime } from 'rxjs/operators';
+import { ParsedUrlQuery } from 'querystring';
+import { Component } from 'react';
+import ReactGA from 'react-ga';
+import { forkJoin, of } from 'rxjs';
+import { filter, flatMap, map, take } from 'rxjs/operators';
+import { langReq } from '../../app/langReq';
 import { ChapterComponent } from '../../components/chapter.component';
-import Layout from '../../components/layout';
+import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
+import { NavigationComponenet } from '../../components/navigation/navigation.component';
+import { parseSubdomain2 } from '../../components/parseSubdomain';
+import { appSettings, store } from '../../components/SettingsComponent';
+import { titleService } from '../../components/TitleComponent';
+import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
 import { VerseNotesShellComponent } from '../../components/verse-notes/verse-notes-shell';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
-import ReactGA from 'react-ga';
 import {
   addVersesToBody,
   buildShell,
-  parseChapterParams,
   ChapterParams,
+  parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
-import { Component } from 'react';
-import { appSettings, store } from '../../components/SettingsComponent';
-import { forkJoin, fromEvent, of, Observable } from 'rxjs';
-import Router from 'next/router';
-import { NavigationComponenet } from '../../components/navigation/navigation.component';
-import { addYears } from 'date-fns';
-import { langReq } from '../../app/langReq';
 
 export type ImgAttr = {
   src: string;
@@ -160,13 +164,6 @@ const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
 }) => {
   return <OithParent chapter={chapter} lang={lang}></OithParent>;
 };
-import PouchDB from 'pouchdb';
-import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
-import { ParsedUrlQuery } from 'querystring';
-import { IncomingMessage } from 'http';
-import { titleService } from '../../components/TitleComponent';
-import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
-import { parseStorage } from '../../components/parseSubdomain';
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
   console.log(query);
@@ -181,9 +178,7 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 async function getChapterRemote(id: string, params: ChapterParams) {
   try {
     const data = await axios.get(
-      `https://oithstorage.blob.core.windows.net/${parseStorage(
-        params.host,
-      )}/${id}.json`,
+      `${parseSubdomain2(params.host).storageURL}${id}.json`,
     );
 
     const chapter = data.data as Chapter;
@@ -191,7 +186,6 @@ async function getChapterRemote(id: string, params: ChapterParams) {
 
     return chapter;
   } catch (error) {
-    console.log(error);
     console.log('a190');
 
     return undefined;

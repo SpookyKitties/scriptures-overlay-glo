@@ -1,0 +1,64 @@
+{
+  "subdomains": [
+    {
+      "matches": [
+        "b.oneinthinehand.org",
+        "oneinthinehand.org",
+        "b.scripturesproject.review",
+        "new.scripturesproject.review",
+        "june.scripturesproject.review"
+      ],
+      "storageURL": "https://oithstorage.blob.core.windows.net/junetest/",
+      "settings": "june",
+      "beta": false
+    },
+    {
+      "matches": [
+        "localhost"
+      ],
+      "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
+      "settings": "",
+      "beta": true
+    },
+    {
+      "matches": [
+        "port.scripturesproject.review",
+        "dev.scripturesproject.review",
+        "dev.oneinthinehand.org",
+        "beta.scripturesproject.review",
+        "alpha.scripturesproject.review",
+        "port.oneinthinehand.org"
+      ],
+      "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
+      "settings": "",
+      "beta": false
+    },
+    {
+      "matches": [
+        "a.scripturesproject.review",
+        "a.oneinthinehand.org"
+      ],
+      "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
+      "settings": "a",
+      "beta": false
+    },
+    {
+      "matches": [
+        "future.oneinthinehand.org",
+        "future.scripturesproject.review"
+      ],
+      "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
+      "settings": "",
+      "beta": true
+    }
+  ],
+  "backup": {
+    "matches": [
+      "oneinthinehand.org",
+      "scripturesproject.review"
+    ],
+    "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
+    "settings": "",
+    "beta": false
+  }
+}

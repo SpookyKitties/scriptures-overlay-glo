@@ -4,7 +4,7 @@ import { Component, Fragment, CSSProperties } from 'react';
 import { BehaviorSubject } from 'rxjs';
 import { store } from './SettingsComponent';
 import { VerseNoteGroupComponent } from './verse-notes/verse-notes-shell';
-import { parseSubdomain } from './parseSubdomain';
+import { parseSubdomain2 } from './parseSubdomain';
 
 type VerseProps = {
   verse?: Verse;
@@ -104,10 +104,10 @@ export class VerseComponent extends Component<VerseProps> {
                 ) : (
                   <></>
                 )} */}
-                {verse.verseNote && parseSubdomain() === 'future' ? (
+                {verse.verseNote && parseSubdomain2().beta ? (
                   <div style={{ display: 'grid' }} className={`inline-notes`}>
                     <div style={inlineNotes}>
-                      {verse.verseNote && parseSubdomain() === 'future' ? (
+                      {verse.verseNote && parseSubdomain2().beta ? (
                         verse.verseNote.noteGroups.map(vNG => (
                           <VerseNoteGroupComponent noteGroup={vNG} />
                         ))

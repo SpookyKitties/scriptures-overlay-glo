@@ -8,7 +8,6 @@ export function parseLangFromUrl() {
 
   const urlLangReg = /lang\=(.+?)(\;|$)/g.exec(window.location.href);
   const urlLang = urlLangReg ? urlLangReg[1] : cookieLang;
-  console.log(urlLang);
 
   if (urlLang.trim().length === 0) {
     return 'eng';

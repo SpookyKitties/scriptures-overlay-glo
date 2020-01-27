@@ -7,7 +7,7 @@ import { HeaderComponent } from './header.component';
 import { SettingsComponent } from './SettingsComponent';
 import Helmet from 'react-helmet';
 import { MenuOverlay } from './MenuOverlay';
-import { parseSubdomain } from './parseSubdomain';
+import { parseSubdomain2 } from './parseSubdomain';
 // import { oithMain } from "../styles/typed/chapter-layout";
 const oithContentStyles: CSSProperties = {
   height: 'calc(100vh - 48px)',
@@ -21,12 +21,12 @@ export class DisclaimerComponent extends Component {
   public state: { msg: string };
 
   componentDidMount() {
-    const subdomain = parseSubdomain();
+    const subdomain = parseSubdomain2();
 
-    if (subdomain !== '') {
-      switch (subdomain) {
+    if (subdomain.settings !== '') {
+      switch (subdomain.settings) {
         case 'a':
-        case 'b': {
+        case 'june': {
           this.setState({ msg: 'This site is for evaluation purposes only.' });
           break;
         }

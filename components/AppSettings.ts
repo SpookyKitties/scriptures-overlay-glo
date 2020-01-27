@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Fuse from 'fuse.js';
 import { cloneDeep, flatten } from 'lodash';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { filter, flatMap, map, toArray } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, of } from 'rxjs';
+import { filter, flatMap, map } from 'rxjs/operators';
 import { NoteSettings } from '../oith-lib/src/processors/NoteSettings';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import {
@@ -10,9 +10,9 @@ import {
   NoteTypes,
 } from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
 import { NavigationItem } from './navigation-item';
+import { parseSubdomain2 } from './parseSubdomain';
 import { resetNotes$ } from './resetNotes';
 import { Settings } from './Settings';
-import { parseSubdomain, parseStorage } from './parseSubdomain';
 
 const flattenPrimaryManifest = (navItem: NavigationItem): NavigationItem[] => {
   if (Array.isArray(navItem.navigationItems)) {
@@ -67,12 +67,11 @@ export class AppSettings {
     if (!this[key]) {
       const lang = this.settings.lang;
 
-      const subDomain = parseSubdomain();
+      const subD = parseSubdomain2();
+
       try {
         const data = await axios.get(
-          `https://oithstorage.blob.core.windows.net/${parseStorage()}/${'eng'}-${
-            subDomain !== '' ? `${subDomain}-` : ''
-          }${fileName}.json`,
+          `${subD.storageURL}${'eng'}-${subD.settings}${fileName}.json`,
           {
             responseType: 'json',
           },
@@ -142,9 +141,10 @@ export class AppSettings {
       .subscribe();
   }
   private initNav() {
+    const subdomain = parseSubdomain2();
     of(
       axios.get(
-        `https://oithstorage.blob.core.windows.net/blobtest/${this.settings.lang}-navigation.json`,
+        `${subdomain.storageURL}${this.settings.lang}-navigation.json`,
         {
           responseType: 'json',
         },

@@ -1,23 +1,14 @@
+import axios from 'axios';
+import { flatten, groupBy as _groupBy } from 'lodash';
 import { EMPTY, forkJoin, Observable, of } from 'rxjs';
-import {
-  filter,
-  find,
-  flatMap,
-  groupBy,
-  map,
-  mergeMap,
-  toArray,
-} from 'rxjs/operators';
-import {
-  Chapter,
-  FormatGroup,
-  FormatMerged,
-  FormatText,
-  Verse,
-  VersePlaceholder,
-} from '../models/Chapter';
+import { filter, find, flatMap, map, toArray } from 'rxjs/operators';
+import { parseSubdomain2 } from '../../../components/parseSubdomain';
+import { appSettings } from '../../../components/SettingsComponent';
+import { VideoData } from '../../../components/VideoComponent';
+import { Chapter, FormatGroup, FormatText, Verse, VersePlaceholder } from '../models/Chapter';
 import { flatMap$ } from '../rx/flatMap$';
-import { VerseNote, VerseNoteGroup, Note } from '../verse-notes/verse-note';
+import { NoteCategories } from '../verse-notes/settings/note-gorup-settings';
+import { VerseNote, VerseNoteGroup } from '../verse-notes/verse-note';
 import { buildFMerged } from './buildFMerged';
 
 function findFormatGroupsWithVerseIDs(
@@ -155,7 +146,6 @@ export function highlightVerses(verses: Verse[], chapterParams: ChapterParams) {
     highlightContext(verses, chapterParams, 'context');
   }
 }
-import { groupBy as _groupBy, flatMapDeep, flatten } from 'lodash';
 
 function generateVerseNoteGroups(verseNotea?: VerseNote[]) {
   const s = verseNotea?.map(vN => {
@@ -195,11 +185,6 @@ function findAllGrpsWithName(
 
   return EMPTY;
 }
-import axios from 'axios';
-import { VideoData } from '../../../components/VideoComponent';
-import { NoteCategories } from '../verse-notes/settings/note-gorup-settings';
-import { store, appSettings } from '../../../components/SettingsComponent';
-import { parseStorage } from '../../../components/parseSubdomain';
 function prepVideos(chapter: Chapter) {
   return findAllGrpsWithName('video', chapter.body).pipe(
     map(grp => {
@@ -228,12 +213,13 @@ function prepVideos(chapter: Chapter) {
 const port = parseInt(process?.env?.PORT as string, 10) || 3000;
 
 function addRefLabel(chapter: Chapter) {
+
   return of(
     appSettings && appSettings.noteCategories
       ? of(appSettings.noteCategories)
       : of(
         axios.get(
-          `https://oithstorage.blob.core.windows.net/${parseStorage()}/${'eng'}-${'note-categories'}.json`
+          `${parseSubdomain2().storageURL}${'eng'}-${'note-categories'}.json`
           ,
           {
             responseType: 'json',
@@ -318,6 +304,9 @@ export function parseChapterParams(
   lang: string,
   host: string
 ): ChapterParams {
+  console.log(params);
+  console.log('params');
+
   const book = params['book'] as string;
   const chapterSplit = (params['chapter'] as string).split('.');
 
