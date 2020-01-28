@@ -17,6 +17,7 @@ import { scrollIntoView } from './scrollIntoView';
 import { store } from './SettingsComponent';
 import { VerseComponent } from './verse.component';
 import { VideoComponent } from './VideoComponent';
+import { MobileNotesComponent } from './mobile-notes.tsx/MobileNotesComponent';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -330,6 +331,12 @@ export class ChapterComponent extends Component {
 
   componentDidUpdate() {}
 
+  renderFuture() {
+    if (parseSubdomain().beta) {
+      return <MobileNotesComponent />;
+    }
+    return <></>;
+  }
   public render() {
     if (this.state && this.state.chapter) {
       return (
@@ -342,6 +349,8 @@ export class ChapterComponent extends Component {
               : 'manual'
           }`}
         >
+          {this.renderFuture()}
+
           <span
             onClick={() => {
               previousPage();

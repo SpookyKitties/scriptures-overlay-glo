@@ -1,22 +1,18 @@
+import { flatten } from 'lodash';
 import { Component, MouseEvent } from 'react';
+import { Chapter } from '../../oith-lib/src/models/Chapter';
 import {
-  VerseNote,
-  VerseNoteGroup,
   Note,
   NoteRef,
+  VerseNote,
+  VerseNoteGroup,
 } from '../../oith-lib/src/verse-notes/verse-note';
-import { Chapter } from '../../oith-lib/src/models/Chapter';
-import { fromEvent, forkJoin } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { useRouter } from 'next/router';
 import { gotoLink } from '../gotoLink';
-import { store, formatTagService } from '../SettingsComponent';
-import { flatMap$ } from '../../oith-lib/src/rx/flatMap$';
-import { notePhraseClick } from './notePhraseClick';
-import { flatten, uniqBy } from 'lodash';
-import { refClick } from './refClick';
 import { saveChapter } from '../note-offsets/saveChapter';
-import { resetLiveVerse } from '../note-offsets/addOffsets';
+import { formatTagService, store } from '../SettingsComponent';
+import { notePhraseClick } from './notePhraseClick';
+import { refClick } from './refClick';
+import { MobileNotesComponent } from '../mobile-notes.tsx/MobileNotesComponent';
 
 type VNProps = {
   chapter?: Chapter;
@@ -156,25 +152,6 @@ function sortVerseNoteGroups(
   return getFirstOffset(verseNoteGroupA) - getFirstOffset(verseNoteGroupB);
 }
 
-function renderVerseNote(verseNote: VerseNote) {
-  if (verseNote.noteGroups) {
-    return (
-      <div
-        className={`verse-note ${verseNote.vis ? '' : 'none'}`}
-        id={verseNote.id}
-      >
-        <p className="short-title">{generateShortTitle(verseNote)}</p>
-        {verseNote.noteGroups
-          .sort((a, b) => sortVerseNoteGroups(a, b))
-          .map(noteGroup => (
-            <VerseNoteGroupComponent noteGroup={noteGroup} />
-          ))}
-      </div>
-    );
-  }
-  return <></>;
-}
-
 type VerseNoteState = { verseNote: VerseNote };
 
 export class VerseNoteComponent extends Component<VerseNoteState> {
@@ -211,48 +188,10 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
   }
 }
 
-import { testNotes } from './1-ne-annotations.json';
 export class VerseNotesShellComponent extends Component<VNProps> {
   public state: { chapter: Chapter };
 
-  componentDidMount() {
-    // store.chapter
-    //   .pipe(
-    //     filter(o => o !== undefined),
-    //     map(chapter => {
-    //       this.setState({ chapter: chapter });
-    //     }),
-    //   )
-    //   .subscribe();
-    // store.chapter
-    //   .pipe(
-    //     filter(o => o !== undefined),
-    //     filter(o => o.id.includes('-1-ne-')),
-    //     map(chapter => {
-    //       testNotes
-    //         .filter(o => o.highlight.content.length > 0)
-    //         .map(testNote => {
-    //           testNote.highlight.content.map(content => {
-    //             const split = content.uri.split('.');
-    //             try {
-    //               const verseIDReg = /(^p|^)(.+)/.exec(split[split.length - 1]);
-    //               if (verseIDReg) {
-    //                 const verseNote = chapter.verseNotes.find(v =>
-    //                   v.id.includes(`-${verseIDReg[2]}-`),
-    //                 );
-    //                 if(verseNote)
-    //                 {
-    //                   const note = new Note(testNote.id)
-    //                 }
-    //               }
-    //             } catch (error) {}
-    //           });
-    //         });
-    //     }),
-    //   )
-    //   .subscribe();
-  }
-
+  componentDidMount() {}
   render() {
     if (this.props.chapter) {
       return (
@@ -263,29 +202,12 @@ export class VerseNotesShellComponent extends Component<VNProps> {
             );
             if (verseNote) {
               return <VerseNoteComponent verseNote={verseNote} />;
-              // return renderVerseNote(verseNote);
             }
           })}
           <div className="white-space"></div>
         </div>
       );
     }
-    // if (this.state && this.state.chapter) {
-    //   return (
-    //     <div className="verse-notes">
-    //       {this.state.chapter.verses.map(verse => {
-    //         const verseNote = this.state.chapter.verseNotes.find(vN =>
-    //           vN.id.includes(`-${verse.id}-verse-notes`),
-    //         );
-    //         if (verseNote) {
-    //           return <VerseNoteComponent verseNote={verseNote} />;
-    //           // return renderVerseNote(verseNote);
-    //         }
-    //       })}
-    //       <div className="white-space"></div>
-    //     </div>
-    //   );
-    // }
 
     return <div className="verse-notes"></div>;
   }

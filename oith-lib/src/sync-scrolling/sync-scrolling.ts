@@ -1,12 +1,17 @@
 import { of, Subject, forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, flatMap } from 'rxjs/operators';
+import { store } from '../../../components/SettingsComponent';
 
 export const syncScrolling$ = new Subject();
 
 function syncScrolling() {
   syncScrolling$
     .pipe(
-      map(() => {
+      map(() => store.chapter.pipe(take(1))),
+      flatMap(o => o),
+      map(chapter => {
+        console.log(chapter);
+
         const verses = Array.from(document.querySelectorAll('.verse'));
         const chapterElement = document.querySelector('.chapter-loader');
         if (chapterElement) {

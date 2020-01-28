@@ -63,48 +63,7 @@ export class VerseComponent extends Component<VerseProps> {
                 <p id={verse.id} className={classList} {...verse.attrs}>
                   {renderFormatGroups(verse.grps)}
                 </p>
-                {/* {verse.verseNote && parseSubdomain() === 'future' ? (
-                  <div className={`verse-note-cards`}>
-                    {verse.verseNote.noteGroups
-                      .filter(ng => ng.formatTag.visible)
-                      .map(vNG => {
-                        return (
-                          <div className={`card`}>
-                            <div className={'card'}>
-                              <header className={'card-header'}>
-                                <p className={'card-header-title'}>Component</p>
-                                <a
-                                  href="#"
-                                  className={'card-header-icon'}
-                                  aria-label="more options"
-                                >
-                                  <span className={'icon'}>
-                                    <i
-                                      className={'fas fa-angle-down'}
-                                      aria-hidden="true"
-                                    ></i>
-                                  </span>
-                                </a>
-                              </header>
-
-                              <div className={'card-content'}>
-                                <div className={'content'}>
-                                  Lorem ipsum dolor sit amet, consectetur
-                                  adipiscing elit. Phasellus nec iaculis mauris.
-                                  <a href="#">@bulmaio</a>. <a href="#">#css</a>{' '}
-                                  <a href="#">#responsive</a>
-                                  <br />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                ) : (
-                  <></>
-                )} */}
-                {verse.verseNote && parseSubdomain().beta ? (
+                {/* {verse.verseNote && parseSubdomain().beta ? (
                   <div style={{ display: 'grid' }} className={`inline-notes`}>
                     <div style={inlineNotes}>
                       {verse.verseNote && parseSubdomain().beta ? (
@@ -119,7 +78,7 @@ export class VerseComponent extends Component<VerseProps> {
                   </div>
                 ) : (
                   <></>
-                )}
+                )} */}
               </Fragment>
             );
             break;
