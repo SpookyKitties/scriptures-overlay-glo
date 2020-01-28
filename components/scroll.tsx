@@ -1,6 +1,6 @@
 import { filter, map, take } from 'rxjs/operators';
-import { store } from '../../components/SettingsComponent';
-import { syncedVerse } from '../../components/mobile-notes.tsx/MobileNotesComponent';
+import { store } from './SettingsComponent';
+import { syncedVerse } from './mobile-notes.tsx/MobileNotesComponent';
 
 function resetVerseFocus() {
   Array.from(document.querySelectorAll('.verse.focused')).map(v =>

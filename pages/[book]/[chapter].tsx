@@ -23,7 +23,7 @@ import {
   ChapterParams,
   parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
-import { scroll } from './scroll';
+import { scroll } from '../../components/scroll';
 
 export type ImgAttr = {
   src: string;
