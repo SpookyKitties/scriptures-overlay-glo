@@ -9,7 +9,9 @@ function resetVerseFocus() {
 }
 
 function setVerseFocus(verseID: string) {
-  const verseElem = document.querySelector(`.verse[id="${verseID}"]`);
+  const verseElem = document.querySelector(
+    `.body-block .verse[id="${verseID}"]`,
+  );
 
   if (verseElem) {
     verseElem.classList.add('focused');
