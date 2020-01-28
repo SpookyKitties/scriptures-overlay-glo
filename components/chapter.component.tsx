@@ -12,7 +12,7 @@ import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTag } from './format_tag';
 import { NavigationItem } from './navigation-item';
 import { nextPage, previousPage } from './nextPage';
-import { parseSubdomain2 } from './parseSubdomain';
+import { parseSubdomain } from './parseSubdomain';
 import { scrollIntoView } from './scrollIntoView';
 import { store } from './SettingsComponent';
 import { VerseComponent } from './verse.component';
@@ -128,7 +128,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           attrs['src'] === undefined;
           return (
             <div className="img-container">
-              <img {...attrs} src={`${parseSubdomain2().storageURL}${src}`} />
+              <img {...attrs} src={`${parseSubdomain().storageURL}${src}`} />
             </div>
           );
         }

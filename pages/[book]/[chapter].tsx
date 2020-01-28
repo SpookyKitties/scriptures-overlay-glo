@@ -11,7 +11,7 @@ import { langReq } from '../../app/langReq';
 import { ChapterComponent } from '../../components/chapter.component';
 import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
 import { NavigationComponenet } from '../../components/navigation/navigation.component';
-import { parseSubdomain2 } from '../../components/parseSubdomain';
+import { parseSubdomain } from '../../components/parseSubdomain';
 import { appSettings, store } from '../../components/SettingsComponent';
 import { titleService } from '../../components/TitleComponent';
 import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
@@ -178,7 +178,7 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 async function getChapterRemote(id: string, params: ChapterParams) {
   try {
     const data = await axios.get(
-      `${parseSubdomain2(params.host).storageURL}${id}.json`,
+      `${parseSubdomain(params.host).storageURL}${id}.json`,
     );
 
     const chapter = data.data as Chapter;

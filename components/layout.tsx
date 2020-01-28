@@ -7,7 +7,7 @@ import { HeaderComponent } from './header.component';
 import { SettingsComponent } from './SettingsComponent';
 import Helmet from 'react-helmet';
 import { MenuOverlay } from './MenuOverlay';
-import { parseSubdomain2 } from './parseSubdomain';
+import { parseSubdomain } from './parseSubdomain';
 // import { oithMain } from "../styles/typed/chapter-layout";
 const oithContentStyles: CSSProperties = {
   height: 'calc(100vh - 48px)',
@@ -21,7 +21,7 @@ export class DisclaimerComponent extends Component {
   public state: { msg: string };
 
   componentDidMount() {
-    const subdomain = parseSubdomain2();
+    const subdomain = parseSubdomain();
 
     if (subdomain.settings !== '') {
       switch (subdomain.settings) {

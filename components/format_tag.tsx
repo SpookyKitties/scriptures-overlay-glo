@@ -5,7 +5,7 @@ import { delay, filter, map, take } from 'rxjs/operators';
 import { FormatMerged } from '../oith-lib/src/models/Chapter';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
-import { parseSubdomain2 } from './parseSubdomain';
+import { parseSubdomain } from './parseSubdomain';
 import { appSettings, formatTagService, store } from './SettingsComponent';
 
 export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
@@ -177,7 +177,7 @@ export class FormatTag extends Component<{
               className={`ftag-speaker`}
               onClick={() => {
                 try {
-                  const fileName = `${parseSubdomain2()}${flatten(
+                  const fileName = `${parseSubdomain()}${flatten(
                     (this.state.formatMerged
                       .formatTags as FormatTagNoteOffsets[])
                       .filter(n => Array.isArray(n.notes))

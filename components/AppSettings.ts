@@ -10,7 +10,7 @@ import {
   NoteTypes,
 } from '../oith-lib/src/verse-notes/settings/note-gorup-settings';
 import { NavigationItem } from './navigation-item';
-import { parseSubdomain2 } from './parseSubdomain';
+import { parseSubdomain } from './parseSubdomain';
 import { resetNotes$ } from './resetNotes';
 import { Settings } from './Settings';
 
@@ -67,7 +67,7 @@ export class AppSettings {
     if (!this[key]) {
       const lang = this.settings.lang;
 
-      const subD = parseSubdomain2();
+      const subD = parseSubdomain();
 
       try {
         const data = await axios.get(
@@ -141,7 +141,7 @@ export class AppSettings {
       .subscribe();
   }
   private initNav() {
-    const subdomain = parseSubdomain2();
+    const subdomain = parseSubdomain();
     of(
       axios.get(
         `${subdomain.storageURL}${this.settings.lang}-navigation.json`,

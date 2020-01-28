@@ -2,7 +2,7 @@ import axios from 'axios';
 import { flatten, groupBy as _groupBy } from 'lodash';
 import { EMPTY, forkJoin, Observable, of } from 'rxjs';
 import { filter, find, flatMap, map, toArray } from 'rxjs/operators';
-import { parseSubdomain2 } from '../../../components/parseSubdomain';
+import { parseSubdomain } from '../../../components/parseSubdomain';
 import { appSettings } from '../../../components/SettingsComponent';
 import { VideoData } from '../../../components/VideoComponent';
 import { Chapter, FormatGroup, FormatText, Verse, VersePlaceholder } from '../models/Chapter';
@@ -219,7 +219,7 @@ function addRefLabel(chapter: Chapter) {
       ? of(appSettings.noteCategories)
       : of(
         axios.get(
-          `${parseSubdomain2().storageURL}${'eng'}-${'note-categories'}.json`
+          `${parseSubdomain().storageURL}${'eng'}-${'note-categories'}.json`
           ,
           {
             responseType: 'json',
