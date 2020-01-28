@@ -54,7 +54,6 @@ function clearOffsets(noteGroup: VerseNoteGroup) {
     saveChapter().subscribe();
   }
 }
-
 export class VerseNoteGroupComponent extends Component<{
   noteGroup: VerseNoteGroup;
 }> {

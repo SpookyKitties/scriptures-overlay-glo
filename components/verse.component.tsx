@@ -59,33 +59,37 @@ export class VerseComponent extends Component<VerseProps> {
         switch (elementName) {
           case 'p': {
             elem = (
-              <Fragment>
-                <p id={verse.id} className={classList} {...verse.attrs}>
-                  {renderFormatGroups(verse.grps)}
-                </p>
-                {/* {verse.verseNote && parseSubdomain().beta ? (
-                  <div style={{ display: 'grid' }} className={`inline-notes`}>
-                    <div style={inlineNotes}>
-                      {verse.verseNote && parseSubdomain().beta ? (
-                        verse.verseNote.noteGroups.map(vNG => (
-                          <VerseNoteGroupComponent noteGroup={vNG} />
-                        ))
-                      ) : (
-                        <></>
-                      )}
-                      <div className={`note-whitespace`}></div>
-                    </div>
-                  </div>
-                ) : (
-                  <></>
-                )} */}
-              </Fragment>
+              <p id={verse.id} className={` ${classList}`} {...verse.attrs}>
+                {renderFormatGroups(verse.grps)}
+              </p>
+              // <Fragment>
+              //   {verse.verseNote && parseSubdomain().beta ? (
+              //     <div style={{ display: 'grid' }} className={`inline-notes`}>
+              //       <div style={inlineNotes}>
+              //         {verse.verseNote && parseSubdomain().beta ? (
+              //           verse.verseNote.noteGroups.map(vNG => (
+              //             <VerseNoteGroupComponent noteGroup={vNG} />
+              //           ))
+              //         ) : (
+              //           <></>
+              //         )}
+              //         <div className={`note-whitespace`}></div>
+              //       </div>
+              //     </div>
+              //   ) : (
+              //     <></>
+              //   )}
+              // </Fragment>
             );
             break;
           }
           case 'figure': {
             elem = (
-              <figure {...verse.attrs} id={verse.id} className={classList}>
+              <figure
+                {...verse.attrs}
+                id={verse.id}
+                className={` ${classList}`}
+              >
                 {renderFormatGroups(verse.grps)}
               </figure>
             );
@@ -93,7 +97,7 @@ export class VerseComponent extends Component<VerseProps> {
           }
           case 'h1': {
             elem = (
-              <h1 {...verse.attrs} id={verse.id} className={classList}>
+              <h1 {...verse.attrs} id={verse.id} className={` ${classList}`}>
                 {renderFormatGroups(verse.grps)}
               </h1>
             );
@@ -101,7 +105,7 @@ export class VerseComponent extends Component<VerseProps> {
           }
           case 'h2': {
             elem = (
-              <h2 {...verse.attrs} id={verse.id} className={classList}>
+              <h2 {...verse.attrs} id={verse.id} className={` ${classList}`}>
                 {renderFormatGroups(verse.grps)}
               </h2>
             );
@@ -109,7 +113,7 @@ export class VerseComponent extends Component<VerseProps> {
           }
           case 'h3': {
             elem = (
-              <h3 {...verse.attrs} id={verse.id} className={classList}>
+              <h3 {...verse.attrs} id={verse.id} className={` ${classList}`}>
                 {renderFormatGroups(verse.grps)}
               </h3>
             );
@@ -117,7 +121,7 @@ export class VerseComponent extends Component<VerseProps> {
           }
           case 'h4': {
             elem = (
-              <h4 {...verse.attrs} id={verse.id} className={classList}>
+              <h4 {...verse.attrs} id={verse.id} className={` ${classList}`}>
                 {renderFormatGroups(verse.grps)}
               </h4>
             );
@@ -125,7 +129,7 @@ export class VerseComponent extends Component<VerseProps> {
           }
           case 'dt': {
             elem = (
-              <dt {...verse.attrs} id={verse.id} className={classList}>
+              <dt {...verse.attrs} id={verse.id} className={` ${classList}`}>
                 {renderFormatGroups(verse.grps)}
               </dt>
             );

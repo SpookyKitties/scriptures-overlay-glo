@@ -33,8 +33,6 @@ export class MobileNotesComponent extends Component {
         this.setState({ verseNote: verse });
       });
     syncedVerse.subscribe(verse => {
-      console.log(verse);
-
       this.setState({ verseNote: verse });
     });
   }

@@ -23,50 +23,12 @@ import {
   ChapterParams,
   parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
-import { syncedVerse } from '../../components/mobile-notes.tsx/MobileNotesComponent';
+import { scroll } from './scroll';
 
 export type ImgAttr = {
   src: string;
   alt: string;
 };
-
-function scroll() {
-  const verses = Array.from(document.querySelectorAll('.verse'));
-  const chapterElement = document.querySelector('.chapter-loader');
-  if (chapterElement) {
-    const y = chapterElement.getBoundingClientRect().top;
-    const verse = verses.find(
-      e => e.getBoundingClientRect().top + 10 >= y === true,
-    );
-    if (verse) {
-      store.chapter
-        .pipe(
-          take(1),
-          filter(o => o !== undefined),
-          map(chapter => {
-            const tempID = /^(p)(.+)$/g.exec(verse.id);
-            const id = tempID ? tempID[2] : verse.id;
-            const v = chapter.verses.find(v => v.id === id);
-            const vn = chapter.verseNotes.find(vn =>
-              vn.id.includes(`-${id}-verse-note`),
-            );
-
-            if (syncedVerse) {
-              syncedVerse.next(vn);
-            }
-            const verseNote = document.querySelector(
-              `[id*='-${id}-verse-note']`,
-            );
-
-            if (verseNote) {
-              verseNote.scrollIntoView();
-            }
-          }),
-        )
-        .subscribe();
-    }
-  }
-}
 
 export function reInitChapter() {
   store.chapter

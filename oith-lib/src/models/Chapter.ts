@@ -18,6 +18,7 @@ export class Verse {
   public grps: FormatGroup[];
   public attrs: {};
   public verseNote?: VerseNote;
+  public focused?: boolean;
   public constructor(
     id: string,
     text: string,
