@@ -51,7 +51,9 @@ function scroll() {
               vn.id.includes(`-${id}-verse-note`),
             );
 
-            syncedVerse.next(vn);
+            if (syncedVerse) {
+              syncedVerse.next(vn);
+            }
             const verseNote = document.querySelector(
               `[id*='-${id}-verse-note']`,
             );
