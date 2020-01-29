@@ -53,7 +53,11 @@ export class HeaderComponent extends Component {
         <div className={`title`}>
           <TitleComponent />
         </div>
-        <div className={`"oith-header-item" `} onClick={() => this.showNotes()}>
+        <div
+          className={`"oith-header-item" `}
+          id={`primaryNoteBarBtn`}
+          onClick={() => this.showNotes()}
+        >
           <svg
             width="24"
             height="24"

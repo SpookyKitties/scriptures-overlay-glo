@@ -339,16 +339,51 @@ body {
     }
   }
 
+  &.disclaimer {
+    .oith-content-parent {
+      @media screen and (max-width: 500px) {
+        &.off-notes {
+          .note-component {
+            bottom: 32px;
+            border-bottom: none !important;
+          }
+        }
+      }
+    }
+  }
+  .note-component {
+    display: none;
+  }
+  @media screen and (max-width: 500px) {
+    #primaryNoteBarBtn svg {
+      display: none !important;
+    }
+  }
   .oith-content-parent {
     @media screen and (max-width: 500px) {
+      #primaryNoteBarBtn {
+        display: none !important;
+      }
       display: grid;
       grid-template-rows: calc(100vh) 0px;
+      .note-component {
+        display: block !important;
+      }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 300px) 300px;
+        grid-template-rows: calc(100vh - 48px - 45%) 45%;
       }
       &.small-notes {
         grid-template-rows: calc(100vh - 48px - 200px) 200px;
       }
+      &.off-notes {
+        .note-component {
+          bottom: 0px;
+        }
+        .verse-notes {
+          display: initial !important;
+        }
+      }
+
       @include mobileNav();
       .verse-notes {
         border-top: solid;

@@ -13,6 +13,7 @@ import { formatTagService, store } from '../SettingsComponent';
 import { notePhraseClick } from './notePhraseClick';
 import { refClick } from './refClick';
 import { MobileNotesComponent } from '../mobile-notes.tsx/MobileNotesComponent';
+import { parseSubdomain } from '../parseSubdomain';
 
 type VNProps = {
   chapter?: Chapter;
@@ -191,10 +192,18 @@ export class VerseNotesShellComponent extends Component<VNProps> {
   public state: { chapter: Chapter };
 
   componentDidMount() {}
+
+  renderFuture() {
+    if (parseSubdomain().beta) {
+      return <MobileNotesComponent />;
+    }
+    return <></>;
+  }
   render() {
     if (this.props.chapter) {
       return (
         <div className="verse-notes">
+          {this.renderFuture()}
           {this.props.chapter.verses.map(verse => {
             const verseNote = this.props.chapter.verseNotes.find(vN =>
               vN.id.includes(`-${verse.id}-verse-notes`),

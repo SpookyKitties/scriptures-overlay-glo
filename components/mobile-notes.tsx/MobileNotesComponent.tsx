@@ -7,15 +7,53 @@ import { renderImageIcon } from './renderImageIcon';
 import { renderCloseIcon } from './renderCloseIcon';
 import { renderDocIcon } from './renderDocIcon';
 import { VerseNoteGroupComponent } from '../verse-notes/verse-notes-shell';
+import { appSettings } from '../SettingsComponent';
 
 export let syncedVerse: BehaviorSubject<VerseNote>;
 
 export let updateVisibility: BehaviorSubject<boolean>;
 
+export function renderJSTIcon() {
+  return 'JST';
+}
+export function renderWordsIcon() {
+  return '🔤';
+}
+
+export function renderScripturesIcon() {
+  return '🧾';
+}
+
+export function renderContextIcon() {
+  return '💡';
+}
+export function renderPronunciationIcon() {
+  return '🔊';
+}
+
+const noteComponentStyles: CSSProperties = {
+  position: 'absolute',
+  left: 0,
+  width: '100vw',
+  backgroundColor: 'inherit',
+  borderBottom: 'solid',
+  borderBottomWidth: '1px',
+  borderBottomColor: '#aeb6b6',
+  height: '32px',
+};
+
 const notesComponentHeaderCSS: CSSProperties = {
   display: 'grid',
-  width: '10vw',
-  gridTemplateColumns: '32px 32px 32px',
+  width: '300px',
+  height: '32px',
+  gridAutoFlow: 'column',
+  maxWidth: 'calc(100vw - 48px)',
+};
+
+const iconStyle: CSSProperties = {
+  display: 'grid',
+  justifyContent: 'center',
+  alignContent: 'center',
 };
 
 export class MobileNotesComponent extends Component {
@@ -45,30 +83,34 @@ export class MobileNotesComponent extends Component {
     return <></>;
   }
 
+  private displayNotes() {
+    appSettings.displayNotes();
+  }
+
   public render() {
     if (this.state && this.state.verseNote) {
     }
     return (
-      <div
-        style={{ position: 'fixed', top: 0, left: 500 }}
-        className={`note-component`}
-      >
+      <div style={noteComponentStyles} className={`note-component`}>
         <div
           style={notesComponentHeaderCSS}
           className={`notes-component-header`}
         >
-          <span>{renderDocIcon()}</span>
-          <span>{renderImageIcon()}</span>
+          <span style={iconStyle}>{renderWordsIcon()}</span>
+          <span style={iconStyle}>{renderContextIcon()}</span>
+          <span style={iconStyle}>{renderScripturesIcon()}</span>
+          <span style={iconStyle}>{renderPronunciationIcon()}</span>
+          <span style={iconStyle}>{renderJSTIcon()}</span>
+          <span style={iconStyle}>{renderImageIcon()}</span>
           <span
             className={`btn-close`}
             style={{ position: 'absolute', right: 0 }}
+            onClick={() => this.displayNotes()}
           >
             {renderCloseIcon()}
           </span>
         </div>
-        {this.renderNotes()}
       </div>
     );
-    return <>asdf</>;
   }
 }

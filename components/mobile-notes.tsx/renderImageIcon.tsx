@@ -1,4 +1,5 @@
 export function renderImageIcon() {
+  return '🎫';
   return (
     <svg
       width="32px"

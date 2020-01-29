@@ -23,7 +23,11 @@ export class DisclaimerComponent extends Component {
   componentDidMount() {
     const subdomain = parseSubdomain();
 
-    if (subdomain.settings !== '') {
+    if (subdomain.disclaimer) {
+      const oithMain = document.querySelector('.oith-main');
+      if (oithMain) {
+        oithMain.classList.add('disclaimer');
+      }
       switch (subdomain.settings) {
         case 'a':
         case 'june': {
@@ -51,6 +55,10 @@ export class DisclaimerComponent extends Component {
             paddingTop: '3px',
             paddingBottom: '3px',
             backgroundColor: 'white',
+            height: '32px',
+            fontSize: '13px',
+            display: 'grid',
+            alignItems: 'center',
           }}
         >
           {this.state.msg}
@@ -67,7 +75,7 @@ const Layout: React.FunctionComponent = ({
   // shortTitle
 }) => {
   return (
-    <div id="oith-main" className={`oith-main`}>
+    <div id="oith-main" className={`oith-main  `}>
       <Helmet>
         <html lang="en" />
         {/* <title>{store ? store.title$.toPromise() : "hhh"}</title> */}

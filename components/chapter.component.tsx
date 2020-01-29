@@ -331,12 +331,6 @@ export class ChapterComponent extends Component {
 
   componentDidUpdate() {}
 
-  renderFuture() {
-    if (parseSubdomain().beta) {
-      return <MobileNotesComponent />;
-    }
-    return <></>;
-  }
   public render() {
     if (this.state && this.state.chapter) {
       return (
@@ -349,8 +343,6 @@ export class ChapterComponent extends Component {
               : 'manual'
           }`}
         >
-          {this.renderFuture()}
-
           <span
             onClick={() => {
               previousPage();
