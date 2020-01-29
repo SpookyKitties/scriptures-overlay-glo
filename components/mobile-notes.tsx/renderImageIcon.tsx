@@ -1,5 +1,11 @@
-export function renderImageIcon() {
-  return '🎫';
+import { VerseNote } from '../../oith-lib/src/verse-notes/verse-note';
+import { iconStyle } from './MobileNotesComponent';
+
+export function renderImageIcon(verseNote?: VerseNote) {
+  if (typeof verseNote === 'undefined') {
+    return '';
+  }
+  return <span style={iconStyle}>🎞</span>;
   return (
     <svg
       width="32px"

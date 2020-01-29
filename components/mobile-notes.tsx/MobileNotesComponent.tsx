@@ -13,21 +13,40 @@ export let syncedVerse: BehaviorSubject<VerseNote>;
 
 export let updateVisibility: BehaviorSubject<boolean>;
 
-export function renderJSTIcon() {
-  return 'JST';
+export function renderJSTIcon(verseNote?: VerseNote) {
+  if (typeof verseNote === 'undefined') {
+    return '';
+  }
+  return <span style={iconStyle}>JST</span>;
 }
-export function renderWordsIcon() {
-  return '🔤';
+export function renderWordsIcon(verseNote?: VerseNote) {
+  if (typeof verseNote === 'undefined') {
+    return '';
+  }
+  return <span style={iconStyle}>🔠</span>;
 }
 
-export function renderScripturesIcon() {
-  return '🧾';
+export function renderScripturesIcon(verseNote?: VerseNote) {
+  if (typeof verseNote === 'undefined') {
+    return '';
+  }
+  return <span style={iconStyle}>🧾</span>;
+
+  return '';
 }
 
-export function renderContextIcon() {
-  return '💡';
+export function renderContextIcon(verseNote?: VerseNote) {
+  if (typeof verseNote === 'undefined') {
+    return '';
+  }
+  return <span style={iconStyle}>💡</span>;
 }
-export function renderPronunciationIcon() {
+export function renderPronunciationIcon(verseNote?: VerseNote) {
+  if (typeof verseNote === 'undefined') {
+    return '';
+  }
+  return <span style={iconStyle}>🔊</span>;
+
   return '🔊';
 }
 
@@ -50,10 +69,11 @@ const notesComponentHeaderCSS: CSSProperties = {
   maxWidth: 'calc(100vw - 48px)',
 };
 
-const iconStyle: CSSProperties = {
+export const iconStyle: CSSProperties = {
   display: 'grid',
   justifyContent: 'center',
   alignContent: 'center',
+  width: '32px',
 };
 
 export class MobileNotesComponent extends Component {
@@ -96,12 +116,36 @@ export class MobileNotesComponent extends Component {
           style={notesComponentHeaderCSS}
           className={`notes-component-header`}
         >
-          <span style={iconStyle}>{renderWordsIcon()}</span>
-          <span style={iconStyle}>{renderContextIcon()}</span>
-          <span style={iconStyle}>{renderScripturesIcon()}</span>
-          <span style={iconStyle}>{renderPronunciationIcon()}</span>
-          <span style={iconStyle}>{renderJSTIcon()}</span>
-          <span style={iconStyle}>{renderImageIcon()}</span>
+          {renderWordsIcon(
+            this.state && this.state.verseNote
+              ? this.state.verseNote
+              : undefined,
+          )}
+          {renderContextIcon(
+            this.state && this.state.verseNote
+              ? this.state.verseNote
+              : undefined,
+          )}
+          {renderScripturesIcon(
+            this.state && this.state.verseNote
+              ? this.state.verseNote
+              : undefined,
+          )}
+          {renderPronunciationIcon(
+            this.state && this.state.verseNote
+              ? this.state.verseNote
+              : undefined,
+          )}
+          {renderJSTIcon(
+            this.state && this.state.verseNote
+              ? this.state.verseNote
+              : undefined,
+          )}
+          {renderImageIcon(
+            this.state && this.state.verseNote
+              ? this.state.verseNote
+              : undefined,
+          )}
           <span
             className={`btn-close`}
             style={{ position: 'absolute', right: 0 }}
