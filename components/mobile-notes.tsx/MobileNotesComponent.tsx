@@ -90,7 +90,9 @@ const notesComponentHeaderCSS: CSSProperties = {
   display: 'grid',
   width: '300px',
   height: '32px',
-  gridAutoFlow: 'column',
+  // gridAutoFlow: 'column',
+  gridTemplateColumns: '32px 32px 32px 32px 32px 32px',
+  justifyContent: 'center',
   maxWidth: 'calc(100vw - 48px)',
 };
 
@@ -129,8 +131,6 @@ export class MobileNotesComponent extends Component {
         this.setState({ verseNote: verse });
       });
     syncedVerse.subscribe(verseNote => {
-      console.log(this.flattenNotes(verseNote));
-
       this.setState({ flatNotes: this.flattenNotes(verseNote) });
       this.setState({ verseNote: verseNote });
     });

@@ -17,6 +17,12 @@ function setVerseFocus(verseID: string) {
     verseElem.classList.add('focused');
   }
 }
+export function scrollTop(selector: string, count: number) {
+  const elem = document.querySelector(selector);
+  if (elem) {
+    elem.scrollTop = elem.scrollTop + count;
+  }
+}
 
 export function scroll() {
   const verses = Array.from(document.querySelectorAll('.verse'));
@@ -48,7 +54,7 @@ export function scroll() {
             );
             if (verseNote) {
               verseNote.scrollIntoView();
-              verseNote.scrollTop = verseNote.scrollTop - 32;
+              scrollTop('.verse-notes', -32);
             }
           }),
         )
