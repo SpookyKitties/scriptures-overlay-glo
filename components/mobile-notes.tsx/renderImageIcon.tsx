@@ -1,11 +1,14 @@
-import { VerseNote } from '../../oith-lib/src/verse-notes/verse-note';
-import { iconStyle } from './MobileNotesComponent';
+import { VerseNote, NoteRef } from '../../oith-lib/src/verse-notes/verse-note';
+import { iconStyle, hasNote } from './MobileNotesComponent';
+import { audioVideo } from '../note-category-icons.json';
+export function renderImageIcon(flatNotes?: NoteRef[]) {
+  let className = `${!hasNote(audioVideo, flatNotes) ? 'opaque-icons' : ''}`;
 
-export function renderImageIcon(verseNote?: VerseNote) {
-  if (typeof verseNote === 'undefined') {
-    return '';
-  }
-  return <span style={iconStyle}>🎞</span>;
+  return (
+    <span style={iconStyle} className={`${className}`}>
+      🎞
+    </span>
+  );
   return (
     <svg
       width="32px"

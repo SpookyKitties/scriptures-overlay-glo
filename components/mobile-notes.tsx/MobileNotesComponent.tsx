@@ -1,53 +1,78 @@
+import { flatten } from 'lodash';
 import { Component, CSSProperties } from 'react';
-import { Verse } from '../../oith-lib/src/models/Chapter';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { VerseNote } from '../../oith-lib/src/verse-notes/verse-note';
-import { renderImageIcon } from './renderImageIcon';
-import { renderCloseIcon } from './renderCloseIcon';
-import { renderDocIcon } from './renderDocIcon';
-import { VerseNoteGroupComponent } from '../verse-notes/verse-notes-shell';
+import { NoteRef, VerseNote } from '../../oith-lib/src/verse-notes/verse-note';
+import {
+  pronunciation,
+  context,
+  scriptures,
+  jst,
+  words,
+} from '../note-category-icons.json';
 import { appSettings } from '../SettingsComponent';
+import { VerseNoteGroupComponent } from '../verse-notes/verse-notes-shell';
+import { renderCloseIcon } from './renderCloseIcon';
+import { renderImageIcon } from './renderImageIcon';
 
 export let syncedVerse: BehaviorSubject<VerseNote>;
 
 export let updateVisibility: BehaviorSubject<boolean>;
 
-export function renderJSTIcon(verseNote?: VerseNote) {
-  if (typeof verseNote === 'undefined') {
-    return '';
-  }
-  return <span style={iconStyle}>JST</span>;
+export function renderJSTIcon(flatNotes?: NoteRef[]) {
+  let className = `${!hasNote(jst, flatNotes) ? 'opaque-icons' : ''}`;
+
+  return (
+    <span style={iconStyle} className={`${className}`}>
+      JST
+    </span>
+  );
 }
-export function renderWordsIcon(verseNote?: VerseNote) {
-  if (typeof verseNote === 'undefined') {
-    return '';
-  }
-  return <span style={iconStyle}>🔠</span>;
+export function renderWordsIcon(flatNotes?: NoteRef[]) {
+  let className = `${!hasNote(words, flatNotes) ? 'opaque-icons' : ''}`;
+
+  return (
+    <span style={iconStyle} className={`${className}`}>
+      🔠
+    </span>
+  );
 }
 
-export function renderScripturesIcon(verseNote?: VerseNote) {
-  if (typeof verseNote === 'undefined') {
-    return '';
-  }
-  return <span style={iconStyle}>🧾</span>;
+export function renderScripturesIcon(flatNotes?: NoteRef[]) {
+  let className = `${!hasNote(scriptures, flatNotes) ? 'opaque-icons' : ''}`;
+
+  return (
+    <span style={iconStyle} className={`${className}`}>
+      🧾
+    </span>
+  );
 
   return '';
 }
 
-export function renderContextIcon(verseNote?: VerseNote) {
-  if (typeof verseNote === 'undefined') {
-    return '';
-  }
-  return <span style={iconStyle}>💡</span>;
-}
-export function renderPronunciationIcon(verseNote?: VerseNote) {
-  if (typeof verseNote === 'undefined') {
-    return '';
-  }
-  return <span style={iconStyle}>🔊</span>;
+export function renderContextIcon(flatNotes?: NoteRef[]) {
+  let className = `${!hasNote(context, flatNotes) ? 'opaque-icons' : ''}`;
 
-  return '🔊';
+  return (
+    <span style={iconStyle} className={`${className}`}>
+      💡
+    </span>
+  );
+}
+
+export function hasNote(nums: number[], noteRefs?: NoteRef[]) {
+  return noteRefs
+    ? noteRefs.find(ref => nums.includes(ref.category)) !== undefined
+    : false;
+}
+export function renderPronunciationIcon(flatNotes?: NoteRef[]) {
+  let className = `${!hasNote(pronunciation, flatNotes) ? 'opaque-icons' : ''}`;
+
+  return (
+    <span style={iconStyle} className={`${className}`}>
+      🔊
+    </span>
+  );
 }
 
 const noteComponentStyles: CSSProperties = {
@@ -78,8 +103,21 @@ export const iconStyle: CSSProperties = {
 
 export class MobileNotesComponent extends Component {
   public state: {
+    flatNotes?: NoteRef[];
     verseNote?: VerseNote;
   };
+
+  private flattenNotes(verseNote?: VerseNote) {
+    if (verseNote) {
+      return flatten(
+        verseNote.notes
+          .filter(note => note.formatTag.visible)
+          .map(note => note.ref.filter(ref => ref.vis)),
+      );
+    }
+    return [];
+  }
+
   public componentDidMount() {
     syncedVerse = new BehaviorSubject(undefined);
     updateVisibility = new BehaviorSubject(true);
@@ -90,8 +128,11 @@ export class MobileNotesComponent extends Component {
         this.setState({ verse: undefined });
         this.setState({ verseNote: verse });
       });
-    syncedVerse.subscribe(verse => {
-      this.setState({ verseNote: verse });
+    syncedVerse.subscribe(verseNote => {
+      console.log(this.flattenNotes(verseNote));
+
+      this.setState({ flatNotes: this.flattenNotes(verseNote) });
+      this.setState({ verseNote: verseNote });
     });
   }
   public renderNotes() {
@@ -117,33 +158,33 @@ export class MobileNotesComponent extends Component {
           className={`notes-component-header`}
         >
           {renderWordsIcon(
-            this.state && this.state.verseNote
-              ? this.state.verseNote
+            this.state && this.state.flatNotes
+              ? this.state.flatNotes
               : undefined,
           )}
           {renderContextIcon(
-            this.state && this.state.verseNote
-              ? this.state.verseNote
+            this.state && this.state.flatNotes
+              ? this.state.flatNotes
               : undefined,
           )}
           {renderScripturesIcon(
-            this.state && this.state.verseNote
-              ? this.state.verseNote
+            this.state && this.state.flatNotes
+              ? this.state.flatNotes
               : undefined,
           )}
           {renderPronunciationIcon(
-            this.state && this.state.verseNote
-              ? this.state.verseNote
+            this.state && this.state.flatNotes
+              ? this.state.flatNotes
               : undefined,
           )}
           {renderJSTIcon(
-            this.state && this.state.verseNote
-              ? this.state.verseNote
+            this.state && this.state.flatNotes
+              ? this.state.flatNotes
               : undefined,
           )}
           {renderImageIcon(
-            this.state && this.state.verseNote
-              ? this.state.verseNote
+            this.state && this.state.flatNotes
+              ? this.state.flatNotes
               : undefined,
           )}
           <span

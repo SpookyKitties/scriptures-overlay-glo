@@ -48,6 +48,7 @@ export function scroll() {
             );
             if (verseNote) {
               verseNote.scrollIntoView();
+              verseNote.scrollTop = verseNote.scrollTop - 32;
             }
           }),
         )
