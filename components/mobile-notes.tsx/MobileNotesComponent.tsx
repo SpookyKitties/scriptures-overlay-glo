@@ -101,7 +101,7 @@ export const iconStyle: CSSProperties = {
   justifyContent: 'center',
   alignContent: 'center',
   width: '48px',
-  fontSize: '24px'
+  fontSize: '20px'
 };
 
 export class MobileNotesComponent extends Component {
