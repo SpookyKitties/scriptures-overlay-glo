@@ -30,9 +30,13 @@ export function scroll() {
   if (chapterElement) {
     const y = chapterElement.getBoundingClientRect().top;
     const verse = verses.find(
-      e => e.getBoundingClientRect().top + 10 >= y === true,
+      e => e.getBoundingClientRect().bottom - 5 >= y === true,
     );
+
     if (verse) {
+      console.log(y);
+
+      console.log(verse.getBoundingClientRect().bottom);
       store.chapter
         .pipe(
           take(1),
