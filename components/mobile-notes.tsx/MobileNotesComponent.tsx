@@ -91,7 +91,7 @@ const notesComponentHeaderCSS: CSSProperties = {
   width: '300px',
   height: '48px',
   // gridAutoFlow: 'column',
-  gridTemplateColumns: '48px 48px 48px 48px 48px 48px',
+  gridTemplateColumns: '40px 40px 40px 40px 40px 40px',
   justifyContent: 'center',
   maxWidth: 'calc(100vw - 48px)',
 };
