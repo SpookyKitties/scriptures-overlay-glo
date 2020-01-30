@@ -83,15 +83,15 @@ const noteComponentStyles: CSSProperties = {
   borderBottom: 'solid',
   borderBottomWidth: '1px',
   borderBottomColor: '#aeb6b6',
-  height: '32px',
+  height: '48px',
 };
 
 const notesComponentHeaderCSS: CSSProperties = {
   display: 'grid',
   width: '300px',
-  height: '32px',
+  height: '48px',
   // gridAutoFlow: 'column',
-  gridTemplateColumns: '32px 32px 32px 32px 32px 32px',
+  gridTemplateColumns: '48px 48px 48px 48px 48px 48px',
   justifyContent: 'center',
   maxWidth: 'calc(100vw - 48px)',
 };
@@ -100,7 +100,8 @@ export const iconStyle: CSSProperties = {
   display: 'grid',
   justifyContent: 'center',
   alignContent: 'center',
-  width: '32px',
+  width: '48px',
+  fontSize: '24px'
 };
 
 export class MobileNotesComponent extends Component {

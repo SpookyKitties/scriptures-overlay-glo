@@ -55,7 +55,7 @@ export function scroll() {
             );
             if (verseNote) {
               verseNote.scrollIntoView();
-              scrollTop('.verse-notes', -32);
+              scrollTop('.verse-notes', -48);
             }
           }),
         )
