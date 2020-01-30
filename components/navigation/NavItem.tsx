@@ -13,6 +13,7 @@ import {
   isBefore,
   isSameDay,
 } from 'date-fns';
+import { Subscription } from 'rxjs';
 
 function flattenCFMNav(navItem: NavigationItem): NavigationItem[] {
   if (navItem.navigationItems !== undefined) {
@@ -53,6 +54,7 @@ export class NavItem extends Component<{
     open: boolean;
     title: string;
   };
+  private test: Subscription;
   componentDidMount() {
     const title = /([A-Za-z]+)(\d+)/g.exec(this.props.navItem.title);
     this.setState({
@@ -62,11 +64,19 @@ export class NavItem extends Component<{
         ? `${title[1]}<sup>${title[2]}</sup>`
         : this.props.navItem.title,
     });
-    appSettings.updatenavigation$.pipe(filterUndefined$).subscribe(o => {
-      this.setState({
-        open: this.props.navItem.open,
+    this.test = appSettings.updatenavigation$
+      .pipe(filterUndefined$)
+      .subscribe(o => {
+        this.setState({
+          open: this.props.navItem.open,
+        });
       });
-    });
+  }
+
+  componentWillUnmount() {
+    if (this.test) {
+      this.test.unsubscribe();
+    }
   }
   open(navItem: NavigationItem) {
     navItem.open = !navItem.open;

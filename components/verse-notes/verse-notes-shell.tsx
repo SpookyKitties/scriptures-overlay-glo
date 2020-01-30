@@ -120,7 +120,7 @@ export class VerseNoteGroupComponent extends Component<{
                 : ''
             }`}
           >
-            <a className={`tag is-info is-small`}>
+            <span className={`tag is-info is-small`}>
               {this.props.noteGroup.notes[0].formatTag.offsets}
               <a
                 onClick={() => {
@@ -128,7 +128,7 @@ export class VerseNoteGroupComponent extends Component<{
                 }}
                 className={'delete'}
               ></a>
-            </a>
+            </span>
           </div>
         </div>
       </div>
