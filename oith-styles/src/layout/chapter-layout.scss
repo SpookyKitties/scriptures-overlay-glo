@@ -376,10 +376,11 @@ body {
         grid-template-rows: calc(100vh - 48px - 200px) 200px;
       }
       &.off-notes {
-        grid-template-rows: calc(100vh - 48px - 48px) 48px;
+        // grid-template-rows: calc(100vh - 48px - 48px) 48px;
         .note-component {
-          bottom: 0px;
+          bottom: 0;
           display: block;
+          position: fixed !important;
         }
         .verse-notes {
           display: block !important;
