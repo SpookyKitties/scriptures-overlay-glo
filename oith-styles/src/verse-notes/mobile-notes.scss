@@ -2,9 +2,26 @@
   .focused {
     &.verse.highlight {
       border-left: 2.5px solid #068396 !important;
+      // outline-style:;
+      
     }
-    padding-left: 5px;
-    border-left: 2.5px solid #068396 !important;
+    // padding-left: 5px;
+    // border-left: 2.5px solid #068396 !important;
+    // outline: solid red;
+    // border-radius: 3px;
+    
+    &::after{
+
+      // content: "\a0";
+      // display: block;
+      // padding-top: 2px ;
+      // line-height: 1px;
+      // border-top: 1px solid #000; 
+    }
+
+    .focused-icon {
+      display: initial;
+    }
   }
 }
 
@@ -13,4 +30,8 @@
 }
 .note-component + .verse-note {
   margin-top: 32px;
+}
+
+.focused-icon {
+  display: none;
 }

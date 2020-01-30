@@ -1,6 +1,6 @@
 import { appSettings } from '../SettingsComponent';
 export function renderCloseIcon() {
-  if (appSettings.settings.notesMode === 'off') {
+  if (appSettings.settings.notesMode === 'large') {
     return (
       <svg
         width="32px"
@@ -11,7 +11,7 @@ export function renderCloseIcon() {
       >
         <path
           fill-rule="evenodd"
-          d="M9.646 6.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L10 7.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z"
+          d="M3.646 6.646a.5.5 0 01.708 0L10 12.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"
           clip-rule="evenodd"
         />
       </svg>
@@ -27,7 +27,7 @@ export function renderCloseIcon() {
     >
       <path
         fill-rule="evenodd"
-        d="M3.646 6.646a.5.5 0 01.708 0L10 12.293l5.646-5.647a.5.5 0 01.708.708l-6 6a.5.5 0 01-.708 0l-6-6a.5.5 0 010-.708z"
+        d="M9.646 6.646a.5.5 0 01.708 0l6 6a.5.5 0 01-.708.708L10 7.707l-5.646 5.647a.5.5 0 01-.708-.708l6-6z"
         clip-rule="evenodd"
       />
     </svg>
