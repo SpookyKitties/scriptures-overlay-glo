@@ -370,17 +370,19 @@ body {
         display: block !important;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 45vh) calc(45vh + 48px);
-      }
-      &.small-notes {
         grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
       }
+      &.small-notes {
+        grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
+      }
       &.off-notes {
+        grid-template-rows: calc(100vh - 48px - 48px) 48px;
+
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
         .note-component {
           bottom: 0;
           display: block;
-          position: fixed !important;
+          // position: fixed !important;
         }
         .verse-notes {
           display: block !important;
