@@ -364,8 +364,8 @@ body {
       #primaryNoteBarBtn {
         display: none !important;
       }
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      // flex-direction: column;
       .note-component {
         // position: absolute;
         background-color: #f7f8f8 !important;
@@ -377,27 +377,30 @@ body {
       .verse-notes {
         height: 100%;
       }
+      .note-pane {
+        z-index: 90;
+      }
       &.large-notes {
-        // grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
+        grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
         .chapter-loader {
-          height: calc(100vh - 45%);
+          // height: calc(100vh - 45%);
         }
         .note-pane {
-          height: 45%; //calc(45vh + 48px);
+          // height: 45%; //calc(45vh + 48px);
         }
       }
       &.small-notes {
-        // grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
+        grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
 
         .chapter-loader {
-          height: calc(100vh - 35%);
+          // height: calc(100vh - 35%);
         }
         .note-pane {
-          height: 35%; //calc(45vh + 48px);
+          // height: 35%; //calc(45vh + 48px);
         }
       }
       &.off-notes {
-        // grid-template-rows: calc(100vh - 48px - 48px) calc(48px);
+        grid-template-rows: calc(100vh - 48px - 48px) calc(48px);
         // @media screen and (-webkit-min-device-pixel-ratio: 0) {
         //   .note-component {
         //     bottom: 0;
@@ -409,7 +412,7 @@ body {
 
         height: 100vh;
         .chapter-loader {
-          height: calc(100% - 96px);
+          // height: calc(100% - 96px);
         }
         .note-pane {
           overflow: hidden;
@@ -429,7 +432,7 @@ body {
           }
         }
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
-        // .note-component {
+        // .note-99component {
         //   height: 48px;
         // }
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
