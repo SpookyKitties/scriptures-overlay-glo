@@ -189,7 +189,7 @@ export class MobileNotesComponent extends Component {
           )}
           <span
             className={`btn-close`}
-            style={{ right: 0, alignSelf: 'center', position: 'fixed' }}
+            style={{ right: 0, alignSelf: 'center' }}
             onClick={() => this.displayNotes()}
           >
             {renderCloseIcon()}
