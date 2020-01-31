@@ -365,7 +365,7 @@ body {
         display: none !important;
       }
       display: grid;
-      grid-template-rows: calc(100vh) 0px;
+      // grid-template-rows: calc(100vh) 0px;
       .note-component {
         display: block !important;
       }
@@ -376,9 +376,20 @@ body {
         grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
       }
       &.off-notes {
-        // grid-template-rows: calc(100vh - 48px - 48px) 48px;
-        grid-template-rows: calc(100vh - 48px - 48px - 48px) calc(48px);
+        grid-template-rows: calc(100vh - 48px - 48px) calc(48px);
+        @media screen and (-webkit-min-device-pixel-ratio: 0)  {
+          .note-component {
+            bottom: 0;
+            height: 48px;
+            display: block;
+            position: fixed !important;
+          }
+        }
 
+        // grid-template-rows: calc(100vh - 48px - 48px) 48px;
+        // .note-component {
+        //   height: 48px;
+        // }
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
         // .note-component {
         //   bottom: 0;
