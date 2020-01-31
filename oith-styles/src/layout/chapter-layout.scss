@@ -335,7 +335,7 @@ body {
   }
   .off-notes {
     .verse-notes {
-      display: none !important;
+      // display: none !important;
     }
   }
 
@@ -379,15 +379,15 @@ body {
         grid-template-rows: calc(100vh - 48px - 48px) 48px;
 
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
-        .note-component {
-          bottom: 0;
-          height: 48px;
-          display: block;
-          // position: fixed !important;
-        }
-        .verse-notes {
-          display: block !important;
-        }
+        // .note-component {
+        //   bottom: 0;
+        //   height: 48px;
+        //   display: block;
+        //   // position: fixed !important;
+        // }
+        // .verse-notes {
+        //   display: block !important;
+        // }
       }
 
       @include mobileNav();
