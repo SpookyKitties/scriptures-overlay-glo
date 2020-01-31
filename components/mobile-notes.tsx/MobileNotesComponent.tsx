@@ -1,7 +1,7 @@
 import { flatten } from 'lodash';
 import { Component, CSSProperties } from 'react';
 import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, debounceTime } from 'rxjs/operators';
 import { NoteRef, VerseNote } from '../../oith-lib/src/verse-notes/verse-note';
 import {
   pronunciation,
@@ -130,20 +130,13 @@ export class MobileNotesComponent extends Component {
         this.setState({ verse: undefined });
         this.setState({ verseNote: verse });
       });
-    syncedVerse.subscribe(verseNote => {
-      this.setState({ flatNotes: this.flattenNotes(verseNote) });
-      this.setState({ verseNote: verseNote });
-    });
-  }
-  public renderNotes() {
-    if (this.state && this.state.verseNote) {
-      return this.state.verseNote.noteGroups.map(noteGroup => {
-        return <VerseNoteGroupComponent noteGroup={noteGroup} />;
+    syncedVerse
+      .pipe(filter(o => this.state !== null && this.state.verseNote !== o))
+      .subscribe(verseNote => {
+        this.setState({ flatNotes: this.flattenNotes(verseNote) });
+        this.setState({ verseNote: verseNote });
       });
-    }
-    return <></>;
   }
-
   private displayNotes() {
     appSettings.displayNotes();
   }
