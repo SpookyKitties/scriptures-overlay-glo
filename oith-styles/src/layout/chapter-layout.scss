@@ -365,6 +365,7 @@ body {
         display: none !important;
       }
       display: grid;
+      .note-component{position: absolute;}
       // grid-template-rows: calc(100vh) 0px;
       .note-component {
         display: block !important;

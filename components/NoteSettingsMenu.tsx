@@ -30,7 +30,7 @@ class NoteSettingComponentOld extends Component<{ noteSetting: NoteSetting }> {
   private noteSettingClick(event: MouseEvent, noteSetting: NoteSetting) {
     event.preventDefault();
 
-    noteSetting.enabled =
+    noteSetting.enabled = 
       (event.target as HTMLInputElement).checked !== undefined
         ? (event.target as HTMLInputElement).checked
         : !noteSetting.enabled;
