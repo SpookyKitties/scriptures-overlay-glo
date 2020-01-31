@@ -377,7 +377,7 @@ body {
       }
       &.off-notes {
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
-        grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
+        grid-template-rows: calc(100vh - 48px - 48px - 48px) calc(48px);
 
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
         // .note-component {
