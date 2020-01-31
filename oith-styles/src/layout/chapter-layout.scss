@@ -370,7 +370,7 @@ body {
         display: block !important;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 40%) 40%;
+        grid-template-rows: calc(100vh - 48px - 45%) 45%;
       }
       &.small-notes {
         grid-template-rows: calc(100vh - 48px - 248px) 248px;
