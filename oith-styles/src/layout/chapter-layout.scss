@@ -370,10 +370,10 @@ body {
         display: block !important;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 45vh) 45vh;
+        grid-template-rows: calc(100vh - 48px - 48px - 12em) calc(12em + 48px);
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 48px - 35vh) 35vh;
+        grid-template-rows: calc(100vh - 48px - 48px - 7em) calc(7em + 48px);
       }
       &.off-notes {
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
@@ -465,7 +465,7 @@ body {
         position: fixed;
         width: 46px;
         height: 32px;
-        top: calc(100vh / 2);
+        top: calc(100vh / 2 - 48px);
         // top: calc(100% - 350px - 48px);
       }
     }
