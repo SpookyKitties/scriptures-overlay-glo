@@ -408,6 +408,7 @@ body {
           height: calc(100% - 96px);
         }
         .verse-notes {
+          overflow: hidden;
           .note-component {
             // height: 48px; //calc(45vh + 48px);po
             position: fixed;
