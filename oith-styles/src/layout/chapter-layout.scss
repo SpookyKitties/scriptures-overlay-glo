@@ -370,10 +370,10 @@ body {
         display: block !important;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 12em) calc(12em + 48px);
+        grid-template-rows: calc(100vh - 48px - 48px - 45vh) calc(45vh + 48px);
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 7em) calc(7em + 48px);
+        grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
       }
       &.off-notes {
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
