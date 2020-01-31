@@ -3,8 +3,8 @@ export function renderCloseIcon() {
   if (appSettings.settings.notesMode === 'large') {
     return (
       <svg
-        width="48px"
-        height="48px"
+        width="40px"
+        height="40px"
         viewBox="0 0 20 20"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +19,8 @@ export function renderCloseIcon() {
   }
   return (
     <svg
-      width="48px"
-      height="48px"
+      width="40px"
+      height="40px"
       viewBox="0 0 20 20"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"

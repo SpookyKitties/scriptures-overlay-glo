@@ -90,17 +90,17 @@ const notesComponentHeaderCSS: CSSProperties = {
   width: '300px',
   height: '48px',
   // gridAutoFlow: 'column',
-  gridTemplateColumns: '40px 40px 40px 40px 40px 40px',
+  gridTemplateColumns: '40px 40px 40px 40px 40px 40px 40px',
   justifyContent: 'center',
-  maxWidth: 'calc(100vw - 48px)',
+  // maxWidth: 'calc(100vw - 48px)',
 };
 
 export const iconStyle: CSSProperties = {
   display: 'grid',
   justifyContent: 'center',
   alignContent: 'center',
-  width: '48px',
-  fontSize: '20px'
+  width: '40px',
+  fontSize: '20px',
 };
 
 export class MobileNotesComponent extends Component {
@@ -189,7 +189,7 @@ export class MobileNotesComponent extends Component {
           )}
           <span
             className={`btn-close`}
-            style={{ position: 'absolute', right: 0 }}
+            style={{ right: 0, alignSelf: 'center', position: 'fixed' }}
             onClick={() => this.displayNotes()}
           >
             {renderCloseIcon()}

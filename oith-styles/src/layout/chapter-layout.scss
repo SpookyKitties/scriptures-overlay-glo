@@ -367,18 +367,22 @@ body {
       display: flex;
       flex-direction: column;
       .note-component {
-        position: absolute;
+        // position: absolute;
+        background-color: #f7f8f8 !important;
       }
       // grid-template-rows: calc(100vh) 0px;
       .note-component {
         display: block !important;
+      }
+      .verse-notes {
+        height: 100%;
       }
       &.large-notes {
         // grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
         .chapter-loader {
           height: calc(100vh - 45%);
         }
-        .verse-notes {
+        .note-pane {
           height: 45%; //calc(45vh + 48px);
         }
       }
@@ -388,7 +392,7 @@ body {
         .chapter-loader {
           height: calc(100vh - 35%);
         }
-        .verse-notes {
+        .note-pane {
           height: 35%; //calc(45vh + 48px);
         }
       }
@@ -407,11 +411,11 @@ body {
         .chapter-loader {
           height: calc(100% - 96px);
         }
-        .verse-notes {
+        .note-pane {
           overflow: hidden;
           .note-component {
             // height: 48px; //calc(45vh + 48px);po
-            position: fixed;
+            // position: fixed;
             bottom: 0;
           }
           height: 48px; //calc(45vh + 48px);
@@ -439,7 +443,7 @@ body {
       }
 
       @include mobileNav();
-      .verse-notes {
+      .note-pane {
         border-top: solid;
         border-top-color: #a9b2b2;
       }
