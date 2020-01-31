@@ -344,7 +344,7 @@ body {
       @media screen and (max-width: 500px) {
         &.off-notes {
           .note-component {
-            bottom: 32px;
+            // bottom: 32px;
             border-bottom: none !important;
           }
         }
@@ -364,29 +364,63 @@ body {
       #primaryNoteBarBtn {
         display: none !important;
       }
-      display: grid;
-      .note-component{position: absolute;}
+      display: flex;
+      flex-direction: column;
+      .note-component {
+        position: absolute;
+      }
       // grid-template-rows: calc(100vh) 0px;
       .note-component {
         display: block !important;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
+        // grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
+        .chapter-loader {
+          height: calc(100vh - 45%);
+        }
+        .verse-notes {
+          height: 45%; //calc(45vh + 48px);
+        }
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
+        // grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
+
+        .chapter-loader {
+          height: calc(100vh - 35%);
+        }
+        .verse-notes {
+          height: 35%; //calc(45vh + 48px);
+        }
       }
       &.off-notes {
-        grid-template-rows: calc(100vh - 48px - 48px) calc(48px);
-        @media screen and (-webkit-min-device-pixel-ratio: 0)  {
+        // grid-template-rows: calc(100vh - 48px - 48px) calc(48px);
+        // @media screen and (-webkit-min-device-pixel-ratio: 0) {
+        //   .note-component {
+        //     bottom: 0;
+        //     // height: 48px;
+        //     display: block;
+        //     // position: fixed !important;
+        //   }
+        // }he
+
+        height: 100vh;
+        .chapter-loader {
+          height: calc(100% - 96px);
+        }
+        .verse-notes {
           .note-component {
+            // height: 48px; //calc(45vh + 48px);po
+            position: fixed;
             bottom: 0;
-            height: 48px;
-            display: block;
-            position: fixed !important;
+          }
+          height: 48px; //calc(45vh + 48px);
+          // height: 48px;
+          display: block !important;
+
+          .verse-note {
+            display: none;
           }
         }
-
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
         // .note-component {
         //   height: 48px;
