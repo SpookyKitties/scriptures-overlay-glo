@@ -202,17 +202,19 @@ export class VerseNotesShellComponent extends Component<VNProps> {
   render() {
     if (this.props.chapter) {
       return (
-        <div className="verse-notes">
+        <div className={`note-pane`}>
           {this.renderFuture()}
-          {this.props.chapter.verses.map(verse => {
-            const verseNote = this.props.chapter.verseNotes.find(vN =>
-              vN.id.includes(`-${verse.id}-verse-notes`),
-            );
-            if (verseNote) {
-              return <VerseNoteComponent verseNote={verseNote} />;
-            }
-          })}
-          <div className="white-space"></div>
+          <div className="verse-notes">
+            {this.props.chapter.verses.map(verse => {
+              const verseNote = this.props.chapter.verseNotes.find(vN =>
+                vN.id.includes(`-${verse.id}-verse-notes`),
+              );
+              if (verseNote) {
+                return <VerseNoteComponent verseNote={verseNote} />;
+              }
+            })}
+            <div className="white-space"></div>
+          </div>
         </div>
       );
     }
