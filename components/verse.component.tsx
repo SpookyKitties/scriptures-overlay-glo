@@ -1,7 +1,7 @@
 import { Verse } from '../oith-lib/src/models/Chapter';
 import { renderFormatGroups } from './chapter.component';
 import { Component, Fragment, CSSProperties } from 'react';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { store } from './SettingsComponent';
 import { VerseNoteGroupComponent } from './verse-notes/verse-notes-shell';
 import { parseSubdomain } from './parseSubdomain';
@@ -29,12 +29,17 @@ const inlineNotes: CSSProperties = {
 
 export class VerseComponent extends Component<VerseProps> {
   public state: { verse?: Verse; highlight?: boolean };
-
+  updateVerseSub: Subscription;
+  componentWillUnmount() {
+    if (this.updateVerseSub) {
+      this.updateVerseSub.unsubscribe();
+    }
+  }
   componentDidMount() {
     const verse = this.props.verse;
     this.setState({ verse: verse });
 
-    store.updateVerses.subscribe(() => {
+    this.updateVerseSub = store.updateVerses.subscribe(() => {
       // const verse = this.state.verse; //;
       this.setState({ verse: undefined });
       this.setState({ verse: verse });

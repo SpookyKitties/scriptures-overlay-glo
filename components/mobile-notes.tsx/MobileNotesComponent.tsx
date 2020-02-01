@@ -68,6 +68,8 @@ export function hasNote(nums: number[], noteRefs?: NoteRef[]) {
 export function renderPronunciationIcon(flatNotes?: NoteRef[]) {
   let className = `${!hasNote(pronunciation, flatNotes) ? 'opaque-icons' : ''}`;
 
+  // console.log(className);
+
   return (
     <span style={iconStyle} className={`${className}`}>
       🔊
@@ -130,12 +132,10 @@ export class MobileNotesComponent extends Component {
         this.setState({ verse: undefined });
         this.setState({ verseNote: verse });
       });
-    syncedVerse
-      .pipe(filter(o => this.state !== null && this.state.verseNote !== o))
-      .subscribe(verseNote => {
-        this.setState({ flatNotes: this.flattenNotes(verseNote) });
-        this.setState({ verseNote: verseNote });
-      });
+    syncedVerse.subscribe(verseNote => {
+      this.setState({ flatNotes: this.flattenNotes(verseNote) });
+      this.setState({ verseNote: verseNote });
+    });
   }
   private displayNotes() {
     appSettings.displayNotes();

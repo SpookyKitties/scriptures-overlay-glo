@@ -38,7 +38,7 @@ body {
 
 .chapter-loader {
   overflow-y: scroll;
-  // height: calc(100vh - 48px);
+  height: calc(100vh - 48px);
   // height: 100vh;
   chapter-content,
   .chapter-content {
@@ -294,7 +294,9 @@ body {
     }
   }
 }
-
+body {
+  height: 100vh;
+}
 // 48px: 48px;
 @mixin mobileNav {
   &.nav {
@@ -375,7 +377,6 @@ body {
       }
       // grid-template-rows: calc(100vh) 0px;
       .note-component {
-        z-index: 99;
         display: block !important;
       }
       .verse-notes {
@@ -385,16 +386,16 @@ body {
         z-index: 90;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 35vh) 48px calc(35vh);
+        grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
         .chapter-loader {
           // height: calc(100vh - 45%);
         }
         .note-pane {
-          // height: 45%; //calc(45vh);
+          // height: 45%; //calc(45vh + 48px);
         }
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 25vh) 48px calc(25vh);
+        grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
 
         .chapter-loader {
           // height: calc(100vh - 35%);
@@ -420,6 +421,8 @@ body {
         }
         .note-pane {
           overflow: hidden;
+          position: fixed;
+          bottom: 0;
           .note-component {
             // height: 48px; //calc(45vh + 48px);po
             // position: fixed;
@@ -427,12 +430,13 @@ body {
           }
           // position: fixed;
           bottom: 0;
-          // height: 48px; //calc(45vh + 48px);
+          height: 48px; //calc(45vh + 48px);
           // height: 48px;
-          // display: block !important;
+          display: block !important;
 
-          display: none;
-          .verse-note {
+          .verse-notes {
+            display: none;
+            height: 0;
           }
         }
 

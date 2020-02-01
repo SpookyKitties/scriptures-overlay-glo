@@ -193,10 +193,17 @@ export class VerseNotesShellComponent extends Component<VNProps> {
 
   componentDidMount() {}
 
+  renderFuture() {
+    if (parseSubdomain().beta) {
+      return <MobileNotesComponent />;
+    }
+    return <></>;
+  }
   render() {
     if (this.props.chapter) {
       return (
         <div className={`note-pane`}>
+          {this.renderFuture()}
           <div className="verse-notes">
             {this.props.chapter.verses.map(verse => {
               const verseNote = this.props.chapter.verseNotes.find(vN =>

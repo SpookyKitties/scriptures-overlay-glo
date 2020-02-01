@@ -113,9 +113,11 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   }
 
   renderFuture() {
-    if (parseSubdomain().beta) {
-      return <MobileNotesComponent />;
-    }
+    try {
+      if (parseSubdomain().beta) {
+        return <MobileNotesComponent />;
+      }
+    } catch (error) {}
     return <></>;
   }
 
@@ -135,7 +137,7 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
           <ChapterComponent></ChapterComponent>
           <div className="white-space"></div>
         </div>
-        {this.renderFuture()}
+        {/* {this.renderFuture()} */}
 
         <VerseNotesShellComponent
           chapter={
