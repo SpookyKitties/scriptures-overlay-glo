@@ -418,9 +418,17 @@ body {
           // height: 48px;
           display: block !important;
 
+          display: none;
           .verse-note {
-            display: none;
           }
+        }
+
+        @supports (-webkit-overflow-scrolling: touch) {
+          .note-component {
+            position: fixed !important;
+            bottom: 0;
+          }
+          /* CSS specific to iOS devices */
         }
         // grid-template-rows: calc(100vh - 48px - 48px) 48px;
         // .note-component {
