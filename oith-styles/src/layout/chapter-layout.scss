@@ -339,6 +339,9 @@ body {
     }
   }
 
+  .verse-notes {
+    height: 100vh;
+  }
   &.disclaimer {
     .oith-content-parent {
       @media screen and (max-width: 500px) {
