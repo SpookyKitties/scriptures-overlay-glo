@@ -444,8 +444,8 @@ body {
 
         @supports (-webkit-overflow-scrolling: touch) {
           .note-component {
-            position: fixed !important;
-            bottom: 0;
+            // position: fixed !important;
+            // bottom: 0;
           }
           /* CSS specific to iOS devices */
         }
