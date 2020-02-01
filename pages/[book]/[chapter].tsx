@@ -24,6 +24,7 @@ import {
   parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
 import { scroll } from '../../components/scroll';
+import { MobileNotesComponent } from '../../components/mobile-notes.tsx/MobileNotesComponent';
 
 export type ImgAttr = {
   src: string;
@@ -111,6 +112,13 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     return `nav-off`;
   }
 
+  renderFuture() {
+    if (parseSubdomain().beta) {
+      return <MobileNotesComponent />;
+    }
+    return <></>;
+  }
+
   render() {
     return (
       <div className={`oith-content-parent ${this.getClasses()}`}>
@@ -127,6 +135,8 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
           <ChapterComponent></ChapterComponent>
           <div className="white-space"></div>
         </div>
+        {this.renderFuture()}
+
         <VerseNotesShellComponent
           chapter={
             this.state && this.state['chapter']
