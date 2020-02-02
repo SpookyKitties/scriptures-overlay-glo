@@ -3,15 +3,17 @@ import { addYears } from 'date-fns';
 import { IncomingMessage } from 'http';
 import { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import { Component } from 'react';
+import { Component, CSSProperties } from 'react';
 import ReactGA from 'react-ga';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, fromEvent, of, BehaviorSubject } from 'rxjs';
 import { filter, flatMap, map, take } from 'rxjs/operators';
 import { langReq } from '../../app/langReq';
 import { ChapterComponent } from '../../components/chapter.component';
 import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
+import { MobileNotesComponent } from '../../components/mobile-notes.tsx/MobileNotesComponent';
 import { NavigationComponenet } from '../../components/navigation/navigation.component';
 import { parseSubdomain } from '../../components/parseSubdomain';
+import { scroll } from '../../components/scroll';
 import { appSettings, store } from '../../components/SettingsComponent';
 import { titleService } from '../../components/TitleComponent';
 import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
@@ -23,13 +25,14 @@ import {
   ChapterParams,
   parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
-import { scroll } from '../../components/scroll';
-import { MobileNotesComponent } from '../../components/mobile-notes.tsx/MobileNotesComponent';
+import * as viewport from 'viewport-dimensions';
 
 export type ImgAttr = {
   src: string;
   alt: string;
 };
+
+export let resetMobileNotes: BehaviorSubject<boolean>;
 
 export function reInitChapter() {
   store.chapter
@@ -51,6 +54,7 @@ export function reInitChapter() {
 }
 
 class OithParent extends Component<{ chapter: Chapter; lang: string }> {
+  state: { mobileStyle?: CSSProperties; chapterHeight?: string };
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
       this.setState({ displayNav: o });
@@ -100,6 +104,16 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
 
       store.disableNav$.next(false);
     });
+
+    this.setMobileGridStyle();
+
+    fromEvent(window, 'resize').subscribe(() => {
+      this.setMobileGridStyle();
+    });
+
+    resetMobileNotes = new BehaviorSubject(true);
+
+    resetMobileNotes.subscribe(() => this.setMobileGridStyle());
   }
 
   private getClasses() {
@@ -110,6 +124,45 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     }
 
     return `nav-off`;
+  }
+
+  /**
+   *  Due to a "feature" of mobile browser, and due the the nature of this website, it is necessary to setup
+   * css grid through javascript. Normally when scrolling on mobile browser the "window" of the browser shrinks
+   * to show more content. Because of this, the browser treats that originally hidden part as part of the browsers
+   * dimensions.
+   *
+   *  Because of how OneInThineHand handles scrolling, the browser window never shrinks. This means that
+   *  there is always a portion of the content that is hidden off the screen. This also means that the 'vh' css
+   * unit is unreliable.
+   *
+   *  Javascript doesn't face this problem. It can give the proper sizes needed for everything
+   */
+  setMobileGridStyle() {
+    try {
+      if (window && window.matchMedia(`(max-width: 500px)`).matches) {
+        let gridTemplateRows = `calc(${viewport.height()}px - 48px - 48px) 48px`;
+        let chapterHeight = `calc(${viewport.height()}px - 48px)`;
+        if (appSettings.settings.notesMode === 'small') {
+          chapterHeight = `calc((${viewport.height()}px - 48px)  * .7 - 1px)`;
+          gridTemplateRows = `calc((${viewport.height()}px - 48px)  * .7) calc((${viewport.height()}px - 48px)  * .3)`;
+        }
+        if (appSettings.settings.notesMode === 'large') {
+          chapterHeight = `calc((${viewport.height()}px - 48px)  * .6 - 1px)`;
+          gridTemplateRows = `calc((${viewport.height()}px - 48px)  * .6) calc((${viewport.height()}px - 48px)  * .4)`;
+        }
+
+        const style: CSSProperties = {
+          gridTemplateRows: gridTemplateRows,
+        };
+        this.setState({ mobileStyle: style, chapterHeight: chapterHeight });
+        console.log(chapterHeight);
+      } else {
+        this.setState({ mobileStyle: {} });
+      }
+    } catch (error) {
+      this.setState({ mobileStyle: {} });
+    }
   }
 
   renderFuture() {
@@ -123,7 +176,12 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
 
   render() {
     return (
-      <div className={`oith-content-parent ${this.getClasses()}`}>
+      <div
+        className={`oith-content-parent ${this.getClasses()}`}
+        style={
+          this.state && this.state.mobileStyle ? this.state.mobileStyle : {}
+        }
+      >
         <nav className={`oith-navigation`}>
           <NavigationComponenet />
           <div
@@ -133,7 +191,16 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
             }}
           ></div>
         </nav>
-        <div className={`chapter-loader `} onScroll={scroll}>
+        <div
+          className={`chapter-loader `}
+          style={{
+            height:
+              this.state && this.state.chapterHeight
+                ? this.state.chapterHeight
+                : 'initial',
+          }}
+          onScroll={scroll}
+        >
           <ChapterComponent></ChapterComponent>
           <div className="white-space"></div>
         </div>

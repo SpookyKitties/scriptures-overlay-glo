@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export let titleService: BehaviorSubject<[string, string]>;
+import * as viewport from 'viewport-dimensions';
 
 export class TitleComponent extends Component {
   public state: { title: string; shortTitle: string };
@@ -38,7 +39,11 @@ export class TitleComponent extends Component {
         <span
           className={`short-title-text`}
           dangerouslySetInnerHTML={{
-            __html: this.state ? this.state.shortTitle : '',
+            __html: this.state
+              ? `${viewport.height()} ${viewport.max()} ${
+                  this.state.shortTitle
+                }`
+              : '',
           }}
         ></span>
       </Fragment>

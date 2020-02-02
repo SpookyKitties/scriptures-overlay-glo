@@ -5,7 +5,6 @@
 }
 body {
   overflow: hidden;
-
   .body {
     display: grid;
     justify-content: center;
@@ -386,7 +385,7 @@ body {
         z-index: 90;
       }
       &.large-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
+        // grid-template-rows: calc(100vh - 48px - 48px - 35vh) calc(35vh + 48px);
         .chapter-loader {
           // height: calc(100vh - 45%);
         }
@@ -395,7 +394,7 @@ body {
         }
       }
       &.small-notes {
-        grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
+        // grid-template-rows: calc(100vh - 48px - 48px - 25vh) calc(25vh + 48px);
 
         .chapter-loader {
           // height: calc(100vh - 35%);
@@ -406,34 +405,19 @@ body {
       }
       &.off-notes {
         // grid-template-rows: calc(100vh - 48px - 48px) calc(48px);
-        // @media screen and (-webkit-min-device-pixel-ratio: 0) {
-        //   .note-component {
-        //     bottom: 0;
-        //     // height: 48px;
-        //     display: block;
-        //     // position: fixed !important;
-        //   }
-        // }he
+
+        .chapter-loader {
+          // height: calc(100vh - 48px - 48px);
+        }
 
         height: 100vh;
-        .chapter-loader {
-          // height: calc(100% - 96px);
-        }
         .note-pane {
           overflow: hidden;
-          // position: fixed;
+          // position: relative;
           .note-component {
-            bottom: 0;
-            -webkit-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            // height: 48px; //calc(45vh + 48px);po
-            position: fixed;
-            // bottom: 0;
-            // bottom: 0;
+            // -webkit-transform: translate3d(0, 0, 0);
+            // transform: translate3d(0, 0, 0);
           }
-          // position: fixed;
-          height: 48px; //calc(45vh + 48px);
-          // height: 48px;
           display: block !important;
 
           .verse-notes {
@@ -444,25 +428,9 @@ body {
 
         @supports (-webkit-overflow-scrolling: touch) {
           .note-component {
-            // position: fixed !important;
-            // bottom: 0;
           }
           /* CSS specific to iOS devices */
         }
-        // grid-template-rows: calc(100vh - 48px - 48px) 48px;
-        // .note-99component {
-        //   height: 48px;
-        // }
-        // grid-template-rows: calc(100vh - 48px - 48px) 48px;
-        // .note-component {
-        //   bottom: 0;
-        //   height: 48px;
-        //   display: block;
-        //   // position: fixed !important;
-        // }
-        // .verse-notes {
-        //   display: block !important;
-        // }
       }
 
       @include mobileNav();

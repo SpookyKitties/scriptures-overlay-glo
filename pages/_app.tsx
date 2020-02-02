@@ -76,7 +76,7 @@ export class Store {
 }
 import ReactGA from 'react-ga';
 import Head from 'next/head';
-
+import * as viewport from 'viewport-dimensions';
 class MyApp extends App {
   // Only uncomment this method if you have blocking data requirements for
   // every single page in your application. This disables the ability to
@@ -108,15 +108,9 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
     return (
       <Layout>
-        <Head>
-          <meta
-            name="viewport"
-            content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover"
-          />
-        </Head>
         <SettingsComponent></SettingsComponent>
         <Helmet>
-          <title>{this.state ? this.state['title'] : 'z'}</title>
+          <title>{this.state ? `${this.state['title']}` : 'z'}</title>
         </Helmet>
         <Component {...pageProps} />;
         <ExportModal />
