@@ -109,10 +109,13 @@ class MyApp extends App {
     return (
       <Layout>
         <SettingsComponent></SettingsComponent>
+        <Head>
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
         <Helmet>
           <title>{this.state ? `${this.state['title']}` : 'z'}</title>
         </Helmet>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
         <ExportModal />
       </Layout>
     );

@@ -7,23 +7,27 @@ import { parseLangFromUrl } from '../app/parseCookieLang';
 import { resetNoteVisibilitySettings } from './resetNoteVisibility';
 import { map, filter } from 'rxjs/operators';
 import { AnalyticsService } from './analyticsService';
+import { BehaviorSubject } from 'rxjs';
 export let formatTagService: FormatTagService;
 
 export let appSettings: AppSettings;
 export let analyticsService: AnalyticsService;
 export let store: Store;
+export let resetMobileNotes: BehaviorSubject<boolean>;
+
 export class SettingsComponent extends Component {
   public componentDidMount() {
+    formatTagService = new FormatTagService();
     const lang = parseLangFromUrl();
     appSettings = new AppSettings(lang);
     analyticsService = new AnalyticsService();
+    resetMobileNotes = new BehaviorSubject(true);
     if (appSettings.settings.lang === 'pes') {
       document.body.classList.add('right-to-left');
     }
     if (!store) {
       store = new Store();
     }
-    formatTagService = new FormatTagService();
 
     store.resetNotes$
       .pipe(

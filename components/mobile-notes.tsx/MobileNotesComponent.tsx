@@ -10,11 +10,10 @@ import {
   jst,
   words,
 } from '../note-category-icons.json';
-import { appSettings } from '../SettingsComponent';
+import { appSettings, resetMobileNotes } from '../SettingsComponent';
 import { VerseNoteGroupComponent } from '../verse-notes/verse-notes-shell';
 import { renderCloseIcon } from './renderCloseIcon';
 import { renderImageIcon } from './renderImageIcon';
-import { resetMobileNotes } from '../../pages/[book]/[chapter]';
 
 export let syncedVerse: BehaviorSubject<VerseNote>;
 

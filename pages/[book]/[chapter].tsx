@@ -14,7 +14,11 @@ import { MobileNotesComponent } from '../../components/mobile-notes.tsx/MobileNo
 import { NavigationComponenet } from '../../components/navigation/navigation.component';
 import { parseSubdomain } from '../../components/parseSubdomain';
 import { scroll } from '../../components/scroll';
-import { appSettings, store } from '../../components/SettingsComponent';
+import {
+  appSettings,
+  store,
+  resetMobileNotes,
+} from '../../components/SettingsComponent';
 import { titleService } from '../../components/TitleComponent';
 import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
 import { VerseNotesShellComponent } from '../../components/verse-notes/verse-notes-shell';
@@ -31,8 +35,6 @@ export type ImgAttr = {
   src: string;
   alt: string;
 };
-
-export let resetMobileNotes: BehaviorSubject<boolean>;
 
 export function reInitChapter() {
   store.chapter
@@ -111,8 +113,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
       this.setMobileGridStyle();
     });
 
-    resetMobileNotes = new BehaviorSubject(true);
-
     resetMobileNotes.subscribe(() => this.setMobileGridStyle());
   }
 
@@ -142,18 +142,20 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
     try {
       if (window && window.matchMedia(`(max-width: 500px)`).matches) {
         let gridTemplateRows = `calc(${viewport.height()}px - 48px - 48px) 48px`;
-        let chapterHeight = `calc(${viewport.height()}px - 48px)`;
+        let chapterHeight = `calc(${viewport.height()}px - 48px - 48px)`;
         if (appSettings.settings.notesMode === 'small') {
-          chapterHeight = `calc((${viewport.height()}px - 48px)  * .7 - 1px)`;
+          chapterHeight = `calc((${viewport.height()}px - 48px)  * .7)`;
           gridTemplateRows = `calc((${viewport.height()}px - 48px)  * .7) calc((${viewport.height()}px - 48px)  * .3)`;
         }
         if (appSettings.settings.notesMode === 'large') {
-          chapterHeight = `calc((${viewport.height()}px - 48px)  * .6 - 1px)`;
+          chapterHeight = `calc((${viewport.height()}px - 48px)  * .6)`;
           gridTemplateRows = `calc((${viewport.height()}px - 48px)  * .6) calc((${viewport.height()}px - 48px)  * .4)`;
         }
 
         const style: CSSProperties = {
           gridTemplateRows: gridTemplateRows,
+          position: 'fixed',
+          top: '48px',
         };
         this.setState({ mobileStyle: style, chapterHeight: chapterHeight });
         console.log(chapterHeight);

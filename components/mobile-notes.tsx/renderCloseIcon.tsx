@@ -1,6 +1,6 @@
 import { appSettings } from '../SettingsComponent';
 export function renderCloseIcon() {
-  if (appSettings.settings.notesMode === 'large') {
+  if (appSettings && appSettings.settings.notesMode === 'large') {
     return (
       <svg
         width="40px"

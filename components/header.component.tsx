@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Chapter } from '../oith-lib/src/models/Chapter';
 import { menuOverlay$ } from './MenuOverlay';
 import { NoteSettingsMenu } from './NoteSettingsMenu';
-import { appSettings } from './SettingsComponent';
+import { appSettings, resetMobileNotes } from './SettingsComponent';
 import { TitleComponent } from './TitleComponent';
 export let closeMenu$: Subject<boolean>;
 
@@ -28,6 +28,7 @@ export class HeaderComponent extends Component {
   }
   public showNotes() {
     appSettings.displayNotes();
+    resetMobileNotes.next(true);
   }
 
   public displayNavClick() {

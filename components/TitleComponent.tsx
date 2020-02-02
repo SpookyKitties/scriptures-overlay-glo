@@ -39,11 +39,7 @@ export class TitleComponent extends Component {
         <span
           className={`short-title-text`}
           dangerouslySetInnerHTML={{
-            __html: this.state
-              ? `${viewport.height()} ${viewport.max()} ${
-                  this.state.shortTitle
-                }`
-              : '',
+            __html: this.state ? `${this.state.shortTitle}` : '',
           }}
         ></span>
       </Fragment>

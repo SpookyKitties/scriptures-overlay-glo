@@ -1,5 +1,5 @@
 import { flatten } from 'lodash';
-import { Component, MouseEvent } from 'react';
+import { Component, MouseEvent, CSSProperties } from 'react';
 import { Chapter } from '../../oith-lib/src/models/Chapter';
 import {
   Note,
@@ -9,7 +9,12 @@ import {
 } from '../../oith-lib/src/verse-notes/verse-note';
 import { gotoLink } from '../gotoLink';
 import { saveChapter } from '../note-offsets/saveChapter';
-import { formatTagService, store } from '../SettingsComponent';
+import {
+  formatTagService,
+  store,
+  appSettings,
+  resetMobileNotes,
+} from '../SettingsComponent';
 import { notePhraseClick } from './notePhraseClick';
 import { refClick } from './refClick';
 import { MobileNotesComponent } from '../mobile-notes.tsx/MobileNotesComponent';
@@ -188,10 +193,38 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
   }
 }
 
+import * as viewport from 'viewport-dimensions';
 export class VerseNotesShellComponent extends Component<VNProps> {
-  public state: { chapter: Chapter };
+  public state: { chapter: Chapter; verseNotesHeight: string };
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log('oijasdfoij333');
+    resetMobileNotes.subscribe(() => {
+      this.setMobileGridStyle();
+    });
+  }
+
+  setMobileGridStyle() {
+    try {
+      if (window && window.matchMedia(`(max-width: 500px)`).matches) {
+        let verseNotesHeight = `48px`;
+        if (appSettings.settings.notesMode === 'small') {
+          verseNotesHeight = `calc((${viewport.height()}px - 48px)  * .3 )`;
+        }
+        if (appSettings.settings.notesMode === 'large') {
+          verseNotesHeight = `calc((${viewport.height()}px - 48px)  * .4 )`;
+        }
+        console.log(verseNotesHeight);
+
+        this.setState({ verseNotesHeight: verseNotesHeight });
+        console.log(verseNotesHeight);
+      } else {
+        this.setState({ verseNotesHeight: {} });
+      }
+    } catch (error) {
+      this.setState({ mobileStyle: {} });
+    }
+  }
 
   renderFuture() {
     if (parseSubdomain().beta) {
@@ -202,7 +235,16 @@ export class VerseNotesShellComponent extends Component<VNProps> {
   render() {
     if (this.props.chapter) {
       return (
-        <div className={`note-pane`}>
+        <div
+          className={`note-pane`}
+          style={{
+            height:
+              this.state && this.state.verseNotesHeight
+                ? this.state.verseNotesHeight
+                : 'initial',
+            bottom: 0,
+          }}
+        >
           {this.renderFuture()}
           <div className="verse-notes">
             {this.props.chapter.verses.map(verse => {

@@ -294,7 +294,9 @@ body {
   }
 }
 body {
-  height: 100vh;
+  -webkit-overflow-scrolling: touch;
+
+  // height: 100vh;
 }
 // 48px: 48px;
 @mixin mobileNav {
@@ -368,8 +370,8 @@ body {
       #primaryNoteBarBtn {
         display: none !important;
       }
-      display: grid;
-      // flex-direction: column;
+      display: flex;
+      flex-direction: column;
       .note-component {
         // position: absolute;
         background-color: #f7f8f8 !important;
@@ -379,7 +381,7 @@ body {
         display: block !important;
       }
       .verse-notes {
-        height: 100vh;
+        height: 100%;
       }
       .note-pane {
         z-index: 90;
@@ -427,8 +429,8 @@ body {
         }
 
         @supports (-webkit-overflow-scrolling: touch) {
-          .note-component {
-          }
+          // .note-component {
+          // }
           /* CSS specific to iOS devices */
         }
       }

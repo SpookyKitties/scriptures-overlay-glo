@@ -3,20 +3,18 @@
     &.verse.highlight {
       border-left: 2.5px solid #068396 !important;
       // outline-style:;
-      
     }
     // padding-left: 5px;
     // border-left: 2.5px solid #068396 !important;
     // outline: solid red;
     // border-radius: 3px;
-    
-    &::after{
 
+    &::after {
       // content: "\a0";
       // display: block;
       // padding-top: 2px ;
       // line-height: 1px;
-      // border-top: 1px solid #000; 
+      // border-top: 1px solid #000;
     }
 
     .focused-icon {
@@ -26,7 +24,7 @@
 }
 
 .opaque-icons {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 .note-component + .verse-note {
   margin-top: 48px;
