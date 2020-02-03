@@ -143,7 +143,7 @@ export class AppSettings {
     const subdomain = parseSubdomain();
     of(
       axios.get(
-        `${subdomain.storageURL}${this.settings.lang}-navigation.json`,
+        `https://oithstorage.blob.core.windows.net/blobtest/${this.settings.lang}-navigation.json`,
         {
           responseType: 'json',
         },
