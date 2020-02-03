@@ -3,10 +3,38 @@ import {
   backup as backupSettings,
 } from './subdomain_settings.json';
 
-export function parseSubdomain(hostName?: string) {
-  const subDomain = subdomains.find(s =>
-    s.matches.includes(hostName ? hostName : location.hostname),
-  );
+import os from 'os';
+function getHostName() {
+  if (!location && os) {
+    return os.hostname();
+  }
 
-  return subDomain ? subDomain : backupSettings;
+  if (location) {
+    return location.hostname;
+  }
+  return '';
+}
+
+export function parseSubdomain(
+  hostName?: string,
+): {
+  matches: string[];
+  storageURL: string;
+  settings: string;
+  beta: boolean;
+  disclaimer: boolean;
+} {
+  try {
+    const hn = getHostName();
+
+    console.log(hn);
+
+    const subDomain = subdomains.find(s => s.matches.includes(hn));
+
+    return subDomain ? subDomain : backupSettings;
+  } catch (error) {
+    console.log(backupSettings);
+
+    return backupSettings;
+  }
 }

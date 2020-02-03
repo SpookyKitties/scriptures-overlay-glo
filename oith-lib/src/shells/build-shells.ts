@@ -210,16 +210,18 @@ function prepVideos(chapter: Chapter) {
   );
 }
 
+
 const port = parseInt(process?.env?.PORT as string, 10) || 3000;
 
 function addRefLabel(chapter: Chapter) {
+console.log(parseSubdomain().storageURL);
 
   return of(
     appSettings && appSettings.noteCategories
       ? of(appSettings.noteCategories)
       : of(
         axios.get(
-          `${parseSubdomain().storageURL}${'eng'}-${'note-categories'}.json`
+          `${parseSubdomain().storageURL}${'eng'}-${parseSubdomain().settings}${'noteCategories'}.json`
           ,
           {
             responseType: 'json',
