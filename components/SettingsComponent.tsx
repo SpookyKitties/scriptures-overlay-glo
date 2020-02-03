@@ -18,6 +18,7 @@ export let resetMobileNotes: BehaviorSubject<boolean>;
 export class SettingsComponent extends Component {
   public componentDidMount() {
     formatTagService = new FormatTagService();
+
     const lang = parseLangFromUrl();
     appSettings = new AppSettings(lang);
     analyticsService = new AnalyticsService();
