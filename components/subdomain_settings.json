@@ -10,7 +10,7 @@
         "june.scripturesproject.review"
       ],
       "storageURL": "https://oithstorage.blob.core.windows.net/junetest/",
-      "settings": "june",
+      "settings": "june-",
       "beta": false,
       "disclaimer": true
     },
