@@ -64,23 +64,23 @@ export class AppSettings {
     key: T,
     fileName: 'noteSettings' | 'noteCategories' | 'noteTypes',
   ) {
-    const lang = this.settings.lang;
+    if (!this[key] || (this[key] && fileName !== 'noteSettings')) {
+      const lang = this.settings.lang;
 
-    const subD = parseSubdomain();
-    try {
-      const data = await axios.get(
-        `${subD.storageURL}${'eng'}-${subD.settings}${fileName}.json`,
-        {
-          responseType: 'json',
-        },
-      );
-      this[key] = data.data;
-      this.save(key);
-    } catch (error) {
-      console.log(error);
+      const subD = parseSubdomain();
+      try {
+        const data = await axios.get(
+          `${subD.storageURL}${'eng'}-${subD.settings}${fileName}.json`,
+          {
+            responseType: 'json',
+          },
+        );
+        this[key] = data.data;
+        this.save(key);
+      } catch (error) {
+        console.log(error);
+      }
     }
-    // }
-    // if (!this[key]) {
   }
 
   private flattenNavigation() {
