@@ -68,7 +68,11 @@ export class AppSettings {
       const lang = this.settings.lang;
 
       const subD = parseSubdomain();
-      console.log(subD);
+      try {
+        console.log(location);
+      } catch (error) {
+        console.log(error);
+      }
 
       try {
         const data = await axios.get(
