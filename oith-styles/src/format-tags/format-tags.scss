@@ -5,7 +5,7 @@ f-t,
     text-decoration: underline;
     text-decoration-skip-ink: none;
     text-decoration-color: grey;
-    .off-notes &{
+    .off-notes & {
       border-bottom: none !important;
       text-decoration: none !important;
       text-decoration-skip-ink: none !important;
@@ -30,8 +30,8 @@ f-t,
       }
     }
     &.all {
-      // text-decoration-color: none;
-      // text-decoration: none;
+      text-decoration-color: none;
+      text-decoration: none;
       &.highlight {
         text-decoration-color: #f68d2e !important;
         text-decoration: underline !important;
@@ -48,7 +48,7 @@ f-t,
       text-decoration-skip-ink: none !important;
       text-decoration-color: none !important;
     }
-    .off-notes &{
+    .off-notes & {
       border-bottom: none !important;
       text-decoration: none !important;
       text-decoration-skip-ink: none !important;

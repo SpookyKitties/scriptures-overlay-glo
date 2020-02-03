@@ -68,6 +68,7 @@ export class AppSettings {
       const lang = this.settings.lang;
 
       const subD = parseSubdomain();
+      console.log(subD);
 
       try {
         const data = await axios.get(
