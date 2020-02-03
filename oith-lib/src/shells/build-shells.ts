@@ -214,7 +214,6 @@ function prepVideos(chapter: Chapter) {
 const port = parseInt(process?.env?.PORT as string, 10) || 3000;
 
 function addRefLabel(chapter: Chapter) {
-console.log(parseSubdomain().storageURL);
 
   return of(
     appSettings && appSettings.noteCategories
@@ -306,8 +305,6 @@ export function parseChapterParams(
   lang: string,
   host: string
 ): ChapterParams {
-  console.log(params);
-  console.log('params');
 
   const book = params['book'] as string;
   const chapterSplit = (params['chapter'] as string).split('.');

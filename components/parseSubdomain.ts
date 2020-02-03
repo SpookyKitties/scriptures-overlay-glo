@@ -5,13 +5,13 @@ import {
 
 import os from 'os';
 function getHostName() {
-  if (!location && os) {
-    return os.hostname();
-  }
-
-  if (location) {
+  try {
     return location.hostname;
-  }
+  } catch (error) {}
+  try {
+    return os.hostname();
+  } catch (error) {}
+
   return '';
 }
 
@@ -27,13 +27,13 @@ export function parseSubdomain(
   try {
     const hn = getHostName();
 
-    console.log(hn);
-
     const subDomain = subdomains.find(s => s.matches.includes(hn));
+
+    console.log(os);
 
     return subDomain ? subDomain : backupSettings;
   } catch (error) {
-    console.log(backupSettings);
+    console.log(error);
 
     return backupSettings;
   }

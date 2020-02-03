@@ -22,7 +22,7 @@ const parseNoteCategoryMap = map((noteCategoryElement: Element) => {
       map(
         ([name, label, cls, on, noteCategoryNum, off]): NoteCategory => {
           return new NoteCategory(
-            parseInt(noteCategoryNum, 10),
+            parseFloat(noteCategoryNum),
             cls,
             name,
             label,

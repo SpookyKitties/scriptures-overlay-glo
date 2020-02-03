@@ -77,7 +77,7 @@ const menubtn: CSSProperties = {
 
 export class DevSettings extends Component {
   public render() {
-    if (['', 'june'].includes(parseSubdomain().settings)) {
+    if (true) {
       return (
         <div style={{ backgroundColor: 'inherit' }}>
           <hr />

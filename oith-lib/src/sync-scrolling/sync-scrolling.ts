@@ -10,8 +10,6 @@ function syncScrolling() {
       map(() => store.chapter.pipe(take(1))),
       flatMap(o => o),
       map(chapter => {
-        console.log(chapter);
-
         const verses = Array.from(document.querySelectorAll('.verse'));
         const chapterElement = document.querySelector('.chapter-loader');
         if (chapterElement) {

@@ -5,8 +5,9 @@ import { NextPage } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Component, CSSProperties } from 'react';
 import ReactGA from 'react-ga';
-import { forkJoin, fromEvent, of, BehaviorSubject } from 'rxjs';
+import { forkJoin, fromEvent, of } from 'rxjs';
 import { filter, flatMap, map, take } from 'rxjs/operators';
+import * as viewport from 'viewport-dimensions';
 import { langReq } from '../../app/langReq';
 import { ChapterComponent } from '../../components/chapter.component';
 import { PouchyRx } from '../../components/import-notes/import-notes/PouchyRx';
@@ -16,8 +17,8 @@ import { parseSubdomain } from '../../components/parseSubdomain';
 import { scroll } from '../../components/scroll';
 import {
   appSettings,
-  store,
   resetMobileNotes,
+  store,
 } from '../../components/SettingsComponent';
 import { titleService } from '../../components/TitleComponent';
 import { addNotesToVerses$ } from '../../components/verse-notes/addNotesToVerses$';
@@ -29,7 +30,6 @@ import {
   ChapterParams,
   parseChapterParams,
 } from '../../oith-lib/src/shells/build-shells';
-import * as viewport from 'viewport-dimensions';
 
 export type ImgAttr = {
   src: string;
@@ -158,7 +158,6 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
           top: '48px',
         };
         this.setState({ mobileStyle: style, chapterHeight: chapterHeight });
-        console.log(chapterHeight);
       } else {
         this.setState({ mobileStyle: {} });
       }
@@ -228,8 +227,6 @@ const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
 };
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
-  console.log(query);
-
   return await loadChapter(req, query);
 };
 
@@ -238,6 +235,8 @@ export default ChapterParent;
 const port = parseInt(process.env.PORT, 10) || 3000;
 
 async function getChapterRemote(id: string, params: ChapterParams) {
+  console.log(parseSubdomain());
+
   try {
     const data = await axios.get(
       `${parseSubdomain(params.host).storageURL}${id}.json`,
@@ -248,8 +247,6 @@ async function getChapterRemote(id: string, params: ChapterParams) {
 
     return chapter;
   } catch (error) {
-    console.log('a190');
-
     return undefined;
   }
   const g = async () => {};

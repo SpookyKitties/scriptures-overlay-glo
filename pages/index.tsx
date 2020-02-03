@@ -1,18 +1,11 @@
-import Header from './header';
-// import { NextPage } from "react";
-import { ChapterComponent } from '../components/chapter.component';
-import axios from 'axios';
-import { Chapter } from '../oith-lib/src/models/Chapter';
 import { NextPage } from 'next';
-import Layout from '../components/layout';
-import { SearchBoxComponent } from '../components/navigation/searchbox.component';
 import { Component } from 'react';
-import { titleService } from '../components/TitleComponent';
 import { NavigationItem } from '../components/navigation-item';
-import { filterUndefined$, initnav } from '../components/nextPage';
-import { appSettings } from '../components/SettingsComponent';
-import { delay, map } from 'rxjs/operators';
 import { NavItem } from '../components/navigation/NavItem';
+import { SearchBoxComponent } from '../components/navigation/searchbox.component';
+import { initnav } from '../components/nextPage';
+import { appSettings } from '../components/SettingsComponent';
+import { titleService } from '../components/TitleComponent';
 // import { fetch } from "http";
 function Testat() {
   return <h1>Test</h1>;

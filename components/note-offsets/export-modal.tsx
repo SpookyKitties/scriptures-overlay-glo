@@ -79,7 +79,6 @@ export class ExportModal extends Component {
           if (appSettings && appSettings.noteTypes) {
             this.setState({ noteTypes: appSettings.noteTypes.noteTypes });
           }
-          console.log(o);
 
           return addToDatabaseIfNotIn();
         }),

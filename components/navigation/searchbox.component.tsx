@@ -159,7 +159,6 @@ export class SearchBoxComponent extends Component {
     // console.log(txt);
 
     const regex = /^((\d(\s|\-).+?\s)|([a-zA-z].+?\s))(.+)$/g.exec(txt);
-    console.log(regex);
 
     if (regex) {
       const book = bookNames.find(bNs => bNs.find(b => b === regex[1].trim()));

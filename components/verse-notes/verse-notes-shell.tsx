@@ -198,7 +198,6 @@ export class VerseNotesShellComponent extends Component<VNProps> {
   public state: { chapter: Chapter; verseNotesHeight: string };
 
   componentDidMount() {
-    console.log('oijasdfoij333');
     resetMobileNotes.subscribe(() => {
       this.setMobileGridStyle();
     });
@@ -214,10 +213,8 @@ export class VerseNotesShellComponent extends Component<VNProps> {
         if (appSettings.settings.notesMode === 'large') {
           verseNotesHeight = `calc((${viewport.height()}px - 48px)  * .4 )`;
         }
-        console.log(verseNotesHeight);
 
         this.setState({ verseNotesHeight: verseNotesHeight });
-        console.log(verseNotesHeight);
       } else {
         this.setState({ verseNotesHeight: {} });
       }
