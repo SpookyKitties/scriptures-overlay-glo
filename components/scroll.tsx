@@ -1,6 +1,7 @@
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map, take, debounceTime } from 'rxjs/operators';
 import { store } from './SettingsComponent';
 import { syncedVerse } from './mobile-notes.tsx/MobileNotesComponent';
+import { Subject } from 'rxjs';
 
 function resetVerseFocus() {
   Array.from(document.querySelectorAll('.verse.focused')).map(v =>
@@ -23,8 +24,9 @@ export function scrollTop(selector: string, count: number) {
     elem.scrollTop = elem.scrollTop + count;
   }
 }
+const syncScrolling = new Subject<void>();
 
-export function scroll() {
+syncScrolling.pipe(debounceTime(150)).subscribe(() => {
   const verses = Array.from(document.querySelectorAll('.verse'));
   const chapterElement = document.querySelector('.chapter-loader');
   if (chapterElement) {
@@ -62,4 +64,8 @@ export function scroll() {
         .subscribe();
     }
   }
+});
+
+export function scroll() {
+  syncScrolling.next();
 }
