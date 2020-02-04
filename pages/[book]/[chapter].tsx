@@ -35,6 +35,7 @@ export type ImgAttr = {
   src: string;
   alt: string;
 };
+import Router from 'next/router';
 
 export function reInitChapter() {
   store.chapter
@@ -76,7 +77,9 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
       this.setState({ notesMode: o ? o : 'off' });
     });
 
-    store.initChapter$.next(this.props.chapter);
+    // store.initChapter$.next(this.props.chapter);
+
+    Router.push('/[book]/[chapter]', `${location.pathname}`);
 
     store.initChapter$
       .pipe(
@@ -235,8 +238,6 @@ export default ChapterParent;
 const port = parseInt(process.env.PORT, 10) || 3000;
 
 async function getChapterRemote(id: string, params: ChapterParams) {
-  console.log(parseSubdomain());
-
   try {
     const data = await axios.get(
       `${parseSubdomain(params.host).storageURL}${id}.json`,

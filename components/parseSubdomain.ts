@@ -29,12 +29,8 @@ export function parseSubdomain(
 
     const subDomain = subdomains.find(s => s.matches.includes(hn));
 
-    console.log(os);
-
     return subDomain ? subDomain : backupSettings;
   } catch (error) {
-    console.log(error);
-
     return backupSettings;
   }
 }
