@@ -56,7 +56,7 @@ export function reInitChapter() {
     });
 }
 
-class OithParent extends Component<{ chapter: Chapter; lang: string }> {
+class OithParent extends Component<{ chapter?: Chapter; lang: string }> {
   state: { mobileStyle?: CSSProperties; chapterHeight?: string };
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
@@ -222,11 +222,8 @@ class OithParent extends Component<{ chapter: Chapter; lang: string }> {
   }
 }
 
-const ChapterParent: NextPage<{ chapter: Chapter; lang: string }> = ({
-  chapter,
-  lang,
-}) => {
-  return <OithParent chapter={chapter} lang={lang}></OithParent>;
+const ChapterParent: NextPage<{ lang: string }> = ({ lang }) => {
+  return <OithParent lang={lang}></OithParent>;
 };
 
 ChapterParent.getInitialProps = async ({ query, req, res }) => {
@@ -308,10 +305,10 @@ async function loadChapter(req: IncomingMessage, query: ParsedUrlQuery) {
       store.chapter.next(chapter);
     }
     store.history = true;
-    return { chapter, lang };
+    return { lang };
   } else {
-    let chapter = await getChapterRemote(id, params);
+    // let chapter = await getChapterRemote(id, params);
 
-    return { chapter, lang };
+    return { lang };
   }
 }
