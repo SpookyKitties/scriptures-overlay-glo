@@ -7,7 +7,6 @@
         "june.oneinthinehand.org",
         "b.scripturesproject.review",
         "new.scripturesproject.review",
-        "localhost",
         "june.scripturesproject.review"
       ],
       "storageURL": "https://oithstorage.blob.core.windows.net/junetest/",
@@ -16,11 +15,7 @@
       "disclaimer": true
     },
     {
-      "matches": [
-        "localhost",
-        "192.168.43.240",
-        "192.168.1.113"
-      ],
+      "matches": ["localhost", "192.168.43.240", "192.168.1.113"],
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "",
       "beta": true,
@@ -41,10 +36,7 @@
       "disclaimer": false
     },
     {
-      "matches": [
-        "a.scripturesproject.review",
-        "a.oneinthinehand.org"
-      ],
+      "matches": ["a.scripturesproject.review", "a.oneinthinehand.org"],
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "a",
       "beta": false,
@@ -62,10 +54,7 @@
     }
   ],
   "backup": {
-    "matches": [
-      "oneinthinehand.org",
-      "scripturesproject.review"
-    ],
+    "matches": ["oneinthinehand.org", "scripturesproject.review"],
     "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
     "settings": "",
     "beta": false,

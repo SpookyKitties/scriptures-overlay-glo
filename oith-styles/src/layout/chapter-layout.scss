@@ -373,12 +373,13 @@ body {
       display: flex;
       flex-direction: column;
       .note-component {
-        // position: absolute;
+        // position: absolute;di
+        display: none !important;
         background-color: #f7f8f8 !important;
       }
       // grid-template-rows: calc(100vh) 0px;
       .note-component {
-        display: block !important;
+        // display: block !important;
       }
       .verse-notes {
         height: 100%;
