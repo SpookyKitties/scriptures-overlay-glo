@@ -321,10 +321,10 @@ function detectswipe(el: string, func: (direct: string) => void) {
   swipe_det.sY = 0;
   swipe_det.eX = 0;
   swipe_det.eY = 0;
-  var min_x = 30; //min x swipe for horizontal swipe
-  var max_x = 30; //max x difference for vertical swipe
-  var min_y = 50; //min y swipe for vertical swipe
-  var max_y = 60; //max y difference for horizontal swipe
+  var min_x = 200; //min x swipe for horizontal swipe
+  var max_x = 300; //max x difference for vertical swipe
+  var min_y = 200; //min y swipe for vertical swipe
+  var max_y = 300; //max y difference for horizontal swipe
   var direc = '';
   const ele = document.querySelector(el);
   ele.addEventListener(
@@ -339,7 +339,7 @@ function detectswipe(el: string, func: (direct: string) => void) {
   ele.addEventListener(
     'touchmove',
     function(e) {
-      e.preventDefault();
+      // e.preventDefault();
       var t = (e as any).touches[0];
       swipe_det.eX = t.screenX;
       swipe_det.eY = t.screenY;
