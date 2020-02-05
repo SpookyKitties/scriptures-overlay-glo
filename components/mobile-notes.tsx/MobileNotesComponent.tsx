@@ -80,6 +80,7 @@ export function renderPronunciationIcon(flatNotes?: NoteRef[]) {
 const noteComponentStyles: CSSProperties = {
   left: 0,
   width: '100vw',
+  position: 'relative',
   backgroundColor: 'inherit',
   borderBottom: 'solid',
   borderBottomWidth: '1px',
