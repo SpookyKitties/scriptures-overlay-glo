@@ -416,7 +416,7 @@ export class ChapterComponent extends Component {
           previousPage();
         }
       });
-    }, 8000);
+    }, 1000);
   }
 
   componentDidUpdate() {}
