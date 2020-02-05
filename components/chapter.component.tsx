@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import { Component, CSSProperties, Fragment } from 'react';
 import { Observable, of } from 'rxjs';
-import { delay, filter, flatMap, map, toArray } from 'rxjs/operators';
+import { delay, filter, flatMap, map, toArray, timeout } from 'rxjs/operators';
 import {
   Chapter,
   FormatGroup,
@@ -310,6 +310,83 @@ const flattenPrimaryManifest = (
   );
 };
 
+function detectswipe(el: string, func: (direct: string) => void) {
+  const swipe_det = new Object() as {
+    sX: number;
+    sY: number;
+    eX: number;
+    eY: number;
+  };
+  swipe_det.sX = 0;
+  swipe_det.sY = 0;
+  swipe_det.eX = 0;
+  swipe_det.eY = 0;
+  var min_x = 30; //min x swipe for horizontal swipe
+  var max_x = 30; //max x difference for vertical swipe
+  var min_y = 50; //min y swipe for vertical swipe
+  var max_y = 60; //max y difference for horizontal swipe
+  var direc = '';
+  const ele = document.querySelector(el);
+  ele.addEventListener(
+    'touchstart',
+    function(e) {
+      var t = (e as any).touches[0];
+      swipe_det.sX = t.screenX;
+      swipe_det.sY = t.screenY;
+    },
+    false,
+  );
+  ele.addEventListener(
+    'touchmove',
+    function(e) {
+      e.preventDefault();
+      var t = (e as any).touches[0];
+      swipe_det.eX = t.screenX;
+      swipe_det.eY = t.screenY;
+    },
+    false,
+  );
+  ele.addEventListener(
+    'touchend',
+    function(e) {
+      //horizontal detection
+      if (
+        (swipe_det.eX - min_x > swipe_det.sX ||
+          swipe_det.eX + min_x < swipe_det.sX) &&
+        (swipe_det.eY < swipe_det.sY + max_y &&
+          swipe_det.sY > swipe_det.eY - max_y &&
+          swipe_det.eX > 0)
+      ) {
+        if (swipe_det.eX > swipe_det.sX) direc = 'r';
+        else direc = 'l';
+      }
+      //vertical detection
+      else if (
+        (swipe_det.eY - min_y > swipe_det.sY ||
+          swipe_det.eY + min_y < swipe_det.sY) &&
+        (swipe_det.eX < swipe_det.sX + max_x &&
+          swipe_det.sX > swipe_det.eX - max_x &&
+          swipe_det.eY > 0)
+      ) {
+        if (swipe_det.eY > swipe_det.sY) direc = 'd';
+        else direc = 'u';
+      }
+
+      func(direc);
+
+      // if (direc != '') {
+      //   if (typeof func == 'function') func(el, direc);
+      // }
+      direc = '';
+      swipe_det.sX = 0;
+      swipe_det.sY = 0;
+      swipe_det.eX = 0;
+      swipe_det.eY = 0;
+    },
+    false,
+  );
+}
+
 export class ChapterComponent extends Component {
   public state: { chapter: Chapter };
   componentDidMount() {
@@ -327,6 +404,19 @@ export class ChapterComponent extends Component {
         flatMap(o => o),
       )
       .subscribe(() => {});
+
+    setTimeout(() => {
+      detectswipe('.chapter-loader', direct => {
+        console.log(direct);
+        console.log(direct);
+        if (direct === 'l') {
+          nextPage();
+        }
+        if (direct === 'r') {
+          previousPage();
+        }
+      });
+    }, 8000);
   }
 
   componentDidUpdate() {}
