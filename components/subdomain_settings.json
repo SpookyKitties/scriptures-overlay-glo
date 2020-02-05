@@ -45,7 +45,8 @@
     {
       "matches": [
         "future.oneinthinehand.org",
-        "future.scripturesproject.review"
+        "future.scripturesproject.review",
+        "localhost"
       ],
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "",
