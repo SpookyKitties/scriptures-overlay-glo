@@ -162,13 +162,9 @@ class OithParent extends Component<{ chapter?: Chapter; lang: string }> {
         };
         this.setState({ mobileStyle: style, chapterHeight: chapterHeight });
       } else {
-        console.log('jjkkkk');
         this.setState({ mobileStyle: undefined, chapterHeight: undefined });
-        console.log(this.state.mobileStyle);
       }
     } catch (error) {
-      console.log('jjkkkk');
-
       this.setState({ mobileStyle: undefined, chapterHeight: undefined });
     }
   }

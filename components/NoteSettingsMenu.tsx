@@ -20,7 +20,8 @@ const noteSettingsMenuStyles: CSSProperties = {
   zIndex: 20,
   backgroundColor: 'white',
   left: 'unset',
-  maxHeight: 'calc(100vh - 48px)',
+  width: '250px',
+  height: 'calc(100vh - 48px)',
   overflowY: 'scroll',
 };
 
@@ -160,7 +161,7 @@ export class NoteSettingsMenu extends Component<{
           style={noteSettingsMenuStyles}
           className={`note-settings-menu  dropdown-menu`}
         >
-          <div>Note Sets</div>
+          <div style={{ textAlign: 'center' }}>Note Sets</div>
           <hr />
           {this.renderNoteSettings()}
           <AdditionalSettingaComponent />

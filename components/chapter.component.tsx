@@ -1,23 +1,19 @@
 import Router from 'next/router';
 import { Component, CSSProperties, Fragment } from 'react';
-import { Observable, of } from 'rxjs';
-import { delay, filter, flatMap, map, toArray, timeout } from 'rxjs/operators';
+import { delay, filter, flatMap, map } from 'rxjs/operators';
 import {
   Chapter,
   FormatGroup,
   FormatText,
   VersePlaceholder,
 } from '../oith-lib/src/models/Chapter';
-import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTag } from './format_tag';
-import { NavigationItem } from './navigation-item';
 import { nextPage, previousPage } from './nextPage';
 import { parseSubdomain } from './parseSubdomain';
 import { scrollIntoView } from './scrollIntoView';
 import { store } from './SettingsComponent';
 import { VerseComponent } from './verse.component';
 import { VideoComponent } from './VideoComponent';
-import { MobileNotesComponent } from './mobile-notes.tsx/MobileNotesComponent';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -290,26 +286,6 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
   return <></>;
 }
 
-const flattenPrimaryManifest = (
-  navItems: NavigationItem[],
-): Observable<NavigationItem[]> => {
-  return of(navItems).pipe(
-    flatMap$,
-    map(navItem => {
-      if (navItem.navigationItems && navItem.navigationItems.length > 0) {
-        return flattenPrimaryManifest(navItem.navigationItems).pipe(
-          map(o => o.concat([navItem])),
-          flatMap$,
-        );
-      }
-
-      return of(navItem);
-    }),
-    flatMap$,
-    toArray(),
-  );
-};
-
 function detectswipe(el: string, func: (direct: string) => void) {
   const swipe_det = new Object() as {
     sX: number;
@@ -407,8 +383,6 @@ export class ChapterComponent extends Component {
 
     setTimeout(() => {
       detectswipe('.chapter-loader', direct => {
-        console.log(direct);
-        console.log(direct);
         if (direct === 'l') {
           nextPage();
         }

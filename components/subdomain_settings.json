@@ -9,6 +9,7 @@
         "new.scripturesproject.review",
         "june.scripturesproject.review"
       ],
+      "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "storageURL": "https://oithstorage.blob.core.windows.net/junetest/",
       "settings": "june-",
       "beta": false,
@@ -16,6 +17,7 @@
     },
     {
       "matches": ["localhost", "192.168.43.240", "192.168.1.113"],
+      "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "",
       "beta": true,
@@ -30,6 +32,7 @@
         "alpha.scripturesproject.review",
         "port.oneinthinehand.org"
       ],
+      "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "",
       "beta": false,
@@ -37,6 +40,7 @@
     },
     {
       "matches": ["a.scripturesproject.review", "a.oneinthinehand.org"],
+      "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "a",
       "beta": false,
@@ -48,6 +52,7 @@
         "future.scripturesproject.review",
         "localhost"
       ],
+      "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "settings": "",
       "beta": true,
@@ -56,6 +61,7 @@
   ],
   "backup": {
     "matches": ["oneinthinehand.org", "scripturesproject.review"],
+    "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
     "storageURL": "https://oithstorage.blob.core.windows.net/blobtest/",
     "settings": "",
     "beta": false,

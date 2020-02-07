@@ -177,7 +177,7 @@ export class FormatTag extends Component<{
               className={`ftag-speaker`}
               onClick={() => {
                 try {
-                  const fileName = `${parseSubdomain()}${flatten(
+                  const fileName = `${parseSubdomain().audioURL}${flatten(
                     (this.state.formatMerged
                       .formatTags as FormatTagNoteOffsets[])
                       .filter(n => Array.isArray(n.notes))

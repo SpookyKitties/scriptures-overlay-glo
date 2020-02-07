@@ -22,6 +22,7 @@ export function parseSubdomain(
   storageURL: string;
   settings: string;
   beta: boolean;
+  audioURL: string;
   disclaimer: boolean;
 } {
   try {
