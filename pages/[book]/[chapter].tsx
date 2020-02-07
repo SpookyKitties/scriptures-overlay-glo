@@ -57,7 +57,11 @@ export function reInitChapter() {
 }
 
 class OithParent extends Component<{ chapter?: Chapter; lang: string }> {
-  state: { mobileStyle?: CSSProperties; chapterHeight?: string };
+  state: {
+    mobileStyle?: CSSProperties;
+    chapterHeight?: string;
+    notesMode?: string;
+  };
   componentDidMount() {
     appSettings.displayNav$.subscribe(o => {
       this.setState({ displayNav: o });
@@ -75,6 +79,7 @@ class OithParent extends Component<{ chapter?: Chapter; lang: string }> {
 
     appSettings.notesMode$.subscribe(o => {
       this.setState({ notesMode: o ? o : 'off' });
+      // this.setMobileGridStyle();
     });
 
     // store.initChapter$.next(this.props.chapter);
@@ -121,9 +126,9 @@ class OithParent extends Component<{ chapter?: Chapter; lang: string }> {
 
   private getClasses() {
     if (this.state) {
-      return `${this.state['displayNav'] ? 'nav' : 'nav-off'} ${
-        this.state['displayUnderline'] === false ? 'hide-underline' : ''
-      } ${this.state['notesMode']}-notes`;
+      return `${this.state['displayNav'] ? 'nav' : 'nav-off'}  ${
+        this.state['notesMode']
+      }-notes`;
     }
 
     return `nav-off`;

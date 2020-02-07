@@ -245,7 +245,7 @@ body {
 
   grid-template-columns: 0 calc(100vw) 0;
   &.nav-off.off-notes {
-    grid-template-columns: calc(100vw) !important;
+    grid-template-columns: calc(100vw) 0px !important;
   }
   &.nav {
     grid-template-columns: 250px calc(100vw - 250px) 0;
@@ -464,6 +464,11 @@ body {
 
         .right-nav svg {
           right: 250px; //calc() + 10px);
+        }
+      }
+      &.off-notes {
+        .note-pane {
+          display: none;
         }
       }
     }

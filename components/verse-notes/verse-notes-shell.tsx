@@ -216,10 +216,10 @@ export class VerseNotesShellComponent extends Component<VNProps> {
 
         this.setState({ verseNotesHeight: verseNotesHeight });
       } else {
-        this.setState({ verseNotesHeight: {} });
+        this.setState({ verseNotesHeight: undefined, mobileStyle: undefined });
       }
     } catch (error) {
-      this.setState({ mobileStyle: {} });
+      this.setState({ verseNotesHeight: undefined, mobileStyle: undefined });
     }
   }
 

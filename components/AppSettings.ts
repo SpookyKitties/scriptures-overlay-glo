@@ -54,6 +54,7 @@ export class AppSettings {
       this.settings.displayUnderline !== false,
     );
     this.notesMode$ = new BehaviorSubject(this.settings.notesMode);
+
     this.loadNoteSettings().subscribe(() => {
       this.initNav();
       this.flattenNavigation();
@@ -220,7 +221,9 @@ export class AppSettings {
     } else {
       this.settings.notesMode = 'off';
     }
+
     this.save('settings');
+
     this.notesMode$.next(this.settings.notesMode);
   }
   public save<T extends keyof this>(key: T) {

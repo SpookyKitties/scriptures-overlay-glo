@@ -15,7 +15,6 @@ export function refClick(noteGroup: VerseNoteGroup, ref: NoteRef) {
       .replace('“', '')
       .replace('”', '');
     const fileName = `${parseSubdomain().audioURL}${phrase}.wav`;
-    console.log(fileName);
 
     try {
       new Audio(fileName).play();
