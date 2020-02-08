@@ -90,10 +90,10 @@ const noteComponentStyles: CSSProperties = {
 
 const notesComponentHeaderCSS: CSSProperties = {
   display: 'grid',
-  width: '300px',
+  width: '100vw',
   height: '48px',
   // gridAutoFlow: 'column',
-  gridTemplateColumns: '40px 40px 40px 40px 40px 40px 40px',
+  gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr 1fr 1fr',
   justifyContent: 'center',
   // maxWidth: 'calc(100vw - 48px)',
 };
