@@ -67,8 +67,12 @@ export function addOffsets(element: Element, formatTag: FormatTagNoteOffsets) {
         const noteIDSplit = noteID.split('-');
         if (verseID && verseID[2] === noteIDSplit[noteIDSplit.length - 3]) {
           const newOffsets = start !== end ? `${start}-${end}` : `${start}`;
+          console.log(newOffsets);
 
-          formatTag.offsets = `${formatTag.offsets},${newOffsets}`;
+          formatTag.offsets = `${formatTag.offsets}${
+            formatTag.offsets && formatTag.offsets.trim().length > 0 ? ',' : ''
+          }${newOffsets}`;
+          console.log(formatTag.offsets);
           return expandOffsets(formatTag).pipe(
             map(() => {
               if (formatTag.uncompressedOffsets.includes(0)) {
@@ -83,6 +87,8 @@ export function addOffsets(element: Element, formatTag: FormatTagNoteOffsets) {
               formatTag.notes.map(n => {
                 n.formatTag.offsets = formatTag.offsets;
               });
+              console.log(formatTag.offsets);
+
               return saveChapter();
             }),
             flatMap$,
