@@ -138,7 +138,7 @@ export class NoteSettingsMenu extends Component<{
   private renderNoteSettings() {
     if (appSettings && appSettings.noteSettings) {
       return (
-        <div className={`dropdown-content`}>
+        <div className={``}>
           {appSettings.noteSettings.noteSettings
             .filter(ns => ns.display)
             .map(noteSetting => {
@@ -161,11 +161,13 @@ export class NoteSettingsMenu extends Component<{
           style={noteSettingsMenuStyles}
           className={`note-settings-menu  dropdown-menu`}
         >
-          <div style={{ textAlign: 'center' }}>Note Sets</div>
-          <hr />
-          {this.renderNoteSettings()}
-          <AdditionalSettingaComponent />
-          <DevSettings />
+          <div className={`dropdowggn-content`}>
+            <div style={{ textAlign: 'center' }}>Note Sets</div>
+            <hr />
+            {this.renderNoteSettings()}
+            <AdditionalSettingaComponent />
+            <DevSettings />
+          </div>
         </div>
       );
     }

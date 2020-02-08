@@ -6,7 +6,12 @@ import { FormatMerged } from '../oith-lib/src/models/Chapter';
 import { flatMap$ } from '../oith-lib/src/rx/flatMap$';
 import { FormatTagNoteOffsets } from '../oith-lib/src/verse-notes/verse-note';
 import { parseSubdomain } from './parseSubdomain';
-import { appSettings, formatTagService, store } from './SettingsComponent';
+import {
+  appSettings,
+  formatTagService,
+  store,
+  resetMobileNotes,
+} from './SettingsComponent';
 
 export function displayStateKey<T, T2 extends keyof T>(state: T, key: T2) {
   return state ? state[key] : '';
@@ -74,12 +79,15 @@ export class FormatTag extends Component<{
 
   public click(fm: FormatMerged) {
     // this.style = { backgroundColor: "black" };
+
     const setNotesMode = () => {
       return appSettings.notesMode$.pipe(
         take(1),
         map(o => {
           if (o === 'off') {
             appSettings.notesMode$.next('small');
+            appSettings.displayNotes();
+            resetMobileNotes.next(true);
           }
         }),
       );

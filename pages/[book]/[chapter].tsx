@@ -78,6 +78,7 @@ class OithParent extends Component<{ chapter?: Chapter; lang: string }> {
     appSettings.save('settings');
 
     appSettings.notesMode$.subscribe(o => {
+      this.setState({ notesMode: undefined });
       this.setState({ notesMode: o ? o : 'off' });
       // this.setMobileGridStyle();
     });

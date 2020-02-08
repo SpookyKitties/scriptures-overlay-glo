@@ -10,7 +10,7 @@ export class VideoComponent extends Component<{
   //   public state: { src: string } = { src: "" };
   public async componentDidMount() {
     this.props.attrs['src'];
-    console.log(`localhost:4000/video?url=${this.props.attrs['src']}`);
+    // console.log(`localhost:4000/video?url=${this.props.attrs['src']}`);
 
     try {
       const src = this.props.attrs['src'].replace('churchofjesuschrist', 'lds');
