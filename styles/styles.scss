@@ -249,6 +249,7 @@
   width: 100%;
 
   .title-text {
+    user-select: none;
     font-family: serif;
     display: none;
     @media screen and (min-width: 768px) {
@@ -258,7 +259,7 @@
   .short-title-text {
     display: none;
     font-family: serif;
-
+    user-select: none;
     @media screen and (max-width: 767.98px) {
       display: inline !important;
     }

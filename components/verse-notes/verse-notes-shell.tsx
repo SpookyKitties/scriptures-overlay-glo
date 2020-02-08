@@ -24,6 +24,12 @@ type VNProps = {
   chapter?: Chapter;
   // verseNotes?: VerseNote[];
 };
+
+function popupClick(elem: HTMLElement) {
+  if (elem.getAttribute('url') === 'pronunciation-key.html') {
+    noteModal.next('pronunciation');
+  }
+}
 function createMarkup(txt: string) {
   return { __html: txt };
 }
@@ -113,6 +119,15 @@ export class VerseNoteGroupComponent extends Component<{
                     dangerouslySetInnerHTML={{
                       __html: ref.text.replace(/\#/g, ''),
                     }}
+                    onClick={evt => {
+                      const elem = evt.target as HTMLElement;
+
+                      if (elem) {
+                        popupClick(elem);
+                      }
+
+                      console.log(elem);
+                    }}
                   ></span>
                 </p>
               );
@@ -194,6 +209,7 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
 }
 
 import * as viewport from 'viewport-dimensions';
+import { noteModal } from './note-modal';
 export class VerseNotesShellComponent extends Component<VNProps> {
   public state: { chapter: Chapter; verseNotesHeight: string };
 
