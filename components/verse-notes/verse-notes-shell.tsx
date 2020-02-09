@@ -70,6 +70,7 @@ function clearOffsets(noteGroup: VerseNoteGroup) {
 export class VerseNoteGroupComponent extends Component<{
   noteGroup: VerseNoteGroup;
   verseNote: VerseNote;
+  index: number;
 }> {
   render() {
     return (
@@ -78,9 +79,9 @@ export class VerseNoteGroupComponent extends Component<{
           this.props.noteGroup.formatTag.visible ? '' : 'none'
         }   ${this.props.noteGroup.formatTag.highlight ? 'highlight' : ''}`}
       >
-        <div className={`note-number`}>
+        <div className={`note-number `}>
           {/^.+?\-.+\-(.+)(\-verse-notes)/g.exec(this.props.verseNote.id)[1]}
-          <span className={'note-letter'}></span>
+          <span className={`note-letter-${this.props.index + 1}`}></span>
         </div>
         <div
           className={`note`}
@@ -193,12 +194,16 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
             {/* <p className="short-title">{shortTitle}</p> */}
             {verseNote.noteGroups
               .sort((a, b) => sortVerseNoteGroups(a, b))
-              .map(noteGroup => (
-                <VerseNoteGroupComponent
-                  noteGroup={noteGroup}
-                  verseNote={verseNote}
-                />
-              ))}
+              .map((noteGroup, index) => {
+                (noteGroup.formatTag as any).count = index + 1;
+                return (
+                  <VerseNoteGroupComponent
+                    index={index}
+                    noteGroup={noteGroup}
+                    verseNote={verseNote}
+                  />
+                );
+              })}
           </div>
         );
       }

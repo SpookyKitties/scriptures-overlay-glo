@@ -186,7 +186,21 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
 
             if (attrs && hasLetter) {
               (attrs as any).hasLetter = 'true';
-              // console.log(formatGroup);
+              (attrs as any).count = flatten(
+                flatten(
+                  flatten(
+                    formatGroup.grps.map(grp =>
+                      (grp as FormatGroup).grps.map(
+                        g => (g as FormatText).formatMerged,
+                      ),
+                    ),
+                  ),
+                ).map(fm =>
+                  fm.formatTags
+                    .filter(ft => ft.visible)
+                    .map(ft => (ft as any).count),
+                ),
+              )[0];
             } else {
             }
             return (
