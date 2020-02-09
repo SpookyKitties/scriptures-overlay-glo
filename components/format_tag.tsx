@@ -112,47 +112,6 @@ export class FormatTag extends Component<{
         vng.scrollIntoView();
       }
     });
-    // of(fm)
-    //   .pipe(
-    //     filter(
-    //       o => o.formatTags && o.formatTags.filter(o => o.visible).length > 0,
-    //     ),
-    //     map(o => formatTagService.fMergedClick(o)),
-    //     flatMap$,
-    //     map(() => {
-    //       store.updateFTags$.next(true);
-    //       store.updateNoteVisibility$.next(true);
-    //     }),
-    //     delay(100),
-    //   )
-    //   .subscribe(() => {
-    //     const vng = document.querySelector('.verse-note-group.highlight'); //.scrollIntoView();
-
-    //     if (vng) {
-    //       vng.scrollIntoView();
-    //     }
-    //   });
-
-    // of(fm.formatTags as FormatTagNoteOffsets[])
-    //   .pipe(
-    //     flatMap$,
-    //     filter(o => o.visible),
-    //     map(o => {
-    //       console.log(o);
-    //       o.highlight = !o.highlight;
-    //     }),
-    //     toArray(),
-    //   )
-    //   .subscribe(() => {
-    //     store.updateFTags$.next(true);
-    //     store.updateNoteVisibility$.next(true);
-    //   });
-
-    // this.setState({ style: this.style });
-    // this.state.formatMerged.text = "lkasdf";
-    // this.setState((state, props) => {
-    //
-    // });
   }
   public renderSpeaker() {
     if (this.state) {
@@ -203,6 +162,18 @@ export class FormatTag extends Component<{
       }
     }
     return <></>;
+  }
+  hasLetter() {
+    if (
+      this.state &&
+      Array.isArray(this.state.formatMerged.formatTags) &&
+      this.state.formatMerged.formatTags.length > 0
+    ) {
+      console.log();
+
+      return 'note-number';
+    }
+    return '';
   }
   public render() {
     return (

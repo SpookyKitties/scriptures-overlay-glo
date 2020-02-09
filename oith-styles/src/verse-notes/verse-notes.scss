@@ -163,3 +163,45 @@ body {
 .note-whitespace {
   height: 10px;
 }
+@mixin noteLetter($letter, $count) {
+  .verse-note .verse-note-group:nth-child(#{$count}) span.note-letter:before {
+    content: '#{$letter}';
+  }
+  p.verse [hasLetter]:nth-child(#{$count}) sup {
+    color: #0000e0 !important;
+    .note-letter:before {
+      content: '#{$letter}';
+    }
+  }
+}
+
+@include noteLetter('a', 1);
+@include noteLetter('b', 2);
+@include noteLetter('c', 3);
+@include noteLetter('d', 4);
+@include noteLetter('e', 5);
+@include noteLetter('f', 6);
+@include noteLetter('g', 7);
+@include noteLetter('h', 8);
+@include noteLetter('i', 9);
+@include noteLetter('j', 10);
+@include noteLetter('k', 11);
+@include noteLetter('l', 12);
+@include noteLetter('m', 13);
+@include noteLetter('n', 14);
+@include noteLetter('o', 15);
+@include noteLetter('p', 16);
+@include noteLetter('q', 17);
+@include noteLetter('r', 18);
+@include noteLetter('s', 19);
+@include noteLetter('t', 20);
+@include noteLetter('u', 21);
+@include noteLetter('v', 22);
+@include noteLetter('w', 23);
+@include noteLetter('x', 24);
+@include noteLetter('y', 25);
+@include noteLetter('z', 26);
+
+.note .note-reference {
+  display: inline !important;
+}

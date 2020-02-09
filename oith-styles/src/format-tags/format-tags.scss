@@ -43,7 +43,8 @@ f-t,
     }
   }
   &.ref-single {
-    border-bottom: 1px solid grey;
+    // border-bottom: 1px solid grey;
+    color: #0000e0 !important;
     .hide-underline & {
       border-bottom: none !important;
       text-decoration: none !important;

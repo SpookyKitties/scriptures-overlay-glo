@@ -6,6 +6,7 @@ import {
   FormatGroup,
   FormatText,
   VersePlaceholder,
+  FormatMerged,
 } from '../oith-lib/src/models/Chapter';
 import { FormatTag } from './format_tag';
 import { nextPage, previousPage } from './nextPage';
@@ -14,6 +15,7 @@ import { scrollIntoView } from './scrollIntoView';
 import { store } from './SettingsComponent';
 import { VerseComponent } from './verse.component';
 import { VideoComponent } from './VideoComponent';
+import { flatten } from 'lodash';
 
 type ChapterProps = {
   chapter: Chapter;
@@ -60,6 +62,16 @@ export function renderFormat(ft: FormatText) {
   return <div>bbbhh</div>;
 }
 
+export function calcClassList(formatMerged: FormatMerged) {
+  const fts = formatMerged.formatTags.filter(f => {
+    return [55, 56].includes(f.fType) && f.visible;
+  });
+
+  const refCount =
+    fts.length > 0 ? (fts.length > 1 ? 'ref-double' : 'ref-single') : '';
+  return refCount !== '';
+}
+
 function normalizeAttrs(attrs?: {}) {
   if (attrs) {
     attrs['className'] = attrs['class'];
@@ -97,8 +109,23 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           break;
         }
         case 'span': {
+          // const hasLetter = flatten(
+          //   formatGroup.grps.map(grp =>
+          //     (grp as FormatGroup).grps.map(g =>
+          //       Array.isArray((g as FormatText).formatMerged),
+          //     ),
+          //   ),
+          // ).includes(true);
+
           return (
             <span {...(attrs ? attrs : {})}>
+              {/* {attrs && (attrs as any).hasLetter ? (
+                <sup>
+                  <span className="note-letter"></span>
+                </sup>
+              ) : (
+                <></>
+              )} */}
               {renderFormatGroups(formatGroup.grps)}
             </span>
           );
@@ -144,8 +171,33 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           const href: string | undefined = formatGroup.attrs['href'];
           if (!href || (href && href.includes('note'))) {
             attrs['href'] = undefined;
+
+            const hasLetter = flatten(
+              formatGroup.grps.map(grp =>
+                (grp as FormatGroup).grps.map(
+                  g =>
+                    Array.isArray((g as FormatText).formatMerged) &&
+                    (g as FormatText).formatMerged
+                      .map(g => calcClassList(g))
+                      .includes(true), // && (g as FormatText).formatMerged.map(o=> o.),
+                ),
+              ),
+            ).includes(true);
+
+            if (attrs && hasLetter) {
+              (attrs as any).hasLetter = 'true';
+              // console.log(formatGroup);
+            } else {
+            }
             return (
               <span {...(attrs ? attrs : {})}>
+                {attrs && (attrs as any).hasLetter ? (
+                  <sup>
+                    <span className="note-letter"></span>
+                  </sup>
+                ) : (
+                  <></>
+                )}
                 {renderFormatGroups(formatGroup.grps)}
               </span>
             );

@@ -1,6 +1,6 @@
 import { flatten } from 'lodash';
 import { Component, MouseEvent, CSSProperties } from 'react';
-import { Chapter } from '../../oith-lib/src/models/Chapter';
+import { Chapter, FormatMerged } from '../../oith-lib/src/models/Chapter';
 import {
   Note,
   NoteRef,
@@ -66,8 +66,10 @@ function clearOffsets(noteGroup: VerseNoteGroup) {
     saveChapter().subscribe();
   }
 }
+
 export class VerseNoteGroupComponent extends Component<{
   noteGroup: VerseNoteGroup;
+  verseNote: VerseNote;
 }> {
   render() {
     return (
@@ -76,16 +78,10 @@ export class VerseNoteGroupComponent extends Component<{
           this.props.noteGroup.formatTag.visible ? '' : 'none'
         }   ${this.props.noteGroup.formatTag.highlight ? 'highlight' : ''}`}
       >
-        <span
-          onClick={(evt: MouseEvent) => {
-            const ee = evt.target as HTMLElement;
-            notePhraseClick(ee, this.props.noteGroup.formatTag);
-          }}
-          className="note-phrase"
-        >
-          {this.props.noteGroup.notes[0].phrase}
-        </span>
-
+        <div className={`note-number`}>
+          {/^.+?\-.+\-(.+)(\-verse-notes)/g.exec(this.props.verseNote.id)[1]}
+          <span className={'note-letter'}></span>
+        </div>
         <div
           className={`note`}
           onClick={event => {
@@ -194,11 +190,14 @@ export class VerseNoteComponent extends Component<VerseNoteState> {
               .toLowerCase()} ${verseNote.vis ? '' : 'none'}`}
             id={verseNote.id}
           >
-            <p className="short-title">{shortTitle}</p>
+            {/* <p className="short-title">{shortTitle}</p> */}
             {verseNote.noteGroups
               .sort((a, b) => sortVerseNoteGroups(a, b))
               .map(noteGroup => (
-                <VerseNoteGroupComponent noteGroup={noteGroup} />
+                <VerseNoteGroupComponent
+                  noteGroup={noteGroup}
+                  verseNote={verseNote}
+                />
               ))}
           </div>
         );
