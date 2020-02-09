@@ -205,13 +205,6 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
             }
             return (
               <span {...(attrs ? attrs : {})}>
-                {attrs && (attrs as any).hasLetter ? (
-                  <sup>
-                    <span className="note-letter"></span>
-                  </sup>
-                ) : (
-                  <></>
-                )}
                 {renderFormatGroups(formatGroup.grps)}
               </span>
             );

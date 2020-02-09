@@ -188,6 +188,13 @@ export class FormatTag extends Component<{
           }
         }}
       >
+        <sup>
+          <span className="note-letter"></span>
+        </sup>
+        {/* {attrs && (attrs as any).hasLetter ? (
+        ) : (
+          <></>
+        )} */}
         {this.renderSpeaker()}
         {displayStateKey(this.state, 'text')}
       </span>
