@@ -189,7 +189,12 @@ export class FormatTag extends Component<{
         }}
       >
         <sup>
-          <span className="note-letter"></span>
+          <span
+            className={`note-letter ${this.props.formatMerged.formatTags
+              .filter(o => o.visible)
+              .map(ft => `n-${(ft as any).count}`)
+              .join(' ')}`}
+          ></span>
         </sup>
         {/* {attrs && (attrs as any).hasLetter ? (
         ) : (

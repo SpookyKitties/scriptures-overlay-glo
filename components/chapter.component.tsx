@@ -35,13 +35,21 @@ export function renderFormatGroups(
   grps?: (FormatGroup | VersePlaceholder | FormatText)[],
 ): JSX.Element {
   if (grps) {
-    return <Fragment>{grps.map(grp => renderFormatGroup(grp))}</Fragment>;
+    return (
+      <Fragment>
+        {grps.map(grp => {
+          return renderFormatGroup(grp);
+        })}
+      </Fragment>
+    );
   }
   return;
 }
 
 export function renderFormat(ft: FormatText) {
   if (ft.formatMerged) {
+    console.log(ft);
+
     return (
       <Fragment>
         {ft.formatMerged.map(fm => {
@@ -172,37 +180,7 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
           if (!href || (href && href.includes('note'))) {
             attrs['href'] = undefined;
 
-            const hasLetter = flatten(
-              formatGroup.grps.map(grp =>
-                (grp as FormatGroup).grps.map(
-                  g =>
-                    Array.isArray((g as FormatText).formatMerged) &&
-                    (g as FormatText).formatMerged
-                      .map(g => calcClassList(g))
-                      .includes(true), // && (g as FormatText).formatMerged.map(o=> o.),
-                ),
-              ),
-            ).includes(true);
-
-            if (attrs && hasLetter) {
-              (attrs as any).hasLetter = 'true';
-              (attrs as any).count = flatten(
-                flatten(
-                  flatten(
-                    formatGroup.grps.map(grp =>
-                      (grp as FormatGroup).grps.map(
-                        g => (g as FormatText).formatMerged,
-                      ),
-                    ),
-                  ),
-                ).map(fm =>
-                  fm.formatTags
-                    .filter(ft => ft.visible)
-                    .map(ft => (ft as any).count),
-                ),
-              )[0];
-            } else {
-            }
+            checkNumber(formatGroup, attrs);
             return (
               <span {...(attrs ? attrs : {})}>
                 {renderFormatGroups(formatGroup.grps)}
@@ -343,6 +321,35 @@ function renderFormatGroup(grp: FormatGroup | VersePlaceholder | FormatText) {
     }
   }
   return <></>;
+}
+
+function checkNumber(formatGroup: FormatGroup, attrs: {}) {
+  const hasLetter = flatten(
+    formatGroup.grps.map(grp =>
+      (grp as FormatGroup).grps.map(
+        g =>
+          Array.isArray((g as FormatText).formatMerged) &&
+          (g as FormatText).formatMerged
+            .map(g => calcClassList(g))
+            .includes(true),
+      ),
+    ),
+  ).includes(true);
+  if (attrs && hasLetter) {
+    (attrs as any).hasLetter = 'true';
+    (attrs as any).count = flatten(
+      flatten(
+        flatten(
+          formatGroup.grps.map(grp =>
+            (grp as FormatGroup).grps.map(g => (g as FormatText).formatMerged),
+          ),
+        ),
+      ).map(fm =>
+        fm.formatTags.filter(ft => ft.visible).map(ft => (ft as any).count),
+      ),
+    )[0];
+  } else {
+  }
 }
 
 function detectswipe(el: string, func: (direct: string) => void) {

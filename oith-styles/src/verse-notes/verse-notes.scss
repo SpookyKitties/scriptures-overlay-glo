@@ -167,9 +167,9 @@ body {
   .verse-note span.note-letter-#{$count}:before {
     content: '#{$letter}';
   }
-  p.verse [hasLetter][count='#{$count}'] .ref-single sup {
+  p.verse .ref-single {
     color: #0000e0 !important;
-    .note-letter:before {
+    .note-letter.n-#{$count}::before {
       content: '#{$letter}';
     }
   }
