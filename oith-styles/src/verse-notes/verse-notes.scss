@@ -40,7 +40,19 @@ verse-notes,
       display: block;
       margin-top: 0;
       margin-bottom: 0;
-      a {
+      &.TG {
+        .ref-label {
+          font-weight: initial !important;
+        }
+      }
+      &.CR {
+        .ref-label {
+          display: none;
+        }
+      }
+
+      a,
+      &.TG {
         color: #0000e0 !important;
         text-decoration: none;
         &:hover {
@@ -58,7 +70,9 @@ verse-notes,
 
     verse-note-group,
     .verse-note-group {
-      display: block;
+      // display: block;
+      display: grid !important;
+      grid-template-columns: 10px 1fr;
       &.highlight {
         padding-left: 5px;
         border-left: 2.5px solid #f68d2e;
