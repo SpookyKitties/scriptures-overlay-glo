@@ -45,7 +45,9 @@ verse-notes,
           font-weight: initial !important;
         }
       }
-      &.CR {
+      &.CR,
+      &.QUO,
+      &.OR {
         .ref-label {
           display: none;
         }

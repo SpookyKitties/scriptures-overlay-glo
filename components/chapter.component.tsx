@@ -48,8 +48,6 @@ export function renderFormatGroups(
 
 export function renderFormat(ft: FormatText) {
   if (ft.formatMerged) {
-    console.log(ft);
-
     return (
       <Fragment>
         {ft.formatMerged.map(fm => {

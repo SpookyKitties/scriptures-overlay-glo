@@ -79,7 +79,11 @@ export class VerseNoteGroupComponent extends Component<{
           this.props.noteGroup.formatTag.visible ? '' : 'none'
         }   ${this.props.noteGroup.formatTag.highlight ? 'highlight' : ''}`}
       >
-        <div className={`note-number `}>
+        <div
+          className={`note-number ${
+            this.props.noteGroup.formatTag.visible ? '' : 'none'
+          }`}
+        >
           {/^.+?\-.+\-(.+)(\-verse-notes)/g.exec(this.props.verseNote.id)[1]}
           <span className={`note-letter-${this.props.index + 1}`}></span>
         </div>
@@ -111,7 +115,7 @@ export class VerseNoteGroupComponent extends Component<{
                     .trim()
                     .replace('🔊', 'speaker')} ${ref.vis ? '' : 'none'}`}
                 >
-                  <span className="ref-label">&nbsp;{ref.label}</span>
+                  <span className="ref-label">{ref.label}</span>
                   <span
                     dangerouslySetInnerHTML={{
                       __html: ref.text.replace(/\#/g, ''),
@@ -123,9 +127,10 @@ export class VerseNoteGroupComponent extends Component<{
                         popupClick(elem);
                       }
 
-                      console.log(elem);
+                      // console.log(elem);
                     }}
                   ></span>
+                  &nbsp;
                 </p>
               );
             })}
