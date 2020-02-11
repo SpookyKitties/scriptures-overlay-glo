@@ -40,11 +40,12 @@ verse-notes,
       display: block;
       margin-top: 0;
       margin-bottom: 0;
-      &.TG {
-        .ref-label {
-          font-weight: initial !important;
-        }
+      .ref-label {
+        font-weight: initial !important;
       }
+      &.TG {
+      }
+      &.CR,
       &.CR,
       &.QUO,
       &.OR {
@@ -54,8 +55,9 @@ verse-notes,
       }
 
       a,
-      &.TG {
-        color: #0000e0 !important;
+      &.TG,
+      &.GS {
+        color: #177c9c !important;
         text-decoration: none;
         &:hover {
           color: #274472 !important;
@@ -184,13 +186,15 @@ body {
     content: '#{$letter}';
   }
   p.verse .ref-single {
-    color: #0000e0 !important;
+    color: #177c9c !important;
     .note-letter.n-#{$count}::before {
       content: '#{$letter}';
     }
   }
 }
-
+sup {
+  font-style: italic;
+}
 @include noteLetter('a', 1);
 @include noteLetter('b', 2);
 @include noteLetter('c', 3);
