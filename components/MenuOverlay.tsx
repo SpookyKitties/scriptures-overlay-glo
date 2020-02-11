@@ -5,7 +5,7 @@ const overlay: CSSProperties = {
   position: 'fixed',
   top: '0',
   left: '0',
-  maxHeight: '50vh',
+  height: '100vh',
   width: '100vw',
   zIndex: 19,
 };
