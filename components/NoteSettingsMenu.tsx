@@ -20,8 +20,8 @@ const noteSettingsMenuStyles: CSSProperties = {
   zIndex: 20,
   backgroundColor: 'white',
   left: 'unset',
-  width: '250px',
-  height: 'calc(100vh - 48px)',
+  // width: '250px',
+  height: 'calc(50vh - 48px)',
   overflowY: 'scroll',
 };
 

@@ -87,7 +87,10 @@ export class NavItem extends Component<{
         /come.+follow.+me.+2020/g.exec(this.state.navItem.title.toLowerCase())
       ) {
         return (
-          <div className={`navigation-parent ${this.props.card ? 'card' : ''}`}>
+          <div
+            className={`navigation-parent ${this.props.card ? 'card' : ''}`}
+            style={{ fontSize: '14px' }}
+          >
             <span
               onClick={() => {
                 gotoComeFollowMe(ni);
@@ -103,14 +106,17 @@ export class NavItem extends Component<{
       }
       if (ni.navigationItems) {
         return (
-          <div className={`navigation-parent ${this.props.card ? 'card' : ''}`}>
+          <div
+            className={`navigation-parent ${this.props.card ? 'card' : ''}`}
+            style={{ fontSize: '14px' }}
+          >
             <span
               onClick={() => {
                 this.open(ni);
               }}
             >
               <span
-                className={`title ${isOpen(ni.open)}`}
+                className={`title  ${isOpen(ni.open)}`}
                 dangerouslySetInnerHTML={{ __html: this.state.title }}
               ></span>
             </span>
