@@ -69,7 +69,7 @@
       "audioURL": "https://oithstorage.blob.core.windows.net/blobtest/",
       "storageURL": "https://oithstorage.blob.core.windows.net/soglo/",
       "settings": "soglo-",
-      "beta": true,
+      "beta": false,
       "disclaimer": false
     }
   ],
